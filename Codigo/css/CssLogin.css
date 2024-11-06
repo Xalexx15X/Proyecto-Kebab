@@ -43,10 +43,12 @@ h2 {
     padding: 10px; /* Espaciado interno */
     border-radius: 5px; /* Bordes redondeados */
     transition: background-color 0.3s; /* Transición suave */
+    width: 20%;
+    margin-left: 350px;
 }
 
 .btn-primary:hover {
-    background-color: #00f2ff; /* Color más oscuro al pasar el mouse */
+    background-color: #008b8b; /* Color más oscuro al pasar el mouse */
 }
 
 .text-center a {

@@ -1,0 +1,137 @@
+/* Estilo global de la página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal con fondo blanco, bordes redondeados y sombra */
+.container {
+    width: 90%;
+    max-width: 1600px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 25px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos de los contenedores dentro del formulario */
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Estilo de cada div dentro del grid */
+.div1, .div2 {
+    background-color: #ffffff; /* Fondo blanco para cada div */
+    padding: 20px;
+    box-shadow: none; /* Sin sombra en los divs */
+}
+
+/* Línea divisoria vertical azul entre los divs */
+.div1 {
+    border-right: 2px solid #00f2ff; /* Borde derecho de color azul */
+}
+
+/* Título */
+h2 {
+    color: #00f2ff; /* Color del título */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    color: #00f2ff; /* Color azul */
+    font-size: 2.5em; /* Tamaño de fuente grande */
+    margin-top: 50px; /* Espacio superior */
+    margin-bottom: 30px; /* Espacio inferior */
+}
+
+/* Estilo de los campos del formulario */
+form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="file"],
+form input[type="tel"],
+form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form input[type="file"] {
+    padding: 3px;
+}
+
+/* Estilo de los campos de texto al enfocarse */
+form input:focus {
+    border-color: #00f2ff; /* Color del borde al enfocarse */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el botón de registro */
+.registrarse {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.registrarse button {
+    padding: 10px 20px;
+    background-color: #00f2ff; /* Fondo azul claro para el botón */
+    color: #ffffff; /* Texto blanco */
+    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Transición suave */
+}
+
+.registrarse button:hover {
+    background-color: #008b8b; /* Color más oscuro al pasar el mouse */
+}
+
+/* Estilos para el área de previsualización de la imagen */
+.form-group {
+    margin-top: 15px;
+}
+
+.preview-container {
+    border: 2px dashed #00f2ff;
+    border-radius: 5px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    color: #333;
+    text-align: center;
+    position: relative;
+}
+
+.preview-container:hover {
+    border-color: #00f2ff;
+}
+
+.preview-container span {
+    font-size: 14px;
+    color: #00f2ff;
+}
+
+

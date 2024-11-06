@@ -22,7 +22,7 @@
 
 <body>
     <?php
-        require_once './Vistas/Principal/headerAdministrador.php';
+        require_once './Vistas/Principal/headerSinRegistro.php';
     ?>
     <section>
         <div id="cuerpo">
