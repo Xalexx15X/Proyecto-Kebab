@@ -19,13 +19,13 @@ header {
 
 /* Estilo para los elementos de navegación */
 .navbar-nav .nav-link {
-    color: #ffffff !important; /* Texto blanco */
+    color: #00f2ff !important; /* Texto blanco */
     font-weight: bold;
     transition: color 0.3s;
 }
 
 .navbar-nav .nav-link:hover {
-    color: #ffffff !important; /* Mantener el color blanco al pasar el ratón */
+    color: #00f2ff !important; /* Mantener el color blanco al pasar el ratón */
 }
 
 /* Estilo para el menú desplegable */
@@ -37,21 +37,22 @@ header {
 }
 
 .dropdown-item {
-    color: #ffffff !important; /* Texto blanco en el menú desplegable */
+    color: #00f2ff !important; /* Texto blanco en el menú desplegable */
     padding: 10px 15px;
 }
 
 .dropdown-item:hover {
     background-color: #3d3b3b !important; /* Fondo gris más oscuro al pasar el ratón */
-    color: #ffffff !important; /* Mantener texto blanco al pasar el ratón */
+    color: #00f2ff !important; /* Mantener texto blanco al pasar el ratón */
 }
 
 /* Estilo para el nombre del restaurante */
 .nombre p {
-    color: #ffffff; /* Texto blanco */
+    color: #00f2ff; /* Texto blanco */
     font-size: 24px;
     font-weight: bold;
-    margin: 0;
+    margin-right: 500px;
+    margin-top: 20px;
 }
 
 /* Estilo para los iconos */
@@ -71,5 +72,5 @@ header {
 }
 
 .ml-1 {
-    color: #ffffff;
+    color: #00f2ff;
 }

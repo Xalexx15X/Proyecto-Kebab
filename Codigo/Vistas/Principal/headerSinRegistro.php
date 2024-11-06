@@ -44,14 +44,6 @@
             </ul>
 
             <div class="nombre"><p>KEBAB AL PASO</p></div>
-            
-            <!-- Iconos de Monedero y Carrito visibles para todos -->
-            <div class="navbar-nav ml-auto d-flex align-items-center">
-                <!-- Monedero -->
-                <div class="nav-item d-flex align-items-center">
-                    <img src="../imagenes/cartera.png" alt="Monedero" style="width: 50px;">
-                    <span class="ml-1">0€</span>
-                </div>
                 
                 <!-- Carrito -->
                 <div class="nav-item ml-3">
@@ -59,18 +51,6 @@
                         <img src="../imagenes/carrito.png" alt="Carrito" style="width: 50px;">
                     </a>
                 </div>
-                
-                <!-- Usuario con Submenú (solo si el usuario ha iniciado sesión) -->
-                    <div class="nav-item dropdown ml-3">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="../imagenes/usuario.png" alt="Usuario" style="width: 50px;">
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarUser">
-                            <a class="dropdown-item" href="?menu=configuracion">Configuración Personal</a>
-                            <a class="dropdown-item" href="?menu=historial">Historial de Pedidos</a>
-                            <a class="dropdown-item" href="?menu=cerrarSesion">Cerrar Sesión</a>
-                        </div>
-                    </div>
                     <!-- Botones de inicio de sesión y registro cuando no está logueado -->
                     <div class="nav-item ml-3">
                         <a href="?menu=login" class="btn btn-light text-dark mr-2">Iniciar Sesión</a>

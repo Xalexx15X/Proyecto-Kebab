@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/CssHeader.css">
-    <title>header</title>
+    <link rel="stylesheet" href="./css/CssHeaderAdministrador.css">
+    <title>Header Administrativo</title>
 </head>
-<header> 
-    <nav class="navegador">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light">
         <!-- Logo -->
-        <a class="logo" href="#">
+        <a class="navbar-brand" href="#">
             <img src="../imagenes/logo Kebab.png" alt="Logo Kebab">
         </a>
         

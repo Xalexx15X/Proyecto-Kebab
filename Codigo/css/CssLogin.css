@@ -5,8 +5,8 @@ body {
 }
 
 .container {
-    margin-top: 160px; /* Espacio superior para centrar el formulario */
-    margin-bottom: 160px;
+    margin-top: 86px; /* Espacio superior para centrar el formulario */
+    margin-bottom: 86px;
 }
 
 .login-form {
@@ -17,7 +17,7 @@ body {
 }
 
 h2 {
-    color: #ff0000; /* Color del título */
+    color: #00f2ff; /* Color del título */
     margin-bottom: 20px; /* Espacio inferior */
 }
 
@@ -33,12 +33,11 @@ h2 {
 }
 
 .form-control:focus {
-    border-color: #ff0000; /* Color del borde al enfocarse */
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Sombra de enfoque */
+    border-color: #00f2ff; /* Color del borde al enfocarse */
 }
 
 .btn-primary {
-    background-color: #ff0000; /* Fondo rojo para el botón */
+    background-color: #00f2ff; /* Fondo rojo para el botón */
     color: #ffffff; /* Texto blanco */
     border: none; /* Sin borde */
     padding: 10px; /* Espaciado interno */
@@ -47,11 +46,11 @@ h2 {
 }
 
 .btn-primary:hover {
-    background-color: #cc0000; /* Color más oscuro al pasar el mouse */
+    background-color: #00f2ff; /* Color más oscuro al pasar el mouse */
 }
 
 .text-center a {
-    color: #ff0000; /* Color del enlace */
+    color: #00f2ff; /* Color del enlace */
 }
 
 .clearfix {
