@@ -1,0 +1,65 @@
+body {
+    background-color: #f4f4f4; /* Color de fondo suave */
+    font-family: Arial, sans-serif; /* Fuente general */
+    
+}
+
+.container {
+    margin-top: 160px; /* Espacio superior para centrar el formulario */
+    margin-bottom: 160px;
+}
+
+.login-form {
+    background-color: #ffffff; /* Fondo blanco para el formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra para el efecto de profundidad */
+    padding: 20px; /* Espaciado interno */
+}
+
+h2 {
+    color: #ff0000; /* Color del título */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+.form-group {
+    margin-bottom: 70px; /* Espacio entre los campos del formulario */
+}
+
+.form-control {
+    width: 100%; /* Ancho completo para los campos */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.form-control:focus {
+    border-color: #ff0000; /* Color del borde al enfocarse */
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Sombra de enfoque */
+}
+
+.btn-primary {
+    background-color: #ff0000; /* Fondo rojo para el botón */
+    color: #ffffff; /* Texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s; /* Transición suave */
+}
+
+.btn-primary:hover {
+    background-color: #cc0000; /* Color más oscuro al pasar el mouse */
+}
+
+.text-center a {
+    color: #ff0000; /* Color del enlace */
+}
+
+.clearfix {
+    display: flex;
+    justify-content: space-between; /* Espacio entre elementos */
+    align-items: center; /* Centrar verticalmente */
+}
+
+.checkbox-inline {
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
+}

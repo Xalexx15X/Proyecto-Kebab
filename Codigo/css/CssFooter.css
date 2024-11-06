@@ -1,0 +1,68 @@
+/* Estilos para el footer */
+#footer {
+    background-color: #959595; /* Color gris claro similar al header */
+    color: #ffffff; /* Texto en blanco */
+    padding: 20px 0; /* Espaciado superior e inferior */
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    font-size: 16px; /* Tamaño base del texto */
+}
+
+/* Contenedor del contenido del footer */
+.contenido-footer {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre los elementos */
+    align-items: center; /* Centra verticalmente */
+    max-width: 1200px; /* Limita el ancho */
+    width: 100%; /* Asegura que ocupa el ancho completo */
+    padding: 0 20px; /* Padding lateral */
+}
+
+/* Estilo para los enlaces de políticas */
+.politicas {
+    margin: 0 50px; /* Aumentar espaciado a los lados */
+}
+
+.politicas a {
+    color: #ffffff; /* Texto blanco */
+    margin-right: 10px; /* Espaciado entre enlaces */
+    text-decoration: none; /* Sin subrayado */
+    font-size: 16px; /* Tamaño del texto */
+}
+
+.politicas a:hover {
+    text-decoration: underline; /* Subrayado al pasar el ratón */
+    color: #cccccc; /* Color gris claro al hacer hover */
+}
+
+/* Estilo para el copyright */
+.copyright {
+    text-align: center; /* Centra el texto */
+    font-size: 15px; /* Tamaño de texto más pequeño */
+    margin: 0 50px; /* Espaciado a los lados */
+}
+
+/* Estilo para los iconos de redes sociales */
+.redes-sociales {
+    display: flex;
+    align-items: center;
+    margin-left: 50px; /* Espaciado a la izquierda */
+}
+
+/* Ajustes de tamaño para los iconos */
+.icono-social {
+    width: 30px; /* Tamaño de los iconos */
+    height: auto; /* Mantener la relación de aspecto */
+    margin-left: 20px; /* Espacio entre iconos */
+}
+
+/* Estilo para el logo en el footer */
+.logo-footer {
+    margin-left: 20px; /* Espaciado entre el logo y el resto */
+}
+
+.logo-footer-img {
+    width: 70px; /* Tamaño del logo */
+    height: auto; /* Mantener relación de aspecto */
+}

@@ -1,0 +1,67 @@
+/* Estilos generales para el cuerpo */
+body {
+    background-image: url('../imagenes/fondo.jpg'); /* Imagen de fondo */
+    background-size: cover; /* Ajusta la imagen al tamaño del contenedor */
+    background-position: center; /* Centra la imagen */
+    color: #00f2ff; /* Color de texto negro */
+    font-family: Arial, sans-serif; /* Fuente legible */
+    margin: 0; /* Eliminar margen predeterminado */
+    padding: 0; /* Eliminar padding predeterminado */
+}
+
+/* Contenedor central */
+.container {
+    margin: 16.5px auto; /* Centrando con margen superior e inferior */
+    padding: 0.52%; /* Espaciado interno */
+    text-align: center; /* Alinear texto al centro */
+}
+
+/* Estilo para los encabezados */
+.contacto, h2 {
+    font-weight: bold; /* Texto en negrita */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Sombra negra para texto */
+    color: #00f2ff;
+}
+
+.contacto {
+    font-size: 2.5rem; /* Tamaño de fuente más grande para el nombre */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+h2 {
+    font-size: 1.5rem; /* Tamaño de fuente para el subtítulo */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+/* Estilo para la tabla */
+.table {
+    width: 100%; /* Ancho completo de la tabla */
+    margin-top: 20px; /* Margen superior para separación */
+    color: #ffffff; /* Color de texto blanco */
+    font-weight: bold;
+    background-color: rgba(111, 111, 111, 0.604); /* Fondo negro semi-transparente */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px; /* Espacio interno alrededor de la tabla */
+}
+
+/* Estilo para las celdas de la tabla */
+.table th, .table td {
+    padding: 10px; /* Espaciado interno de celdas */
+    border: 1px solid #000000; /* Borde negro */
+    text-align: left; /* Alinear texto a la izquierda */
+    color: white; /* Color de texto negro */
+}
+
+.table th {
+    background-color: rgba(149, 149, 149, 0.8); /* Fondo gris oscuro semi-transparente para encabezados */
+    color: white; /* Color de texto negro */
+}
+
+/* Estilo para los párrafos */
+p {
+    margin: 10px 0; /* Margen superior e inferior para los párrafos */
+    font-size: 1rem; /* Tamaño de fuente para los párrafos */
+    font-weight: bold; /* Texto en negrita */
+    text-shadow: 1px 1px 2px rgba(70, 70, 70, 0.824); /* Sombra negra para texto */
+    color: #ffffff; /* Color de texto blanco */
+}
