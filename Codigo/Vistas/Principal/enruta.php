@@ -44,6 +44,9 @@ if (isset($_GET['menu'])) {
     if ($_GET['menu'] == "carrito") {
         require_once './Vistas/Mantenimiento/carrito.php';
     }
-    
+
+    if ($_GET['menu'] == "configuracion") {
+        require_once './Vistas/Mantenimiento/configuracionPersonal.php';
+    }
 }
 ?>

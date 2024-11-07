@@ -1,0 +1,232 @@
+/* Estilo global de la página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal con fondo blanco, bordes redondeados y sombra */
+.contenedor {
+    width: 90%;
+    max-width: 1600px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 25px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos de los contenedores dentro del formulario */
+.secciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Estilo de cada div dentro del grid */
+.datos-personales, .direccion {
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: none;
+}
+
+/* Línea divisoria vertical azul entre los divs */
+.datos-personales {
+    border-right: 2px solid #00f2ff;
+}
+
+/* Títulos */
+h2 {
+    color: #00f2ff;
+    margin-bottom: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #00f2ff;
+    font-size: 2.5em;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+/* Estilo de los campos del formulario */
+form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="file"],
+form input[type="tel"],
+form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form input[type="file"] {
+    padding: 3px;
+}
+
+/* Estilo de los campos de texto al enfocarse */
+form input:focus {
+    border-color: #00f2ff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el área de previsualización de la imagen */
+.subir-foto {
+    margin-top: 15px;
+}
+
+.contenedor-previa {
+    border: 2px dashed #00f2ff;
+    border-radius: 5px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    color: #333;
+    text-align: center;
+    position: relative;
+}
+
+.contenedor-previa:hover {
+    border-color: #000000;
+}
+
+.contenedor-previa span {
+    font-size: 14px;
+    color: #000000;
+}
+
+/* Estilos de la tabla de direcciones */
+.contenedor-tabla {
+    margin-top: 20px;
+    border: 1px solid #959595;
+    border-radius: 5px;
+}
+
+.cabecera-tabla {
+    background-color: #959595;
+    color: #ffffff;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cuerpo-tabla {
+    padding: 10px;
+}
+
+/* Estilos para los controles de edición de dirección */
+#controles-edicion {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+#boton-editar, #boton-borrar, #nueva-direccion {
+    font-size: 1.2em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#boton-editar:hover, #boton-borrar:hover, #nueva-direccion:hover {
+    color: #959595;
+}
+
+/* Formulario de edición/creación de dirección */
+#formulario-direccion {
+    margin-top: 20px;
+    border-top: 1px solid #959595;
+    padding-top: 20px;
+}
+
+#formulario-direccion label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#guardar-direccion {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #00f2ff;
+    color: #ffffff;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#guardar-direccion:hover {
+    background-color: #008b8b;
+}
+
+/* Estilos para los botones de acción (Guardar, Borrar, Salir) */
+.botones-accion {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.botones-accion .btn {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.botones-accion .guardar {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.botones-accion .guardar:hover {
+    opacity: 0.8;
+    color: #ffffff;
+    border-color: #28a745;
+    background-color: #28a745;
+}
+
+.botones-accion .borrar {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.botones-accion .borrar:hover {
+    opacity: 0.8;
+    color: #ffffff;
+    border-color: #dc3545;
+    background-color: #dc3545;
+}
+
+.botones-accion .salir {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+.botones-accion .salir:hover {
+    opacity: 0.8;
+    color: #ffffff;
+    border-color: #6c757d;
+    background-color: #6c757d;
+}

@@ -60,7 +60,7 @@
 
                 <!-- Registro -->
                 <li class="nav-item">
-                    <a class="nav-link" href="?menu=registro">Registro</a>
+                    <a class="nav-link" href="?menu=registro-Pedido">Registro</a>
                 </li>
                 
 
