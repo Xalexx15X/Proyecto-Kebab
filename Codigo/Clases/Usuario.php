@@ -4,19 +4,19 @@ class Usuario
     private $id_usuario;
     private $nombre;
     private $contrasena;
-    private $direccion;
+    private $direcciones = [];
     private $carrito;  // Manejado como JSON
     private $monedero;
     private $foto;
     private $correo;
     private $telefono;
 
-    public function __construct($id_usuario, $nombre, $contrasena, $direccion, $carrito, $monedero, $foto, $telefono)
+    public function __construct($id_usuario, $nombre, $contrasena, $direcciones = [], $carrito, $monedero, $foto, $telefono)
     {
         $this->id_usuario = $id_usuario;
         $this->nombre = $nombre;
         $this->contraseña = $contrasena;
-        $this->direccion = $direccion;
+        $this->direcciones = $direcciones;
         $this->carrito = json_decode($carrito, true);  // Decodifica JSON a array
         $this->monedero = $monedero;
         $this->foto = $foto;
@@ -46,14 +46,6 @@ class Usuario
 
     public function setContraseña($contrasena) {
         $this->contrasena = $contrasena;
-    }
-
-    public function getDireccion() {
-        return $this->direccion;
-    }
-
-    public function setDireccion($direccion) {
-        $this->direccion = $direccion;
     }
 
     public function getCarrito() {
@@ -96,8 +88,17 @@ class Usuario
         $this->telefono = $telefono;
     }
 
+       // Métodos para gestionar el array de direcciones
+       public function addDireccion(Direccion $direccion) {
+        $this->direcciones[] = $direccion;
+    }
+
+    public function removeDireccion($id_direccion) {
+        $this->direcciones = array_filter($this->direcciones, fn($direccion) => $direccion->getId() !== $id_direccion);
+    }
+
     public function __toString() {
-        return "Usuario: ID={$this->id}, Nombre={$this->nombre}, Email={$this->correo}, Telefono={$this->telefono} Direccion={$this->direccion}, Monedero={$this->monedero}";
+        return "Usuario: ID={$this->id}, Nombre={$this->nombre}, Email={$this->correo}, Telefono={$this->telefono}, Direcciones=[" . implode(", ", $this->direcciones) . "]";
     }
 }
 ?>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Registro</title>
     <link rel="stylesheet" href="./css/CssRegistro.css">
+    <script src="./Js/JsRegistro.js"></script>
 </head>
 <body>
     <h1>Registro</h1>
@@ -61,5 +62,6 @@
             <button type="submit">Registrarse</button>
         </div>
     </div>
+   
 </body>
 </html>

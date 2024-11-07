@@ -6,14 +6,18 @@ class Ingredientes
     private $foto;
     private $precio;
     private $tipo;
+    private $alergenos = []; // Array de objetos Alergenos
 
-    public function __construct($id_ingrediente, $nombre, $foto, $precio, $tipo)
+
+    public function __construct($id_ingrediente, $nombre, $foto, $precio, $tipo,  $alergenos = [])
     {
         $this->id_ingrediente = $id_ingrediente;
         $this->nombre = $nombre;
         $this->foto = $foto;
         $this->precio = $precio;
         $this->tipo = $tipo;
+        $this->alergenos = $alergenos;
+        
     }
 
     public function getIdIngrediente() {
@@ -56,8 +60,17 @@ class Ingredientes
         $this->tipo = $tipo;
     }
 
+     // Métodos para gestionar el array de alérgenos
+     public function addAlergeno(Alergenos $alergeno) {
+        $this->alergenos[] = $alergeno;
+    }
+
+    public function removeAlergeno($id_alergeno) {
+        $this->alergenos = array_filter($this->alergenos, fn($alergeno) => $alergeno->getIdAlergenos() !== $id_alergeno);
+    }
+
     public function __toString() {
-        return "Ingrediente: ID={$this->id}, Nombre={$this->nombre}, Precio={$this->precio}, Tipo={$this->tipo}";
+        return "Ingrediente: ID={$this->id_ingrediente}, Nombre={$this->nombre}, Precio={$this->precio}, Tipo={$this->tipo}, Alergenos=[" . implode(", ", $this->alergenos) . "]";
     }
 }
 ?>

@@ -6,6 +6,7 @@ class Kebab
     private $foto;
     private $precio_min;
     private $descripcion;
+    private $ingredientes = [];
 
     public function __construct($id_kebab, $nombre, $foto, $precio_min, $descripcion)
     {
@@ -14,6 +15,7 @@ class Kebab
         $this->foto = $foto;
         $this->precio_min = $precio_min;
         $this->descripcion = $descripcion;
+        $this->ingredientes = $ingredientes;
     }
 
     public function getIdKebab() {
@@ -55,9 +57,18 @@ class Kebab
     public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
     }
+     // Métodos para gestionar el array de ingredientes
+     public function addIngrediente(Ingredientes $ingrediente) {
+        $this->ingredientes[] = $ingrediente;
+    }
+
+    public function removeIngrediente($id_ingrediente) {
+        $this->ingredientes = array_filter($this->ingredientes, fn($ingrediente) => $ingrediente->getIdIngrediente() !== $id_ingrediente);
+    }
+
 
     public function __toString() {
-        return "Kebab: ID={$this->id}, Nombre={$this->nombre}, Precio Min={$this->precio_min}, Descripcion={$this->descripcion}";
+        return "Kebab: ID={$this->id}, Nombre={$this->nombre}, Precio Min={$this->precio_min}, Descripcion={$this->descripcion}". ", Ingredientes=[" . implode(", ", $this->ingredientes) . "]";
     }
 }
 ?>
