@@ -6,10 +6,10 @@ class Ingredientes
     private $foto;
     private $precio;
     private $tipo;
-    private Alergenos $alergenos;
+    private $alergenos = [];
 
 
-    public function __construct($id_ingrediente, $nombre, $foto, $precio, $tipo, Alergenos $alergenos)
+    public function __construct($id_ingrediente, $nombre, $foto, $precio, $tipo, $alergenos = [])
     {
         $this->id_ingrediente = $id_ingrediente;
         $this->nombre = $nombre;
@@ -60,11 +60,10 @@ class Ingredientes
         $this->tipo = $tipo;
     }
 
-     // Métodos para gestionar el array de alérgenos
-     public function addAlergeno(Alergenos $alergeno) {
+    public function addAlergeno(Alergenos $alergeno) {  
         $this->alergenos[] = $alergeno;
     }
-
+    
     public function removeAlergeno($id_alergeno) {
         $this->alergenos = array_filter($this->alergenos, fn($alergeno) => $alergeno->getIdAlergenos() !== $id_alergeno);
     }

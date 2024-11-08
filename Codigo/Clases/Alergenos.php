@@ -49,7 +49,7 @@ class Alergenos
     }
     
     public function addIngrediente(Ingredientes $ingrediente) {
-        $this->ingredientes[] = $ingrediente->getIdIngrediente;
+        $this->ingredientes[] = $ingrediente;
     }
     
     public function removeIngrediente($id_ingrediente) {

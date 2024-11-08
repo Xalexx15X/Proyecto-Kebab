@@ -10,9 +10,9 @@ class Usuario
     private $correo;
     private $telefono;
     private $ubicacion;
-    private Alergenos $alergenos;
+    private $alergenos = [];
 
-    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $correo, $telefono, $ubicacion, Alergenos $alergenos)
+    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $correo, $telefono, $ubicacion, $alergenos = [])
     {
         $this->id_usuario = $id_usuario;
         $this->nombre = $nombre;
@@ -98,12 +98,12 @@ class Usuario
         $this->ubicacion = $ubicacion;
     }
 
-    public function getAlergenos() {
-        return $this->alergenos;
+    public function addAlergeno(Alergenos $alergeno) {
+        $this->alergenos[] = $alergeno; 
     }
 
-    public function setAlergenos($alergenos) {
-        $this->alergenos = $alergenos;
+    public function removeAlergeno($id_alergeno) {
+        $this->alergenos = array_filter($this->alergenos, fn($alergeno) => $alergeno->getIdAlergenos() !== $id_alergeno);
     }
 
     public function __toString() {

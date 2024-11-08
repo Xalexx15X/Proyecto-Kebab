@@ -5,9 +5,9 @@ class LineaPedido
     private $cantidad;
     private $precio;
     private $linea_pedidos;
-    private Pedidos $pedidos;
+    private $pedidos = [];
 
-    public function __construct($id_linea_pedido, $cantidad, $precio, $linea_pedidos, Pedidos $pedidos)
+    public function __construct($id_linea_pedido, $cantidad, $precio, $linea_pedidos, $pedidos = [])
     {
         $this->id_linea_pedido = $id_linea_pedido;
         $this->cantidad = $cantidad;
@@ -48,12 +48,12 @@ class LineaPedido
         $this->linea_pedidos = $linea_pedidos;
     }
 
-    public function getPedidos() {
-        return $this->pedidos;
+    public function addPedido(Pedidos $pedido) {
+        $this->pedidos[] = $pedido;
     }
 
-    public function setPedidos($pedidos) {
-        $this->pedidos = $pedidos;
+    public function removePedido($id_pedido) {
+        $this->pedidos = array_filter($this->pedidos, fn($pedido) => $pedido->getIdPedidos() !== $id_pedido);
     }
 
     public function __toString() {
