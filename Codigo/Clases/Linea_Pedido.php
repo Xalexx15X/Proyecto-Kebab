@@ -5,15 +5,15 @@ class LineaPedido
     private $cantidad;
     private $precio;
     private $linea_pedidos;
-    private $pedidos_id_pedidos;
+    private Pedidos $pedidos;
 
-    public function __construct($id_linea_pedido, $cantidad, $precio, $linea_pedidos, $pedidos_id_pedidos)
+    public function __construct($id_linea_pedido, $cantidad, $precio, $linea_pedidos, Pedidos $pedidos)
     {
         $this->id_linea_pedido = $id_linea_pedido;
         $this->cantidad = $cantidad;
         $this->precio = $precio;
         $this->linea_pedidos = $linea_pedidos;
-        $this->pedidos_id_pedidos = $pedidos_id_pedidos;
+        $this->pedidos = $pedidos;
     }
 
     public function getIdLineaPedido() {
@@ -48,16 +48,16 @@ class LineaPedido
         $this->linea_pedidos = $linea_pedidos;
     }
 
-    public function getPedidosIdPedidos() {
-        return $this->pedidos_id_pedidos;
+    public function getPedidos() {
+        return $this->pedidos;
     }
 
-    public function setPedidosIdPedidos($pedidos_id_pedidos) {
-        $this->pedidos_id_pedidos = $pedidos_id_pedidos;
+    public function setPedidos($pedidos) {
+        $this->pedidos = $pedidos;
     }
 
     public function __toString() {
-        return "LineaPedido: ID={$this->id}, Cantidad={$this->cantidad}, Precio={$this->precio}";
+        return "LineaPedido: ID={$this->id_linea_pedido}, Cantidad={$this->cantidad}, Precio={$this->precio}, LineaPedidos={$this->linea_pedidos}, Pedidos={$this->pedidos}";
     }
 }
 ?>

@@ -6,10 +6,10 @@ class Ingredientes
     private $foto;
     private $precio;
     private $tipo;
-    private $alergenos = []; // Array de objetos Alergenos
+    private Alergenos $alergenos;
 
 
-    public function __construct($id_ingrediente, $nombre, $foto, $precio, $tipo,  $alergenos = [])
+    public function __construct($id_ingrediente, $nombre, $foto, $precio, $tipo, Alergenos $alergenos)
     {
         $this->id_ingrediente = $id_ingrediente;
         $this->nombre = $nombre;

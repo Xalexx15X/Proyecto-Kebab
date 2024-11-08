@@ -4,24 +4,26 @@ class Usuario
     private $id_usuario;
     private $nombre;
     private $contrasena;
-    private $direcciones = [];
     private $carrito;  // Manejado como JSON
     private $monedero;
     private $foto;
     private $correo;
     private $telefono;
+    private $ubicacion;
+    private Alergenos $alergenos;
 
-    public function __construct($id_usuario, $nombre, $contrasena, $direcciones = [], $carrito, $monedero, $foto, $telefono)
+    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $correo, $telefono, $ubicacion, Alergenos $alergenos)
     {
         $this->id_usuario = $id_usuario;
         $this->nombre = $nombre;
-        $this->contraseña = $contrasena;
-        $this->direcciones = $direcciones;
-        $this->carrito = json_decode($carrito, true);  // Decodifica JSON a array
+        $this->contrasena = $contrasena;
+        $this->carrito = $carrito;
         $this->monedero = $monedero;
         $this->foto = $foto;
         $this->correo = $correo;
         $this->telefono = $telefono;
+        $this->ubicacion = $ubicacion;
+        $this->alergenos = $alergenos;
     }
 
     public function getIdUsuario() {
@@ -40,20 +42,20 @@ class Usuario
         $this->nombre = $nombre;
     }
 
-    public function getContraseña() {
+    public function getContrasena() {
         return $this->contrasena;
     }
 
-    public function setContraseña($contrasena) {
+    public function setContrasena($contrasena) {
         $this->contrasena = $contrasena;
     }
 
     public function getCarrito() {
-        return json_encode($this->carrito); 
+        return $this->carrito;
     }
 
     public function setCarrito($carrito) {
-        $this->carrito = json_decode($carrito, true);  
+        $this->carrito = $carrito;
     }
 
     public function getMonedero() {
@@ -88,17 +90,24 @@ class Usuario
         $this->telefono = $telefono;
     }
 
-       // Métodos para gestionar el array de direcciones
-       public function addDireccion(Direccion $direccion) {
-        $this->direcciones[] = $direccion;
+    public function getUbicacion() {
+        return $this->ubicacion;
     }
 
-    public function removeDireccion($id_direccion) {
-        $this->direcciones = array_filter($this->direcciones, fn($direccion) => $direccion->getId() !== $id_direccion);
+    public function setUbicacion($ubicacion) {
+        $this->ubicacion = $ubicacion;
+    }
+
+    public function getAlergenos() {
+        return $this->alergenos;
+    }
+
+    public function setAlergenos($alergenos) {
+        $this->alergenos = $alergenos;
     }
 
     public function __toString() {
-        return "Usuario: ID={$this->id}, Nombre={$this->nombre}, Email={$this->correo}, Telefono={$this->telefono}, Direcciones=[" . implode(", ", $this->direcciones) . "]";
+        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito={$this->carrito}, Monedero={$this->monedero}, Foto={$this->foto}, Correo={$this->correo}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}, Alergenos=[" . implode(", ", $this->alergenos) . "]";
     }
 }
 ?>

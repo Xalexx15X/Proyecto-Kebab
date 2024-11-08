@@ -4,14 +4,18 @@ class Alergenos
     private $id_alergenos;
     private $nombre;
     private $foto;
+    private $ingredientes = [];
+    private $usuarios = []; 
 
-    public function __construct($id_alergenos, $nombre, $foto)
+    public function __construct($id_alergenos, $nombre, $foto ,$ingredientes = [], $usuarios = [])  
     {
         $this->id_alergenos = $id_alergenos;
         $this->nombre = $nombre;
         $this->foto = $foto;
         $this->descripcion = $descripcion;
-
+        $this->ingredientes = $ingredientes;
+        $this->usuarios = $usuarios;
+        
     }
 
     public function getIdAlergenos() {
@@ -42,6 +46,14 @@ class Alergenos
     }
     public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
+    }
+    
+    public function addIngrediente(Ingredientes $ingrediente) {
+        $this->ingredientes[] = $ingrediente->getIdIngrediente;
+    }
+    
+    public function removeIngrediente($id_ingrediente) {
+        $this->ingredientes = array_filter($this->ingredientes, fn($ingrediente) => $ingrediente->getIdIngrediente() !== $id_ingrediente);
     }
 
     public function __toString() {
