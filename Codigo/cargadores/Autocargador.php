@@ -1,34 +1,33 @@
 <?php
-Class Autocargador
+class Autocargador
 {
+    public static function autocargar()
+    {
+        spl_autoload_register([self::class, 'autocarga']);
+    }
 
-public static function autocargar()
-{
-    spl_autoload_register('self::autocarga');
+    public static function autocarga($className)
+    {
+        // Definir las rutas donde están las clases y repositorios
+        $paths = [
+            './repositorios/',
+            './Clases/',
+            './Vistas/',
+            './Api/',
+            './helper/',
+        ];
+
+        foreach ($paths as $path) {
+            $file = $path . $className . '.php';
+            if (file_exists($file)) {
+                require_once $file;
+                return;
+            }
+        }
+
+        // Si la clase no se encontró, puedes lanzar un error (opcional)
+        throw new Exception("No se pudo cargar la clase: $className");
+    }
 }
-public static function autocarga($name)
-{
-  //require_once './ruta
-  require_once './repositorios/Conexion.php';
-  //require_once './Vistas/inicio.php';
 
-  //clases
-  require_once './Clases/Alergenos.php';
-  require_once './Clases/Ingredientes.php';
-  require_once './Clases/Kebab.php';
-  require_once './Clases/Linea_Pedido.php';
-  require_once './Clases/Pedido.php';
-  require_once './Clases/Usuario.php';
-
-  //repositorios
-  require_once './repositorios/RepoAlergenos.php';
-  require_once './repositorios/RepoIngredientes.php';
-  require_once './repositorios/RepoKebab.php';
-  require_once './repositorios/RepoLinea_Pedido.php';
-  require_once './repositorios/RepoPedido.php';
-  require_once './repositorios/RepoUsuario.php';
-
-}
-}
 Autocargador::autocargar();
-

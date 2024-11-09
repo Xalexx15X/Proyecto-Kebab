@@ -1,10 +1,6 @@
 <?php
 if (isset($_GET['menu'])) {
-    /*if ($_GET['menu'] == "ApiUsuario") {
-        require_once __DIR__ . './Api/ApiUsuario.php';
-        exit; // Para evitar que cargue el layout después de la respuesta de la API
-    }*/
-
+    
     if ($_GET['menu'] == "inicio") {
         require_once './Vistas/Mantenimiento/inicio.php';
     }
