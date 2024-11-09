@@ -56,27 +56,42 @@ class RepoUsuario
     }
 
     // Método para crear un usuario
+    // En el RepoUsuario
+    // Método para crear un usuario
     public function crear(Usuario $usuario)
     {
         try {
-            $sql = "insert into usuario (nombre, contraseña, carrito, monedero, foto, correo, telefono, ubicacion) values (:nombre, :contraseña, :carrito, :monedero, :foto, :correo, :telefono, :ubicacion)";
+            // Si carrito es un array, lo convertimos a JSON
+            $carrito = json_encode($usuario->getCarrito());
+
+            // Insertamos el usuario en la tabla usuario
+            $sql = "INSERT INTO usuario (nombre, contraseña, carrito, monedero, foto, correo, telefono, ubicacion) 
+                    VALUES (:nombre, :contraseña, :carrito, :monedero, :foto, :correo, :telefono, :ubicacion)";
             $stm = $this->con->prepare($sql);
-            $stm->bindParam(':nombre', $usuario->getNombre());
-            $stm->bindParam(':contraseña', $usuario->getContrasena());
-            $stm->bindParam(':carrito', $usuario->getCarrito()); // Ya es JSON
-            $stm->bindParam(':monedero', $usuario->getMonedero());
-            $stm->bindParam(':foto', $usuario->getFoto());
-            $stm->bindParam(':correo', $usuario->getCorreo());
-            $stm->bindParam(':telefono', $usuario->getTelefono());
-            $stm->bindParam(':ubicacion', $usuario->getUbicacion());
+
+            // Enlazar parámetros
+            $stm->bindValue(':nombre', $usuario->getNombre());
+            $stm->bindValue(':contraseña', $usuario->getContrasena());
+            $stm->bindValue(':carrito', $carrito);  // Aquí pasamos el carrito como JSON
+            $stm->bindValue(':monedero', $usuario->getMonedero());
+            $stm->bindValue(':foto', $usuario->getFoto());
+            $stm->bindValue(':correo', $usuario->getCorreo());
+            $stm->bindValue(':telefono', $usuario->getTelefono());
+            $stm->bindValue(':ubicacion', $usuario->getUbicacion());
+
+            // Ejecutar la consulta
             $stm->execute();
 
             // Obtener el ID del usuario recién creado
             $usuario_id = $this->con->lastInsertId();
 
-            // Asociar alérgenos al usuario
-            foreach ($usuario->getAlergenos() as $alergeno) {
-                $this->agregarRelacionUsuarioAlergeno($usuario_id, $alergeno->getIdAlergenos());
+            // Ahora insertamos los alérgenos en la tabla usuario_tiene_alergenos
+            // Comprobamos si hay alérgenos y los insertamos
+            if (!empty($usuario->getAlergenos())) {
+                foreach ($usuario->getAlergenos() as $alergeno) {
+                    // Aquí buscamos el ID de cada alérgeno en la tabla alergenos
+                    $this->agregarRelacionUsuarioAlergeno($usuario_id, $alergeno->getIdAlergenos());
+                }
             }
 
             return true;
@@ -85,16 +100,25 @@ class RepoUsuario
         }
     }
 
-
     // Método para agregar la relación entre un usuario y un alérgeno
     private function agregarRelacionUsuarioAlergeno($usuario_id, $alergeno_id)
     {
-        $sql = "insert into usuario_tiene_alergenos (usuario_id, alergeno_id) values (:usuario_id, :alergeno_id)";
-        $stm = $this->con->prepare($sql);
-        $stm->bindParam(':usuario_id', $usuario_id);
-        $stm->bindParam(':alergeno_id', $alergeno_id);
-        $stm->execute();
+        try {
+            $sql = "INSERT INTO usuario_tiene_alergenos (usuario_id_usuario, alergenos_id_alergenos) 
+                    VALUES (:usuario_id_usuario, :alergenos_id_alergenos)";
+            $stm = $this->con->prepare($sql);
+            
+            // Enlazar parámetros
+            $stm->bindParam(':usuario_id_usuario', $usuario_id);
+            $stm->bindParam(':alergenos_id_alergenos', $alergeno_id);
+
+            // Ejecutar la consulta para insertar la relación
+            $stm->execute();
+        } catch (PDOException $e) {
+            throw new Exception("Error al agregar la relación de alérgenos: " . $e->getMessage());
+        }
     }
+
 
     // Método para modificar un usuario existente
     public function modificar(Usuario $usuario)

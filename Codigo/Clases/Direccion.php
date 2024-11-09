@@ -12,9 +12,7 @@ class Direccion
         $this->id_direccion = $id_direccion;
         $this->direccion = $direccion;
         $this->estado = $estado;
-        $this->usuario = $usuario;
-        $this->usuario = $usuario;
-
+        $this->usuario = $usuario ?? [];
     }
 
     public function getIdDireccion() {
