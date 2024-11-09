@@ -17,13 +17,12 @@ class RepoUsuario
         $registro = $stm->fetch(PDO::FETCH_ASSOC);
 
         if ($registro) {
-            // Crear el usuario con los datos de la base de datos
+            // Crear el usuario con los datos de la base de datos (incluyendo carrito como JSON)
             $usuario = new Usuario(
                 $registro['id_usuario'],
                 $registro['nombre'],
                 $registro['contraseña'],
-                $registro['direccion'],
-                $registro['carrito'],
+                $registro['carrito'],  // Carrito en JSON
                 $registro['monedero'],
                 $registro['foto'],
                 $registro['correo'],
@@ -38,6 +37,7 @@ class RepoUsuario
         }
         return null;
     }
+
 
     // Método para buscar los alérgenos asociados a un usuario
     private function findAlergenosByUsuarioId($id_usuario)
@@ -59,12 +59,11 @@ class RepoUsuario
     public function crear(Usuario $usuario)
     {
         try {
-            $sql = "insert into usuario (nombre, contraseña, direccion, carrito, monedero, foto, correo, telefono, ubicacion) values (:nombre, :contraseña, :direccion, :carrito, :monedero, :foto, :correo, :telefono, :ubicacion)";
+            $sql = "insert into usuario (nombre, contraseña, carrito, monedero, foto, correo, telefono, ubicacion) values (:nombre, :contraseña, :carrito, :monedero, :foto, :correo, :telefono, :ubicacion)";
             $stm = $this->con->prepare($sql);
             $stm->bindParam(':nombre', $usuario->getNombre());
             $stm->bindParam(':contraseña', $usuario->getContrasena());
-            $stm->bindParam(':direccion', $usuario->getDireccion());
-            $stm->bindParam(':carrito', $usuario->getCarrito());
+            $stm->bindParam(':carrito', $usuario->getCarrito()); // Ya es JSON
             $stm->bindParam(':monedero', $usuario->getMonedero());
             $stm->bindParam(':foto', $usuario->getFoto());
             $stm->bindParam(':correo', $usuario->getCorreo());
@@ -86,6 +85,7 @@ class RepoUsuario
         }
     }
 
+
     // Método para agregar la relación entre un usuario y un alérgeno
     private function agregarRelacionUsuarioAlergeno($usuario_id, $alergeno_id)
     {
@@ -100,12 +100,11 @@ class RepoUsuario
     public function modificar(Usuario $usuario)
     {
         try {
-            $sql = "update usuario set nombre = :nombre, contraseña = :contraseña, direccion = :direccion, carrito = :carrito, monedero = :monedero, foto = :foto, correo = :correo, telefono = :telefono, ubicacion = :ubicacion WHERE id_usuario = :id";
+            $sql = "update usuario set nombre = :nombre, contraseña = :contraseña, carrito = :carrito, monedero = :monedero, foto = :foto, correo = :correo, telefono = :telefono, ubicacion = :ubicacion WHERE id_usuario = :id";
             $stm = $this->con->prepare($sql);
             $stm->bindParam(':nombre', $usuario->getNombre());
             $stm->bindParam(':contraseña', $usuario->getContrasena());
-            $stm->bindParam(':direccion', $usuario->getDireccion());
-            $stm->bindParam(':carrito', $usuario->getCarrito());
+            $stm->bindParam(':carrito', $usuario->getCarrito()); // Ya es JSON
             $stm->bindParam(':monedero', $usuario->getMonedero());
             $stm->bindParam(':foto', $usuario->getFoto());
             $stm->bindParam(':correo', $usuario->getCorreo());
@@ -122,6 +121,7 @@ class RepoUsuario
             return "Error al modificar el usuario: " . $e->getMessage();
         }
     }
+
 
     // Método para actualizar la relación de alérgenos de un usuario
     private function actualizarRelacionAlergenos(Usuario $usuario)
@@ -173,8 +173,7 @@ class RepoUsuario
                     $registro['id_usuario'],
                     $registro['nombre'],
                     $registro['contraseña'],
-                    $registro['direccion'],
-                    $registro['carrito'],
+                    $registro['carrito'],  // Carrito en JSON
                     $registro['monedero'],
                     $registro['foto'],
                     $registro['correo'],
@@ -191,5 +190,6 @@ class RepoUsuario
             return "Error al mostrar los usuarios: " . $e->getMessage();
         }
     }
+
 }
 ?>

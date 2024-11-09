@@ -17,7 +17,7 @@ class Usuario
         $this->id_usuario = $id_usuario;
         $this->nombre = $nombre;
         $this->contrasena = $contrasena;
-        $this->carrito = $carrito;
+        $this->setCarrito($carrito);
         $this->monedero = $monedero;
         $this->foto = $foto;
         $this->correo = $correo;
@@ -51,11 +51,13 @@ class Usuario
     }
 
     public function getCarrito() {
-        return $this->carrito;
+        // Decodifica el JSON a un array de PHP si es una cadena
+        return is_string($this->carrito) ? json_decode($this->carrito, true) : $this->carrito;
     }
 
     public function setCarrito($carrito) {
-        $this->carrito = $carrito;
+        // Si es un array, lo convierte a JSON; si es JSON, lo mantiene
+        $this->carrito = is_array($carrito) ? json_encode($carrito) : $carrito;
     }
 
     public function getMonedero() {
@@ -107,7 +109,7 @@ class Usuario
     }
 
     public function __toString() {
-        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito={$this->carrito}, Monedero={$this->monedero}, Foto={$this->foto}, Correo={$this->correo}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}, Alergenos=[" . implode(", ", $this->alergenos) . "]";
+        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito=" . json_encode($this->getCarrito()) . ", Monedero={$this->monedero}, Foto={$this->foto}, Correo={$this->correo}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}, Alergenos=[" . implode(", ", $this->alergenos) . "]";
     }
 }
 ?>
