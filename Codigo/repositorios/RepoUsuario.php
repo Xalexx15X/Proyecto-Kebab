@@ -61,63 +61,68 @@ class RepoUsuario
     public function crear(Usuario $usuario)
     {
         try {
-            // Si carrito es un array, lo convertimos a JSON
+            // Convertimos el carrito a JSON en caso de que sea un array
             $carrito = json_encode($usuario->getCarrito());
-
-            // Insertamos el usuario en la tabla usuario
-            $sql = "INSERT INTO usuario (nombre, contraseña, carrito, monedero, foto, correo, telefono, ubicacion) 
-                    VALUES (:nombre, :contraseña, :carrito, :monedero, :foto, :correo, :telefono, :ubicacion)";
+    
+            // Insertar el usuario en la tabla 'usuario'
+            $sql = "INSERT INTO usuario (nombre, contrasena, carrito, monedero, foto, correo, telefono, ubicacion) 
+                    VALUES (:nombre, :contrasena, :carrito, :monedero, :foto, :correo, :telefono, :ubicacion)";
             $stm = $this->con->prepare($sql);
-
-            // Enlazar parámetros
+    
+            // Enlazamos los parámetros
             $stm->bindValue(':nombre', $usuario->getNombre());
-            $stm->bindValue(':contraseña', $usuario->getContrasena());
-            $stm->bindValue(':carrito', $carrito);  // Aquí pasamos el carrito como JSON
+            $stm->bindValue(':contrasena', $usuario->getContrasena());
+            $stm->bindValue(':carrito', $carrito);  
             $stm->bindValue(':monedero', $usuario->getMonedero());
             $stm->bindValue(':foto', $usuario->getFoto());
             $stm->bindValue(':correo', $usuario->getCorreo());
             $stm->bindValue(':telefono', $usuario->getTelefono());
             $stm->bindValue(':ubicacion', $usuario->getUbicacion());
-
-            // Ejecutar la consulta
-            $stm->execute();
-
-            // Obtener el ID del usuario recién creado
-            $usuario_id = $this->con->lastInsertId();
-
-            // Ahora insertamos los alérgenos en la tabla usuario_tiene_alergenos
-            // Comprobamos si hay alérgenos y los insertamos
-            if (!empty($usuario->getAlergenos())) {
-                foreach ($usuario->getAlergenos() as $alergeno) {
-                    // Aquí buscamos el ID de cada alérgeno en la tabla alergenos
-                    $this->agregarRelacionUsuarioAlergeno($usuario_id, $alergeno->getIdAlergenos());
+    
+            // Ejecutar la inserción del usuario
+            if ($stm->execute()) {
+                // Obtener el ID del usuario recién creado
+                $usuario_id = $this->con->lastInsertId();
+                $usuario->setIdUsuario($usuario_id); // Asignamos el ID al objeto usuario
+    
+                // Si el usuario tiene alérgenos, asociarlos
+                if (!empty($usuario->getAlergenos())) {
+                    foreach ($usuario->getAlergenos() as $alergeno_id) {
+                        $this->agregarRelacionUsuarioAlergeno($usuario_id, $alergeno_id);
+                    }
                 }
+    
+                return true;
+            } else {
+                $errorInfo = $stm->errorInfo();
+                error_log("SQL Error: " . implode(" - ", $errorInfo));
+                return false;
             }
-
-            return true;
         } catch (PDOException $e) {
             return "Error al crear el usuario: " . $e->getMessage();
         }
     }
+    
 
     // Método para agregar la relación entre un usuario y un alérgeno
     private function agregarRelacionUsuarioAlergeno($usuario_id, $alergeno_id)
     {
-        try {
-            $sql = "INSERT INTO usuario_tiene_alergenos (usuario_id_usuario, alergenos_id_alergenos) 
-                    VALUES (:usuario_id_usuario, :alergenos_id_alergenos)";
-            $stm = $this->con->prepare($sql);
-            
-            // Enlazar parámetros
-            $stm->bindParam(':usuario_id_usuario', $usuario_id);
-            $stm->bindParam(':alergenos_id_alergenos', $alergeno_id);
+    try {
+        $sql = "INSERT INTO usuario_tiene_alergenos (usuario_id_usuario, alergenos_id_alergenos) 
+                VALUES (:usuario_id_usuario, :alergenos_id_alergenos)";
+        $stm = $this->con->prepare($sql);
+        
+        // Enlazar los parámetros
+        $stm->bindParam(':usuario_id_usuario', $usuario_id, PDO::PARAM_INT);
+        $stm->bindParam(':alergenos_id_alergenos', $alergeno_id, PDO::PARAM_INT);
 
-            // Ejecutar la consulta para insertar la relación
-            $stm->execute();
-        } catch (PDOException $e) {
-            throw new Exception("Error al agregar la relación de alérgenos: " . $e->getMessage());
-        }
+        // Ejecutar la consulta
+        $stm->execute();
+    } catch (PDOException $e) {
+        throw new Exception("Error al agregar la relación de alérgenos: " . $e->getMessage());
     }
+    }
+
 
 
     // Método para modificar un usuario existente

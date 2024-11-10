@@ -7,12 +7,11 @@ class Usuario
     private $carrito;  // Manejado como JSON
     private $monedero;
     private $foto;
-    private $correo;
     private $telefono;
     private $ubicacion;
     private $alergenos = [];
 
-    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $correo, $telefono, $ubicacion, $alergenos = [])
+    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $telefono, $ubicacion, $alergenos = [])
     {
         $this->id_usuario = $id_usuario;
         $this->nombre = $nombre;
@@ -20,7 +19,6 @@ class Usuario
         $this->setCarrito($carrito);
         $this->monedero = $monedero;
         $this->foto = $foto;
-        $this->correo = $correo;
         $this->telefono = $telefono;
         $this->ubicacion = $ubicacion;
         $this->alergenos = $alergenos;
@@ -74,14 +72,6 @@ class Usuario
 
     public function setFoto($foto) {
         $this->foto = $foto;
-    }
-
-    public function getCorreo() {
-        return $this->correo;
-    }
-
-    public function setCorreo($correo) {
-        $this->correo = $correo;
     }
 
     public function getTelefono() {

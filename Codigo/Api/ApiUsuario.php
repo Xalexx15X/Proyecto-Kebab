@@ -1,7 +1,12 @@
 <?php
 // Suponemos que $con es la conexión PDO a la base de datos
+$con = Conexion::getConection(); // Obtén la conexión a la base de datos
 $repoUsuario = new RepoUsuario($con);
+
+
 header('Content-Type: application/json');
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Crear un nuevo usuario
     $data = json_decode(file_get_contents('php://input'), true);
