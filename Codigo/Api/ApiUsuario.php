@@ -1,94 +1,100 @@
 <?php
-// Suponemos que $con es la conexión PDO a la base de datos
-$con = Conexion::getConection(); // Obtén la conexión a la base de datos
+header("Content-Type: application/json");
+
+$con = Conexion::getConection();
 $repoUsuario = new RepoUsuario($con);
 
+$method = $_SERVER['REQUEST_METHOD'];
+$input = json_decode(file_get_contents('php://input'), true);
 
-header('Content-Type: application/json');
+var_dump($method);   // Depuración: muestra el método HTTP
+var_dump($input);    // Depuración: muestra el JSON recibido
 
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Crear un nuevo usuario
-    $data = json_decode(file_get_contents('php://input'), true);
-    
-    $usuario = new Usuario(
-        null, // ID se generará automáticamente
-        $data['nombre'],
-        $data['contrasena'],
-        json_encode($data['carrito']),
-        $data['monedero'],
-        $data['foto'],
-        $data['correo'],
-        $data['telefono'],
-        $data['ubicacion'],
-        $data['alergenos'] ?? []
-    );
-    $result = $repoUsuario->crear($usuario);
-    
-    if ($result) {
-        http_response_code(201);
-        header('HTTP/1.1 201 Created');
-        echo json_encode(['success' => true, 'message' => 'Usuario creado correctamente']);
-    } else {
-        http_response_code(500);
-        header('HTTP/1.1 500 Internal Server Error');
-        echo json_encode(['error' => 'Error al crear el usuario']);
-    }
-} elseif ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    // Obtener todos los usuarios
-    $usuarios = $repoUsuario->mostrarTodos();
-    if ($usuarios) {
-        http_response_code(200);
-        header('HTTP/1.1 200 OK');
-        echo json_encode($usuarios);
-    } else {
-        http_response_code(404);
-        header('HTTP/1.1 404 Not Found');
-        echo json_encode(['error' => 'No se encontraron usuarios']);
-    }
-} elseif ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-    // Borrar un usuario por ID
-    $data = json_decode(file_get_contents('php://input'), true);
-    $id = $data['id_usuario'] ?? null;
-    if ($id) {
-        $result = $repoUsuario->borrar($id);
-        if ($result) {
-            http_response_code(200);
-            header('HTTP/1.1 200 OK');
-            echo json_encode(['success' => true, 'message' => 'Usuario eliminado correctamente']);
+// Procesa las solicitudes GET
+// Procesa las solicitudes GET
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Verifica si el parámetro 'id_usuario' está en los query params
+    if (isset($_GET['id_usuario'])) {
+        $id = $_GET['id_usuario']; // Obtener el ID del parámetro en la URL
+        $usuario = $repoUsuario->findById($id);
+        
+        if ($usuario) {
+            echo json_encode($usuario);  // Devuelve el usuario como JSON
         } else {
-            http_response_code(404);
-            header('HTTP/1.1 404 Not Found');
-            echo json_encode(['error' => 'Usuario no encontrado']);
+            echo json_encode(["error" => "Usuario no encontrado."]);
         }
     } else {
-        http_response_code(400);
-        header('HTTP/1.1 400 Bad Request');
-        echo json_encode(['error' => 'ID de usuario no especificado']);
+        echo json_encode(["error" => "ID de usuario no proporcionado."]);
     }
-} elseif ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-    // Modificar un usuario existente
-    $data = json_decode(file_get_contents('php://input'), true);
-    $usuario = new Usuario(
-        $data['id_usuario'],
-        $data['nombre'],
-        $data['contrasena'],
-        json_encode($data['carrito']),
-        $data['monedero'],
-        $data['foto'],
-        $data['correo'],
-        $data['telefono'],
-        $data['ubicacion'],
-        $data['alergenos'] ?? []
-    );
-    $result = $repoUsuario->modificar($usuario);
-    if ($result) {
-        http_response_code(200);
-        header('HTTP/1.1 200 OK');
-        echo json_encode(['success' => true, 'message' => 'Usuario modificado correctamente']);
+// Procesa las solicitudes POST para crear un nuevo usuario
+} elseif ($method === 'POST') {
+    if (isset($input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'])) {
+        $usuario = new Usuario(
+            null,
+            $input['nombre'],
+            $input['contrasena'],
+            $input['carrito'],
+            $input['monedero'],
+            $input['foto'],
+            $input['telefono'],
+            $input['ubicacion'],
+            $input['correo'],
+            $input['tipo'],
+            $input['alergenos'] ?? []
+        );
+        $result = $repoUsuario->crear($usuario);
+        echo json_encode(["success" => $result]);
     } else {
-        http_response_code(500);
-        header('HTTP/1.1 500 Internal Server Error');
-        echo json_encode(['error' => 'Error al modificar el usuario']);
+        echo json_encode(["error" => "Datos insuficientes para crear el usuario."]);
     }
-} 
+
+// Procesa las solicitudes PUT para actualizar un usuario existente
+} elseif ($method === 'PUT') {
+    // Leer el JSON del cuerpo de la solicitud
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    // Asegúrate de que todos los campos necesarios están presentes
+    if (isset($input['id'], $input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'])) {
+        $alergenos = isset($input['alergenos']) ? $input['alergenos'] : [];
+        
+        $usuario = new Usuario(
+            $input['id'],
+            $input['nombre'],
+            $input['contrasena'],
+            $input['carrito'],
+            $input['monedero'],
+            $input['foto'],
+            $input['telefono'],
+            $input['ubicacion'],
+            $input['correo'],
+            $input['tipo'],
+            $alergenos
+        );
+        
+        $result = $repoUsuario->modificar($usuario);
+
+        echo json_encode(["success" => $result]);
+    } else {
+        // Muestra el contenido de la solicitud para verificar qué datos están llegando
+        var_dump($input);
+        echo json_encode(["error" => "Datos insuficientes para actualizar el usuario."]);
+    }
+// Procesa las solicitudes DELETE para eliminar un usuario
+} elseif ($method === 'DELETE') {
+    if (isset($input['id']) && !empty($input['id'])) {
+        $id = $input['id'];  // ID del usuario a eliminar
+        $result = $repoUsuario->eliminarUsuario($id);  // Usar el método eliminarUsuario
+        if ($result) {
+            echo json_encode(["success" => true, "message" => "Usuario eliminado correctamente."]);
+        } else {
+            echo json_encode(["error" => "No se pudo eliminar el usuario."]);
+        }
+    } else {
+        echo json_encode(["error" => "Falta el ID para eliminar el usuario."]);
+    }
+
+// Método no soportado
+} else {
+    echo json_encode(["error" => "Método no soportado."]);
+}
+?>

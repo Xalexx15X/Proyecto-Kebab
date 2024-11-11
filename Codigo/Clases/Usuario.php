@@ -9,9 +9,11 @@ class Usuario
     private $foto;
     private $telefono;
     private $ubicacion;
+    private $correo; 
+    private $tipo;
     private $alergenos = [];
 
-    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $telefono, $ubicacion, $alergenos = [])
+    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $telefono, $ubicacion, $correo, $tipo, $alergenos = [])
     {
         $this->id_usuario = $id_usuario;
         $this->nombre = $nombre;
@@ -21,6 +23,8 @@ class Usuario
         $this->foto = $foto;
         $this->telefono = $telefono;
         $this->ubicacion = $ubicacion;
+        $this->correo = $correo;
+        $this->tipo = $tipo;    
         $this->alergenos = $alergenos;
     }
 
@@ -49,12 +53,10 @@ class Usuario
     }
 
     public function getCarrito() {
-        // Decodifica el JSON a un array de PHP si es una cadena
         return is_string($this->carrito) ? json_decode($this->carrito, true) : $this->carrito;
     }
 
     public function setCarrito($carrito) {
-        // Si es un array, lo convierte a JSON; si es JSON, lo mantiene
         $this->carrito = is_array($carrito) ? json_encode($carrito) : $carrito;
     }
 
@@ -90,16 +92,32 @@ class Usuario
         $this->ubicacion = $ubicacion;
     }
 
-    public function addAlergeno(Alergenos $alergeno) {
-        $this->alergenos[] = $alergeno; 
+    public function getCorreo() {
+        return $this->correo;
     }
 
-    public function removeAlergeno($id_alergeno) {
-        $this->alergenos = array_filter($this->alergenos, fn($alergeno) => $alergeno->getIdAlergenos() !== $id_alergeno);
+    public function setCorreo($correo) {
+        $this->correo = $correo;
+    }
+
+    public function getTipo() {
+        return $this->tipo;
+    }
+
+    public function setTipo($tipo) {
+        $this->tipo = $tipo;
+    }
+
+    public function getAlergenos() {
+        return $this->alergenos;
+    }
+
+    public function setAlergenos($alergenos) {
+        $this->alergenos = $alergenos;
     }
 
     public function __toString() {
-        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito=" . json_encode($this->getCarrito()) . ", Monedero={$this->monedero}, Foto={$this->foto}, Correo={$this->correo}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}, Alergenos=[" . implode(", ", $this->alergenos) . "]";
+        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito=" . json_encode($this->getCarrito()) . ", Monedero={$this->monedero}, Foto={$this->foto}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}, Alergenos = {$this->alergenos}";
     }
 }
 ?>

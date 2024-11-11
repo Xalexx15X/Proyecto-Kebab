@@ -48,15 +48,21 @@ class Alergenos
         $this->descripcion = $descripcion;
     }
     
-    public function addIngrediente(Ingredientes $ingrediente) {
-        $this->ingredientes[] = $ingrediente;
+    public function getIngredientes() {
+        return $this->descripcion;
+    }
+    public function setIngredientes($ingredientes) {
+        $this->ingredientes = $ingredientes;
+    }   
+    
+    public function getUsuarios() {
+        return $this->usuarios;
+    }
+    public function setUsuarios($usuarios) {
+        $this->usuarios = $usuarios;
     }
     
-    public function removeIngrediente($id_ingrediente) {
-        $this->ingredientes = array_filter($this->ingredientes, fn($ingrediente) => $ingrediente->getIdIngrediente() !== $id_ingrediente);
-    }
-
     public function __toString() {
-        return "Alergeno: ID={$this->id}, Nombre={$this->nombre}, Descripcion={$this->descripcion}";
+        return "Alergeno: ID={$this->id}, Nombre={$this->nombre}, Descripcion={$this->descripcion}  Ingredientes=[" . implode(", ", $this->ingredientes) . "]  Usuarios=[" . implode(", ", $this->usuarios) . "]";
     }
 }
