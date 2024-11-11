@@ -12,7 +12,7 @@ class Direccion
         $this->id_direccion = $id_direccion;
         $this->direccion = $direccion;
         $this->estado = $estado;
-        $this->usuario = $usuario ?? [];
+        $this->usuario = $usuario;
     }
 
     public function getIdDireccion() {
@@ -39,12 +39,12 @@ class Direccion
         $this->estado = $estado;
     }
     
-    public function addUsuario(Usuario $usuario) {
-        $this->usuario[] = $usuario;
+    public function getUsuarioId() {
+        return isset($this->usuario['id_usuario']) ? $this->usuario['id_usuario'] : null;
     }
 
-    public function removeUsuario($id_usuario) {
-        $this->usuario = array_filter($this->usuario, fn($usuario) => $usuario->getIdUsuario() !== $id_usuario);
+    public function getUsuario() {
+        return $this->usuario;
     }
 
     public function __toString() {

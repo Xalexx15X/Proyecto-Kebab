@@ -1,5 +1,4 @@
 <?php
-
 class RepoDireccion
 {
     private $con;
@@ -9,147 +8,132 @@ class RepoDireccion
         $this->con = $con;
     }
 
-    // Método para encontrar una dirección por ID, incluyendo sus usuarios relacionados
+    // Método para obtener todas las direcciones de un usuario por ID
+    public function findByUsuarioId($usuarioId)
+    {
+        try {
+            $sql = "SELECT * FROM direccion WHERE usuario_id_usuario = :usuario_id_usuario";
+            $stm = $this->con->prepare($sql);
+            $stm->execute(['usuario_id_usuario' => $usuarioId]);
+            $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            $direcciones = [];
+            foreach ($registros as $registro) {
+                $direccion = new Direccion(
+                    $registro['id_direccion'],
+                    $registro['direccion'],
+                    $registro['estado'],
+                    $registro['usuario_id_usuario']
+                );
+                $direcciones[] = $direccion;
+            }
+            return $direcciones;
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al obtener las direcciones: " . $e->getMessage()]);
+            return [];
+        }
+    }
+
+    // Método para obtener una dirección por su ID
     public function findById($id)
     {
-        $stm = $this->con->prepare("select * from direccion where id_direccion = :id");
-        $stm->execute(['id' => $id]);
-        $registro = $stm->fetch(PDO::FETCH_ASSOC);
+        try {
+            $sql = "SELECT * FROM direccion WHERE id_direccion = :id";
+            $stm = $this->con->prepare($sql);
+            $stm->execute(['id' => $id]);
+            $registro = $stm->fetch(PDO::FETCH_ASSOC);
 
-        if ($registro) {
-            $direccion = new Direccion($registro['id_direccion'], $registro['direccion'], $registro['estado']);
-            $direccion->setUsuarios($this->findUsuariosByDireccionId($registro['id_direccion']));
-            return $direccion;
+            if ($registro) {
+                $direccion = new Direccion(
+                    $registro['id_direccion'],
+                    $registro['direccion'],
+                    $registro['estado'],
+                    $registro['usuario_id_usuario']
+                );
+                return $direccion;
+            } else {
+                return null;  // No se encontró la dirección
+            }
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al obtener la dirección: " . $e->getMessage()]);
+            return null;
         }
-        return null;
     }
 
-    // Método para encontrar los usuarios relacionados con una dirección
-    private function findUsuariosByDireccionId($id_direccion)
-    {
-        $usuarios = [];
-        $stm = $this->con->prepare("select u.* from usuario u 
-                                    innser join usuario_tiene_direccion utd on u.id_usuario = utd.usuario_id_usuario 
-                                    where utd.direccion_id_direccion = :id_direccion");
-        $stm->execute(['id_direccion' => $id_direccion]);
-        $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($registros as $registro) {
-            $usuarios[] = new Usuario($registro['id_usuario'], $registro['nombre'], $registro['contraseña'], $registro['direccion'], $registro['carrito'], $registro['monedero'], $registro['foto'], $registro['correo'], $registro['telefono']);
-        }
-        return $usuarios;
-    }
-
-    // Método para crear una dirección y asociarla a usuarios
     public function crear(Direccion $direccion)
     {
         try {
-            $sql = "insert into direccion (direccion, estado) values (:direccion, :estado)";
-            $stm = $this->con->prepare($sql);
-            $stm->bindParam(':direccion', $direccion->getDireccion());
-            $stm->bindParam(':estado', $direccion->getEstado());
-            $stm->execute();
+            // Obtener el ID del usuario usando el nuevo método
+            $usuario_id = $direccion->getUsuarioId(); // Esto devolverá el ID del usuario
 
-            // Obtener el ID de la dirección recién creada
-            $direccion_id = $this->con->lastInsertId();
-
-            // Asignar la relación con los usuarios
-            foreach ($direccion->getUsuarios() as $usuario) {
-                $this->agregarRelacionUsuarioDireccion($usuario->getIdUsuario(), $direccion_id);
+            if ($usuario_id === null) {
+                throw new Exception("Usuario ID no proporcionado.");
             }
 
-            return true;
+            // Preparar la consulta SQL
+            $sql = "INSERT INTO direccion (direccion, estado, usuario_id_usuario) 
+                    VALUES (:direccion, :estado, :usuario_id_usuario)";
+            $stm = $this->con->prepare($sql);
+
+            // Asignar los valores
+            $stm->bindValue(':direccion', $direccion->getDireccion());
+            $stm->bindValue(':estado', $direccion->getEstado());
+            $stm->bindValue(':usuario_id_usuario', $usuario_id, PDO::PARAM_INT);
+
+            // Ejecutar la consulta
+            if ($stm->execute()) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
-            return "Error al crear la dirección: " . $e->getMessage();
+            echo json_encode(["error" => "Error al crear la dirección: " . $e->getMessage()]);
+            return false;
+        } catch (Exception $e) {
+            echo json_encode(["error" => $e->getMessage()]);
+            return false;
         }
     }
 
-    // Método para agregar una relación entre un usuario y una dirección
-    private function agregarRelacionUsuarioDireccion($usuario_id, $direccion_id)
-    {
-        $sql = "insert into usuario_tiene_direccion (usuario_id_usuario, direccion_id_direccion) values (:usuario_id, :direccion_id)";
-        $stm = $this->con->prepare($sql);
-        $stm->bindParam(':usuario_id', $usuario_id);
-        $stm->bindParam(':direccion_id', $direccion_id);
-        $stm->execute();
-    }
 
-    // Método para modificar una dirección y actualizar sus usuarios relacionados
+
+    // Método para actualizar una dirección
     public function modificar(Direccion $direccion)
     {
         try {
-            $sql = "update direccion set direccion = :direccion, estado = :estado where id_direccion = :id";
+            $sql = "UPDATE direccion SET direccion = :direccion, estado = :estado 
+                    WHERE id_direccion = :id";
             $stm = $this->con->prepare($sql);
-            $stm->bindParam(':direccion', $direccion->getDireccion());
-            $stm->bindParam(':estado', $direccion->getEstado());
-            $stm->bindParam(':id', $direccion->getIdDireccion());
-            $stm->execute();
 
-            // Actualizar relaciones con los usuarios
-            $this->actualizarRelacionUsuarios($direccion);
+            $stm->bindValue(':direccion', $direccion->getDireccion());
+            $stm->bindValue(':estado', $direccion->getEstado());
+            $stm->bindValue(':id', $direccion->getIdDireccion());
 
-            return true;
+            if ($stm->execute()) {
+                return true;  // Dirección actualizada con éxito
+            }
+            return false;
         } catch (PDOException $e) {
-            return "Error al modificar la dirección: " . $e->getMessage();
+            echo json_encode(["error" => "Error al actualizar la dirección: " . $e->getMessage()]);
+            return false;
         }
     }
 
-    // Método para actualizar la relación entre dirección y usuarios
-    private function actualizarRelacionUsuarios(Direccion $direccion)
-    {
-        // Primero, eliminamos todas las relaciones actuales
-        $sql = "delete from usuario_tiene_direccion where direccion_id_direccion = :direccion_id";
-        $stm = $this->con->prepare($sql);
-        $stm->bindParam(':direccion_id', $direccion->getIdDireccion());
-        $stm->execute();
-
-        // Luego, agregamos las nuevas relaciones
-        foreach ($direccion->getUsuarios() as $usuario) {
-            $this->agregarRelacionUsuarioDireccion($usuario->getIdUsuario(), $direccion->getIdDireccion());
-        }
-    }
-
-    // Método para eliminar una dirección y sus relaciones con usuarios
+    // Método para eliminar una dirección
     public function eliminar($id)
     {
         try {
-            // Eliminar relaciones con usuarios
-            $sql = "delete from usuario_tiene_direccion where direccion_id_direccion = :id";
+            $sql = "DELETE FROM direccion WHERE id_direccion = :id";
             $stm = $this->con->prepare($sql);
-            $stm->bindParam(':id', $id);
-            $stm->execute();
-
-            // Eliminar la dirección
-            $sql = "delete from direccion where id_direccion = :id";
-            $stm = $this->con->prepare($sql);
-            $stm->bindParam(':id', $id);
-            $stm->execute();
-
-            return true;
-        } catch (PDOException $e) {
-            return "Error al eliminar la dirección: " . $e->getMessage();
-        }
-    }
-
-    // Método para mostrar todas las direcciones con sus usuarios
-    public function mostrarTodos()
-    {
-        try {
-            $sql = "select * from direccion";
-            $stm = $this->con->prepare($sql);
-            $stm->execute();
-            $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
-            $direcciones = [];
-
-            foreach ($registros as $registro) {
-                $direccion = new Direccion($registro['id_direccion'], $registro['direccion'], $registro['estado']);
-                $direccion->setUsuarios($this->findUsuariosByDireccionId($registro['id_direccion']));
-                $direcciones[] = $direccion;
+            $stm->bindParam(':id', $id, PDO::PARAM_INT);
+            if ($stm->execute()) {
+                return true;  // Dirección eliminada correctamente
             }
-
-            return $direcciones;
+            return false;
         } catch (PDOException $e) {
-            return "Error al mostrar las direcciones: " . $e->getMessage();
+            echo json_encode(["error" => "Error al eliminar la dirección: " . $e->getMessage()]);
+            return false;
         }
     }
 }
+?>

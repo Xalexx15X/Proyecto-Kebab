@@ -41,7 +41,7 @@ if ($method === 'GET') {
         $result = $repoUsuario->crear($usuario);
         if ($result) {
             http_response_code(201); 
-            echo json_encode(["success" => true, "mensage" => "Usuario creado correctamente."]);
+            echo json_encode(["success" => true, "mensaje" => "Usuario creado correctamente."]);
         } else {
             http_response_code(500);
             echo json_encode(["error" => "Error al crear el usuario."]);
@@ -87,7 +87,7 @@ if ($method === 'GET') {
         $result = $repoUsuario->eliminarUsuario($id);
         if ($result) {
             http_response_code(200);
-            echo json_encode(["success" => true, "mensage" => "Usuario eliminado correctamente."]);
+            echo json_encode(["success" => true, "mensaje" => "Usuario eliminado correctamente."]);
         } else {
             http_response_code(500);
             echo json_encode(["error" => "No se pudo eliminar el usuario."]);
