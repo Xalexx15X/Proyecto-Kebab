@@ -22,11 +22,14 @@ class RepoUsuario
                     $registro['id_usuario'],
                     $registro['nombre'],
                     $registro['contrasena'],
-                    $registro['carrito'],
-                    $registro['monedero'],
-                    $registro['foto'],
-                    $registro['telefono'],
-                    $registro['ubicacion']
+                    $registro['carrito'] ?? [], // Uso de ?? para evitar errores si la clave no existe
+                    $registro['monedero'] ?? 0,
+                    $registro['foto'] ?? '',
+                    $registro['telefono'] ?? '',
+                    $registro['ubicacion'] ?? '',
+                    $registro['correo'] ?? '',
+                    $registro['tipo'] ?? '',
+                    $this->findAlergenosByUsuarioId($registro['id_usuario']) // Asignación de alérgenos
                 );
                 
                 // Cargar alérgenos para cada usuario
@@ -80,7 +83,6 @@ class RepoUsuario
         }
     }
 
-    // Método para modificar un usuario
     public function modificar(Usuario $usuario)
     {
         try {
@@ -89,19 +91,32 @@ class RepoUsuario
                     WHERE id_usuario = :id";
             $stm = $this->con->prepare($sql);
 
-            $stm->bindParam(':nombre', $usuario->getNombre());
-            $stm->bindParam(':contrasena', $usuario->getContrasena());
-            $stm->bindParam(':carrito', json_encode($usuario->getCarrito()));
-            $stm->bindParam(':monedero', $usuario->getMonedero());
-            $stm->bindParam(':foto', $usuario->getFoto());
-            $stm->bindParam(':telefono', $usuario->getTelefono());
-            $stm->bindParam(':ubicacion', $usuario->getUbicacion());
-            $stm->bindParam(':correo', $usuario->getCorreo());
-            $stm->bindParam(':tipo', $usuario->getTipo());
-            $stm->bindParam(':id', $usuario->getIdUsuario(), PDO::PARAM_INT);
+            // Asignación de variables intermedias
+            $nombre = $usuario->getNombre();
+            $contrasena = $usuario->getContrasena();
+            $carrito = json_encode($usuario->getCarrito());
+            $monedero = $usuario->getMonedero();
+            $foto = $usuario->getFoto();
+            $telefono = $usuario->getTelefono();
+            $ubicacion = $usuario->getUbicacion();
+            $correo = $usuario->getCorreo();
+            $tipo = $usuario->getTipo();
+            $id = $usuario->getIdUsuario();
+
+            // Vinculación de variables
+            $stm->bindParam(':nombre', $nombre);
+            $stm->bindParam(':contrasena', $contrasena);
+            $stm->bindParam(':carrito', $carrito);
+            $stm->bindParam(':monedero', $monedero);
+            $stm->bindParam(':foto', $foto);
+            $stm->bindParam(':telefono', $telefono);
+            $stm->bindParam(':ubicacion', $ubicacion);
+            $stm->bindParam(':correo', $correo);
+            $stm->bindParam(':tipo', $tipo);
+            $stm->bindParam(':id', $id, PDO::PARAM_INT);
 
             if ($stm->execute()) {
-                // Actualizar alérgenos asociados
+                // Actualizamos la relación de alérgenos
                 $this->actualizarRelacionAlergenos($usuario);
                 return true;
             }
@@ -112,22 +127,27 @@ class RepoUsuario
     }
 
     // Método para actualizar la relación de alérgenos de un usuario
-    private function actualizarRelacionAlergenos(Usuario $usuario)
+    public function actualizarRelacionAlergenos(Usuario $usuario)
     {
-        if (!empty($usuario->getAlergenos())) {
-            // Eliminar alérgenos actuales
-            $sql = "DELETE FROM usuario_tiene_alergenos WHERE usuario_id_usuario = :id";
-            $stm = $this->con->prepare($sql);
-            $stm->bindParam(':id', $usuario->getIdUsuario(), PDO::PARAM_INT);
-            $stm->execute();
+        $idUsuario = $usuario->getIdUsuario();
+        
+        // Primero eliminamos todas las relaciones actuales del usuario
+        $sqlDelete = "DELETE FROM usuario_tiene_alergenos WHERE usuario_id_usuario = :id_usuario";
+        $stmDelete = $this->con->prepare($sqlDelete);
+        $stmDelete->bindParam(':id_usuario', $idUsuario, PDO::PARAM_INT);
+        $stmDelete->execute();
 
-            // Agregar los nuevos alérgenos
-            foreach ($usuario->getAlergenos() as $alergenos) {
-                // Aquí ya puedes trabajar con el objeto Alergeno, no con solo el ID
-                $this->agregarRelacionUsuarioAlergeno($usuario->getIdUsuario(), $alergenos->getIdAlergenos());
-            }            
+        // Luego agregamos las nuevas relaciones
+        $sqlInsert = "INSERT INTO usuario_tiene_alergenos (usuario_id_usuario, alergenos_id_alergenos) VALUES (:id_usuario, :alergeno_id)";
+        $stmInsert = $this->con->prepare($sqlInsert);
+
+        foreach ($usuario->getAlergenos() as $alergenoId) {
+            $stmInsert->bindParam(':id_usuario', $idUsuario, PDO::PARAM_INT);
+            $stmInsert->bindParam(':alergeno_id', $alergenoId, PDO::PARAM_INT);
+            $stmInsert->execute();
         }
     }
+
 
 
     // Método para agregar la relación entre un usuario y un alérgeno
@@ -176,52 +196,52 @@ class RepoUsuario
 
     // Método para buscar alérgenos asociados a un usuario
     private function findAlergenosByUsuarioId($id_usuario)
-{
-    $alergenos = [];
-    $sql = "SELECT a.* FROM alergenos a
-            INNER JOIN usuario_tiene_alergenos ua ON a.id_alergenos = ua.alergenos_id_alergenos
-            WHERE ua.usuario_id_usuario = :id_usuario";
-    $stm = $this->con->prepare($sql);
-    $stm->execute(['id_usuario' => $id_usuario]);
-    $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($registros as $registro) {
-        // Si la descripción no está en la base de datos, pasa una cadena vacía
-        $alergenos[] = new Alergenos(
-            $registro['id_alergenos'], 
-            $registro['nombre'], 
-            $registro['foto'], 
-            $registro['ingredientes'], 
-            $registro['usuarios']
-        );
-    }
-    return $alergenos;
-}
-// Método para eliminar un usuario
-public function eliminarUsuario($id_usuario)
-{
-    try {
-        // Primero eliminamos las relaciones del usuario con los alérgenos
-        $sql = "DELETE FROM usuario_tiene_alergenos WHERE usuario_id_usuario = :id_usuario";
+    {
+        $alergenos = [];
+        $sql = "SELECT a.* FROM alergenos a
+                INNER JOIN usuario_tiene_alergenos ua ON a.id_alergenos = ua.alergenos_id_alergenos
+                WHERE ua.usuario_id_usuario = :id_usuario";
         $stm = $this->con->prepare($sql);
-        $stm->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-        $stm->execute();
-
-        // Luego eliminamos el usuario de la tabla 'usuario'
-        $sql = "DELETE FROM usuario WHERE id_usuario = :id_usuario";
-        $stm = $this->con->prepare($sql);
-        $stm->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-        $stm->execute();
-
-        // Comprobar si se eliminó alguna fila
-        if ($stm->rowCount() > 0) {
-            return true;  // Usuario eliminado correctamente
-        } else {
-            return false; // No se encontró el usuario o no se pudo eliminar
+        $stm->execute(['id_usuario' => $id_usuario]);
+        $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
+    
+        foreach ($registros as $registro) {
+            $alergenos[] = new Alergenos(
+                $registro['id_alergenos'], 
+                $registro['nombre'], 
+                $registro['foto'] ?? '',          // Usa ?? para evitar errores si falta la clave
+                $registro['ingredientes'] ?? '',  // Usa ?? aquí también
+                $registro['usuarios'] ?? ''       // Y aquí
+            );
         }
-    } catch (PDOException $e) {
-        echo json_encode(["error" => "Error al eliminar el usuario: " . $e->getMessage()]);
-        return false;
+        return $alergenos;
     }
-}
+    
+    // Método para eliminar un usuario
+    public function eliminarUsuario($id_usuario)
+    {
+        try {
+            // Primero eliminamos las relaciones del usuario con los alérgenos
+            $sql = "DELETE FROM usuario_tiene_alergenos WHERE usuario_id_usuario = :id_usuario";
+            $stm = $this->con->prepare($sql);
+            $stm->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+            $stm->execute();
+
+            // Luego eliminamos el usuario de la tabla 'usuario'
+            $sql = "DELETE FROM usuario WHERE id_usuario = :id_usuario";
+            $stm = $this->con->prepare($sql);
+            $stm->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+            $stm->execute();
+
+            // Comprobar si se eliminó alguna fila
+            if ($stm->rowCount() > 0) {
+                return true;  // Usuario eliminado correctamente
+            } else {
+                return false; // No se encontró el usuario o no se pudo eliminar
+            }
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al eliminar el usuario: " . $e->getMessage()]);
+            return false;
+        }
+    }
 }

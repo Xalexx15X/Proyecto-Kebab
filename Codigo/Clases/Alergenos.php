@@ -12,7 +12,6 @@ class Alergenos
         $this->id_alergenos = $id_alergenos;
         $this->nombre = $nombre;
         $this->foto = $foto;
-        $this->descripcion = $descripcion;
         $this->ingredientes = $ingredientes;
         $this->usuarios = $usuarios;
         
@@ -41,12 +40,6 @@ class Alergenos
     public function setFoto($foto) {
         $this->foto = $foto;
     }
-    public function getDescripcion() {
-        return $this->descripcion;
-    }
-    public function setDescripcion($descripcion) {
-        $this->descripcion = $descripcion;
-    }
     
     public function getIngredientes() {
         return $this->descripcion;
@@ -63,6 +56,6 @@ class Alergenos
     }
     
     public function __toString() {
-        return "Alergeno: ID={$this->id}, Nombre={$this->nombre}, Descripcion={$this->descripcion}  Ingredientes=[" . implode(", ", $this->ingredientes) . "]  Usuarios=[" . implode(", ", $this->usuarios) . "]";
+        return "Alergeno: ID={$this->id}, Nombre={$this->nombre}, Ingredientes=[" . implode(", ", $this->ingredientes) . "]  Usuarios=[" . implode(", ", $this->usuarios) . "]";
     }
 }
