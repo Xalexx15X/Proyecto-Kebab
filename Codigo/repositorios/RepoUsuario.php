@@ -22,13 +22,13 @@ class RepoUsuario
                     $registro['id_usuario'],
                     $registro['nombre'],
                     $registro['contrasena'],
-                    $registro['carrito'] ?? [], // Uso de ?? para evitar errores si la clave no existe
-                    $registro['monedero'] ?? 0,
-                    $registro['foto'] ?? '',
-                    $registro['telefono'] ?? '',
-                    $registro['ubicacion'] ?? '',
-                    $registro['correo'] ?? '',
-                    $registro['tipo'] ?? '',
+                    $registro['carrito'], // Uso de ?? para evitar errores si la clave no existe
+                    $registro['monedero'],
+                    $registro['foto'],
+                    $registro['telefono'],
+                    $registro['ubicacion'],
+                    $registro['correo'],
+                    $registro['tipo'],
                     $this->findAlergenosByUsuarioId($registro['id_usuario']) // Asignación de alérgenos
                 );
                 

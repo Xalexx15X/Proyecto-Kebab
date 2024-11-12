@@ -6,6 +6,8 @@ $repoUsuario = new RepoUsuario($con);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+$input = json_decode(file_get_contents('php://input'), true);
+
 if ($method === 'GET') {
     if (isset($input['id'])) {
         $id = $input['id'];
@@ -25,7 +27,7 @@ if ($method === 'GET') {
         echo json_encode($usuarios);
     }
 } elseif ($method === 'POST') {
-    if (isset($input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'])) {
+    if (isset($input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'], $input['alergenos'])) {
         $usuario = new Usuario(
             null,
             $input['nombre'],
@@ -37,7 +39,7 @@ if ($method === 'GET') {
             $input['ubicacion'],
             $input['correo'],
             $input['tipo'],
-            $input['alergenos'] ?? []
+            $input['alergenos']
         );
         $result = $repoUsuario->crear($usuario);
         if ($result) {
@@ -52,8 +54,7 @@ if ($method === 'GET') {
         echo json_encode(["error" => "Datos insuficientes para crear el usuario."]);
     }
 } elseif ($method === 'PUT') {
-    if (isset($input['id'], $input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'])) {
-        $alergenos = isset($input['alergenos']) ? $input['alergenos'] : [];
+    if (isset($input['id'], $input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'], $input['alergenos'])) {
         
         $usuario = new Usuario(
             $input['id'],
@@ -66,12 +67,12 @@ if ($method === 'GET') {
             $input['ubicacion'],
             $input['correo'],
             $input['tipo'],
-            $alergenos
+            $input['alergenos']
         );
         
         $result = $repoUsuario->modificar($usuario);
         if ($result) {
-            http_response_code(200); 
+            http_response_code(200);    
             echo json_encode(["success" => true, "mensaje" => "Usuario actualizado correctamente."]);
         } else {
             http_response_code(500); 

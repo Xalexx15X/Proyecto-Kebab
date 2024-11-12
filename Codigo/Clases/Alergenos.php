@@ -5,16 +5,15 @@ class Alergenos
     private $nombre;
     private $foto;
     private $ingredientes = [];
-    private $usuarios = []; 
+    private $usuarios = [];
 
-    public function __construct($id_alergenos, $nombre, $foto ,$ingredientes = [], $usuarios = [])  
+    public function __construct($id_alergenos, $nombre, $foto, $ingredientes = [], $usuarios = [])
     {
         $this->id_alergenos = $id_alergenos;
         $this->nombre = $nombre;
         $this->foto = $foto;
         $this->ingredientes = $ingredientes;
         $this->usuarios = $usuarios;
-        
     }
 
     public function getIdAlergenos() {
@@ -42,20 +41,22 @@ class Alergenos
     }
     
     public function getIngredientes() {
-        return $this->descripcion;
+        return $this->ingredientes;
     }
+
     public function setIngredientes($ingredientes) {
         $this->ingredientes = $ingredientes;
-    }   
-    
+    }
+
     public function getUsuarios() {
         return $this->usuarios;
     }
+
     public function setUsuarios($usuarios) {
         $this->usuarios = $usuarios;
     }
-    
+
     public function __toString() {
-        return "Alergeno: ID={$this->id}, Nombre={$this->nombre}, Ingredientes=[" . implode(", ", $this->ingredientes) . "]  Usuarios=[" . implode(", ", $this->usuarios) . "]";
+        return "Alergeno: ID={$this->id_alergenos}, Nombre={$this->nombre}, Ingredientes=[" . implode(", ", $this->ingredientes) . "] Usuarios=[" . implode(", ", $this->usuarios) . "]";
     }
 }

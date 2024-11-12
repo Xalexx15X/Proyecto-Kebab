@@ -6,16 +6,16 @@ class Pedido
     private $precio_total;
     private $fecha_hora;
     private $linea_pedidos = [];
-    private $usuarios = [];
+    private $id_usuario;  // Solo necesitamos el id_usuario
 
-    public function __construct($id_pedido, $estado, $precio_total, $fecha_hora, $linea_pedidos = [], $usuarios = [])
+    public function __construct($id_pedido, $estado, $precio_total, $fecha_hora, $linea_pedidos = [], $id_usuario = null)
     {
         $this->id_pedido = $id_pedido;
         $this->estado = $estado;
         $this->precio_total = $precio_total;
         $this->fecha_hora = $fecha_hora;
         $this->linea_pedidos = $linea_pedidos;
-        $this->usuarios = $usuarios;
+        $this->id_usuario = $id_usuario;
     }
 
     public function getIdPedidos() {
@@ -50,16 +50,15 @@ class Pedido
         $this->fecha_hora = $fecha_hora;
     }
 
-    public function addLineaPedido(LineaPedido $linea_pedido) {
-        $this->linea_pedidos[] = $linea_pedido;
+    public function getIdUsuario() {
+        return $this->id_usuario;
     }
 
-    public function removeLineaPedido($id_linea_pedido) {
-        $this->linea_pedidos = array_filter($this->linea_pedidos, fn($linea_pedido) => $linea_pedido->getIdLineaPedidos() !== $id_linea_pedido);
+    public function setIdUsuario($id_usuario) {
+        $this->id_usuario = $id_usuario;
     }
 
     public function __toString() {
-        return "Pedido: ID={$this->id_pedido}, Estado={$this->estado}, Precio={$this->precio_total}, Fecha={$this->fecha_hora}, LineaPedidos=[" . implode(", ", $this->linea_pedidos) . "], Usuarios=[" . implode(", ", $this->usuarios) . "]";
+        return "Pedido: ID={$this->id_pedido}, Estado={$this->estado}, Precio={$this->precio_total}, Fecha={$this->fecha_hora}, LineaPedidos=[" . implode(", ", $this->linea_pedidos) . "], UsuarioID={$this->id_usuario}";
     }
 }
-?>
