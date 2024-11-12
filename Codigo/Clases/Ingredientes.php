@@ -60,12 +60,12 @@ class Ingredientes
         $this->tipo = $tipo;
     }
 
-    public function addAlergeno(Alergenos $alergeno) {  
-        $this->alergenos[] = $alergeno;
+    public function getAlergenos() {
+        return $this->alergenos;
     }
-    
-    public function removeAlergeno($id_alergeno) {
-        $this->alergenos = array_filter($this->alergenos, fn($alergeno) => $alergeno->getIdAlergenos() !== $id_alergeno);
+
+    public function setAlergenos($alergenos) {
+        $this->alergenos = $alergenos;
     }
 
     public function __toString() {

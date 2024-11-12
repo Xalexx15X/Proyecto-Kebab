@@ -5,14 +5,14 @@ class Direccion
     private $id_direccion;
     private $direccion;
     private $estado;
-    private $usuario = [];
+    private $usuario_id;
 
-    public function __construct($id_direccion, $direccion, $estado, $usuario = [])
+    public function __construct($id_direccion, $direccion, $estado, $usuario_id)
     {
         $this->id_direccion = $id_direccion;
         $this->direccion = $direccion;
         $this->estado = $estado;
-        $this->usuario = $usuario;
+        $this->usuario_id = $usuario_id;
     }
 
     public function getIdDireccion() {
@@ -40,14 +40,10 @@ class Direccion
     }
     
     public function getUsuarioId() {
-        return isset($this->usuario['id_usuario']) ? $this->usuario['id_usuario'] : null;
+        return $this->usuario_id;
     }
 
-    public function getUsuario() {
-        return $this->usuario;
+    public function setUsuarioId($usuario_id) {
+        $this->usuario_id = $usuario_id;
     }
-
-    public function __toString() {
-        return "Direccion: ID={$this->id_direccion}, Direccion={$this->direccion}, Estado={$this->estado}, Usuario={$this->usuario}";
-    }
-}   
+}
