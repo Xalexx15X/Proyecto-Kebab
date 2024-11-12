@@ -27,7 +27,7 @@
     <section>
         <div id="cuerpo">
         <?php
-           require_once './Api/ApiIngredientes.php';
+           require_once './Api/ApiDireccion.php';
         ?>
         </div>
     </section>

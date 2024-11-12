@@ -71,6 +71,31 @@ class RepoDireccion
         }
     }
 
+    public function mostrarTodos()
+    {
+        try {
+            $sql = "SELECT * FROM direccion";
+            $stm = $this->con->prepare($sql);
+            $stm->execute();
+            $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            $direcciones = [];
+            foreach ($registros as $registro) {
+                $direccion = new Direccion(
+                    $registro['id_direccion'],
+                    $registro['direccion'],
+                    $registro['estado'],
+                    $registro['usuario_id_usuario']
+                );
+                $direcciones[] = $direccion;
+            }
+            return $direcciones;
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al mostrar las direcciones: " . $e->getMessage()]);
+            return [];
+        }
+    }   
+
     // Método para eliminar una dirección
     public function eliminar($id)
     {

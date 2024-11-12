@@ -1,5 +1,4 @@
 <?php
-
 class RepoKebab
 {
     private $con;
@@ -9,141 +8,140 @@ class RepoKebab
         $this->con = $con;
     }
 
-    // Método para encontrar un kebab por ID, incluyendo sus ingredientes
+    // Método para obtener un kebab por ID
     public function findById($id)
     {
-        $stm = $this->con->prepare("select * from kebab where id_kebab = :id");
-        $stm->execute(['id' => $id]);
-        $registro = $stm->fetch(PDO::FETCH_ASSOC);
+        try {
+            $sql = "SELECT * FROM kebab WHERE id_kebab = :id";
+            $stm = $this->con->prepare($sql);
+            $stm->execute(['id' => $id]);
+            $registro = $stm->fetch(PDO::FETCH_ASSOC);
 
-        if ($registro) {
-            $kebab = new Kebab(
-                $registro['id_kebab'],
-                $registro['nombre'],
-                $registro['foto'],
-                $registro['precio_min'],
-                $registro['descripcion']
-            );
-            $kebab->setIngredientes($this->findIngredientesByKebabId($registro['id_kebab']));
-            return $kebab;
+            if ($registro) {
+                $kebab = new Kebab(
+                    $registro['id_kebab'],
+                    $registro['nombre'],
+                    $registro['foto'],
+                    $registro['precio_min'],
+                    $registro['descripcion']
+                );
+
+                // Cargar ingredientes para el kebab
+                $kebab->setIngredientes($this->findIngredientesByKebabId($registro['id_kebab']));
+                return $kebab;
+            } else {
+                echo json_encode(["error" => "Kebab no encontrado."]);
+                return null;
+            }
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al obtener el kebab: " . $e->getMessage()]);
+            return null;
         }
-        return null;
     }
 
-    // Método para encontrar los ingredientes relacionados con un kebab
-    private function findIngredientesByKebabId($id_kebab)
-    {
-        $ingredientes = [];
-        $stm = $this->con->prepare("select i.* from ingredientes i
-                                    inner join kebab_tiene_ingrediente kti on i.id_ingrediente = kti.ingrediente_id_ingrediente
-                                    where kti.kebab_id_kebab = :id_kebab");
-        $stm->execute(['id_kebab' => $id_kebab]);
-        $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($registros as $registro) {
-            $ingredientes[] = new Ingredientes(
-                $registro['id_ingrediente'],
-                $registro['nombre'],
-                $registro['foto'],
-                $registro['precio'],
-                $registro['tipo']
-            );
-        }
-        return $ingredientes;
-    }
-
-    // Método para crear un kebab y asociarlo con ingredientes
+    // Método para crear un nuevo kebab
     public function crear(Kebab $kebab)
     {
         try {
-            $sql = "insert into kebab (nombre, foto, precio_min, descripcion) values (:nombre, :foto, :precio_min, :descripcion)";
+            $sql = "INSERT INTO kebab (nombre, foto, precio_min, descripcion) 
+                    VALUES (:nombre, :foto, :precio_min, :descripcion)";
             $stm = $this->con->prepare($sql);
-            $stm->bindParam(':nombre', $kebab->getNombre());
-            $stm->bindParam(':foto', $kebab->getFoto());
-            $stm->bindParam(':precio_min', $kebab->getPrecioMin());
-            $stm->bindParam(':descripcion', $kebab->getDescripcion());
-            $stm->execute();
 
-            // Obtener el ID del kebab recién creado
-            $kebab_id = $this->con->lastInsertId();
+            $stm->bindValue(':nombre', $kebab->getNombre());
+            $stm->bindValue(':foto', $kebab->getFoto());
+            $stm->bindValue(':precio_min', $kebab->getPrecioMin());
+            $stm->bindValue(':descripcion', $kebab->getDescripcion());
 
-            // Asociar ingredientes
-            foreach ($kebab->getIngredientes() as $ingrediente) {
-                $this->agregarRelacionKebabIngrediente($kebab_id, $ingrediente->getIdIngrediente());
+            if ($stm->execute()) {
+                $kebab_id = $this->con->lastInsertId();
+                $kebab->setIdKebab($kebab_id);
+
+                // Asociar ingredientes
+                foreach ($kebab->getIngredientes() as $ingrediente_id) {
+                    $this->agregarRelacionKebabIngrediente($kebab_id, $ingrediente_id);
+                }
+
+                return true;
             }
-
-            return true;
         } catch (PDOException $e) {
-            return "Error al crear el kebab: " . $e->getMessage();
+            echo json_encode(["error" => "Error al crear el kebab: " . $e->getMessage()]);
+            return false;
         }
     }
 
-    // Método para agregar una relación entre un kebab y un ingrediente
-    private function agregarRelacionKebabIngrediente($kebab_id, $ingrediente_id)
-    {
-        $sql = "insert into kebab_tiene_ingrediente (kebab_id_kebab, ingrediente_id_ingrediente) values (:kebab_id, :ingrediente_id)";
-        $stm = $this->con->prepare($sql);
-        $stm->bindParam(':kebab_id', $kebab_id);
-        $stm->bindParam(':ingrediente_id', $ingrediente_id);
-        $stm->execute();
-    }
-
-    // Método para modificar un kebab y sus ingredientes asociados
+    // Método para actualizar un kebab
     public function modificar(Kebab $kebab)
     {
         try {
-            $sql = "update kebab set nombre = :nombre, foto = :foto, precio_min = :precio_min, descripcion = :descripcion where id_kebab = :id";
+            $sql = "UPDATE kebab SET nombre = :nombre, foto = :foto, precio_min = :precio_min, descripcion = :descripcion
+                    WHERE id_kebab = :id";
             $stm = $this->con->prepare($sql);
-            $stm->bindParam(':nombre', $kebab->getNombre());
-            $stm->bindParam(':foto', $kebab->getFoto());
-            $stm->bindParam(':precio_min', $kebab->getPrecioMin());
-            $stm->bindParam(':descripcion', $kebab->getDescripcion());
-            $stm->bindParam(':id', $kebab->getIdKebab(), PDO::PARAM_INT);
-            $stm->execute();
 
-            // Actualizar relaciones con ingredientes
-            $this->actualizarRelacionIngredientes($kebab);
+            $stm->bindValue(':nombre', $kebab->getNombre());
+            $stm->bindValue(':foto', $kebab->getFoto());
+            $stm->bindValue(':precio_min', $kebab->getPrecioMin());
+            $stm->bindValue(':descripcion', $kebab->getDescripcion());
+            $stm->bindValue(':id', $kebab->getIdKebab(), PDO::PARAM_INT);
 
-            return true;
+            if ($stm->execute()) {
+                // Actualizar relación con ingredientes
+                $this->actualizarRelacionIngredientes($kebab);
+                return true;
+            }
         } catch (PDOException $e) {
-            return "Error al modificar el kebab: " . $e->getMessage();
+            echo json_encode(["error" => "Error al modificar el kebab: " . $e->getMessage()]);
+            return false;
         }
     }
 
-    // Método para actualizar las relaciones entre un kebab y sus ingredientes
+    // Método para actualizar la relación de ingredientes de un kebab
     private function actualizarRelacionIngredientes(Kebab $kebab)
     {
-        // Eliminar relaciones actuales
-        $sql = "delete from kebab_tiene_ingrediente where kebab_id_kebab = :kebab_id";
-        $stm = $this->con->prepare($sql);
-        $stm->bindParam(':kebab_id', $kebab->getIdKebab());
-        $stm->execute();
+        $idKebab = $kebab->getIdKebab();
+        
+        // Eliminar todas las relaciones actuales
+        $sqlDelete = "DELETE FROM ingredientes_tiene_kebab WHERE kebab_id_kebab = :id_kebab";
+        $stmDelete = $this->con->prepare($sqlDelete);
+        $stmDelete->bindParam(':id_kebab', $idKebab, PDO::PARAM_INT);
+        $stmDelete->execute();
 
-        // Agregar las nuevas relaciones
-        foreach ($kebab->getIngredientes() as $ingrediente) {
-            $this->agregarRelacionKebabIngrediente($kebab->getIdKebab(), $ingrediente->getIdIngrediente());
+        // Agregar nuevas relaciones
+        foreach ($kebab->getIngredientes() as $ingredienteId) {
+            $this->agregarRelacionKebabIngrediente($idKebab, $ingredienteId);
         }
     }
 
-    // Método para borrar un kebab y sus relaciones con ingredientes
-    public function borrar($id)
+    // Método para agregar la relación entre un kebab y un ingrediente
+    private function agregarRelacionKebabIngrediente($kebab_id, $ingrediente_id)
+    {
+        $sql = "INSERT INTO ingredientes_tiene_kebab (kebab_id_kebab, ingredientes_id_ingredientes) 
+                VALUES (:kebab_id_kebab, :ingredientes_id)";
+        $stm = $this->con->prepare($sql);
+        $stm->bindParam(':kebab_id_kebab', $kebab_id, PDO::PARAM_INT);
+        $stm->bindParam(':ingredientes_id', $ingrediente_id, PDO::PARAM_INT);
+        $stm->execute();
+    }
+
+    // Método para eliminar un kebab
+    public function eliminarKebab($id_kebab)
     {
         try {
-            // Eliminar relaciones con ingredientes
-            $sql = "delete from kebab_tiene_ingrediente where kebab_id_kebab = :id";
+            // Eliminar las relaciones del kebab con los ingredientes
+            $sql = "DELETE FROM ingredientes_tiene_kebab WHERE kebab_id_kebab = :id_kebab";
             $stm = $this->con->prepare($sql);
-            $stm->bindParam(':id', $id, PDO::PARAM_INT);
+            $stm->bindParam(':id_kebab', $id_kebab, PDO::PARAM_INT);
             $stm->execute();
 
-            // Eliminar el kebab
-            $sql = "delete from kebab where id_kebab = :id";
+            // Eliminar el kebab de la tabla 'kebab'
+            $sql = "DELETE FROM kebab WHERE id_kebab = :id_kebab";
             $stm = $this->con->prepare($sql);
-            $stm->bindParam(':id', $id, PDO::PARAM_INT);
+            $stm->bindParam(':id_kebab', $id_kebab, PDO::PARAM_INT);
             $stm->execute();
 
-            return true;
+            return $stm->rowCount() > 0;
         } catch (PDOException $e) {
-            return "Error al borrar el kebab: " . $e->getMessage();
+            echo json_encode(["error" => "Error al eliminar el kebab: " . $e->getMessage()]);
+            return false;
         }
     }
 
@@ -151,12 +149,12 @@ class RepoKebab
     public function mostrarTodos()
     {
         try {
-            $sql = "select * from kebab";
+            $sql = "SELECT * FROM kebab";
             $stm = $this->con->prepare($sql);
             $stm->execute();
             $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
-            $kebabs = [];
 
+            $kebabs = [];
             foreach ($registros as $registro) {
                 $kebab = new Kebab(
                     $registro['id_kebab'],
@@ -165,13 +163,39 @@ class RepoKebab
                     $registro['precio_min'],
                     $registro['descripcion']
                 );
+
+                // Cargar ingredientes para cada kebab
                 $kebab->setIngredientes($this->findIngredientesByKebabId($registro['id_kebab']));
                 $kebabs[] = $kebab;
             }
-
             return $kebabs;
         } catch (PDOException $e) {
-            return "Error al mostrar los kebabs: " . $e->getMessage();
+            echo json_encode(["error" => "Error al mostrar los kebabs: " . $e->getMessage()]);
+            return [];
         }
     }
+
+    // Método para buscar ingredientes asociados a un kebab
+    private function findIngredientesByKebabId($id_kebab)
+    {
+        $ingredientes = [];
+        $sql = "SELECT i.* FROM ingredientes i
+                INNER JOIN ingredientes_tiene_kebab ik ON i.id_ingredientes = ik.ingredientes_id_ingredientes
+                WHERE ik.kebab_id_kebab = :id_kebab";
+        $stm = $this->con->prepare($sql);
+        $stm->execute(['id_kebab' => $id_kebab]);
+        $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($registros as $registro) {
+            $ingredientes[] = new Ingredientes(
+                $registro['id_ingredientes'], 
+                $registro['nombre'], 
+                $registro['foto'] ?? '', 
+                $registro['precio'], 
+                $registro['tipo']
+            );
+        }
+        return $ingredientes;
+    }
 }
+?>

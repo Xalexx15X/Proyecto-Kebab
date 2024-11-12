@@ -78,8 +78,7 @@ class RepoIngredientes
     public function crear(Ingredientes $ingrediente)
     {
         try {
-            $this->con->beginTransaction();
-
+            // Insertar el ingrediente sin usar transacción
             $sql = "INSERT INTO ingredientes (nombre, foto, precio, tipo) 
                     VALUES (:nombre, :foto, :precio, :tipo)";
             $stm = $this->con->prepare($sql);
@@ -92,30 +91,28 @@ class RepoIngredientes
             if ($stm->execute()) {
                 $ingredienteId = $this->con->lastInsertId();
 
-                // Insertar en la tabla N:M con alérgenos
+                // Insertar los alérgenos de forma independiente
                 foreach ($ingrediente->getAlergenos() as $idAlergeno) {
                     $sqlAlergenos = "INSERT INTO alergenos_tiene_ingredientes (alergenos_id_alergenos, ingredientes_id_ingredientes) 
-                                     VALUES (:alergeno_id, :ingrediente_id)";
+                                    VALUES (:alergeno_id, :ingrediente_id)";
                     $stmAlergenos = $this->con->prepare($sqlAlergenos);
                     $stmAlergenos->bindValue(':alergeno_id', $idAlergeno, PDO::PARAM_INT);
                     $stmAlergenos->bindValue(':ingrediente_id', $ingredienteId, PDO::PARAM_INT);
                     $stmAlergenos->execute();
                 }
 
-                $this->con->commit();
                 echo json_encode(["success" => true, "message" => "Ingrediente creado correctamente."]);
                 return true;
             } else {
-                $this->con->rollBack();
                 echo json_encode(["error" => "Error al ejecutar la inserción de ingrediente."]);
                 return false;
             }
         } catch (PDOException $e) {
-            $this->con->rollBack();
             echo json_encode(["error" => "Error al crear el ingrediente: " . $e->getMessage()]);
             return false;
         }
     }
+
 
     // Método para asignar un alérgeno a un ingrediente en la tabla de relación
     private function asignarAlergeno($ingredienteId, $alergenoId)

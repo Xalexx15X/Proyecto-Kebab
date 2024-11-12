@@ -5,7 +5,6 @@ $con = Conexion::getConection();
 $repoUsuario = new RepoUsuario($con);
 
 $method = $_SERVER['REQUEST_METHOD'];
-$input = json_decode(file_get_contents('php://input'), true);
 
 if ($method === 'GET') {
     if (isset($input['id'])) {
@@ -17,11 +16,13 @@ if ($method === 'GET') {
             echo json_encode($usuario);
         } else {
             http_response_code(404); 
-            echo json_encode(["error" => "Usuario no encontrado."]);
+            echo json_encode(["error" => "Usuario no encontrado.", "/", "No se ha pasado el id del usuario"]);
         }
     } else {
-        http_response_code(400);
-        echo json_encode(["error" => "ID de usuario no proporcionado."]);
+        // Obtener todos los usuarios
+        $usuarios = $repoUsuario->mostrarTodos();
+        http_response_code(200); // OK
+        echo json_encode($usuarios);
     }
 } elseif ($method === 'POST') {
     if (isset($input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'])) {
@@ -71,7 +72,7 @@ if ($method === 'GET') {
         $result = $repoUsuario->modificar($usuario);
         if ($result) {
             http_response_code(200); 
-            echo json_encode([["success" => true], mensage => "Usuario actualizado correctamente."]);
+            echo json_encode(["success" => true, "mensaje" => "Usuario actualizado correctamente."]);
         } else {
             http_response_code(500); 
             echo json_encode(["error" => "Error al actualizar el usuario."]);

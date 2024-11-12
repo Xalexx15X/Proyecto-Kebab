@@ -59,12 +59,12 @@ class Kebab
         $this->descripcion = $descripcion;
     }
     
-    public function addIngrediente(Ingredientes $ingrediente) {
-        $this->ingredientes[] = $ingrediente;
+    public  function setIngredientes($ingredientes) {
+        $this->ingredientes = $ingredientes;    
     }
 
-    public function removeIngrediente($id_ingrediente) {
-        $this->ingredientes = array_filter($this->ingredientes, fn($ingrediente) => $ingrediente->getIdIngrediente() !== $id_ingrediente);
+    public function getIngredientes() {
+        return $this->ingredientes; 
     }
 
     public function __toString() {

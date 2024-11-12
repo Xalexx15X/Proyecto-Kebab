@@ -16,10 +16,10 @@ if ($method === 'GET') {
             echo json_encode($ingrediente);
         } else {
             http_response_code(404);
-            echo json_encode(["error" => "Ingrediente no encontrado."]);
+            echo json_encode(["error" => "Ingrediente no encontrado.", "/", "No se ha pasado el id del ingrediente"]);
         }
     } else {
-        $ingredientes = $repoIngredientes->findAll();
+        $ingredientes = $repoIngredientes->mostrarTodo();
         http_response_code(200);
         echo json_encode($ingredientes);
     }
@@ -27,17 +27,17 @@ if ($method === 'GET') {
     // Crear un nuevo ingrediente
     if (isset($input['nombre'], $input['foto'], $input['precio'], $input['tipo'], $input['alergenos'])) {
         $ingrediente = new Ingredientes(
-            null, // ID se autoincrementa en la base de datos
+            null, 
             $input['nombre'],
             $input['foto'],
             $input['precio'],
             $input['tipo'],
-            $input['alergenos'] // Array de IDs de alérgenos
+            $input['alergenos'] 
         );
 
         $result = $repoIngredientes->crear($ingrediente);
         if ($result) {
-            http_response_code(201); // Creado
+            http_response_code(201); 
             echo json_encode(["success" => true, "mensaje" => "Ingrediente creado correctamente."]);
         } else {
             http_response_code(500);
@@ -56,7 +56,7 @@ if ($method === 'GET') {
             $input['foto'],
             $input['precio'],
             $input['tipo'],
-            $input['alergenos'] // Array de IDs de alérgenos
+            $input['alergenos'] 
         );
 
         $result = $repoIngredientes->modificar($ingrediente);

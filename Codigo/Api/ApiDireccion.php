@@ -9,66 +9,80 @@ $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
 
 if ($method === 'GET') {
-    if (isset($input['usuario_id_usuario'])) {
-        $usuarioId = $input['usuario_id_usuario'];
-        $direcciones = $repoDireccion->findByUsuarioId($usuarioId);
-        if ($direcciones) {
-            http_response_code(200);  // OK
-            echo json_encode($direcciones);
+    if (isset($_GET['id_direccion'])) {
+        $direccion = $repoDireccion->findById($_GET['id_direccion']);
+        if ($direccion) {
+            http_response_code(200);
+            echo json_encode($direccion);
         } else {
-            http_response_code(404);  // Not Found
-            echo json_encode(["error" => "No se encontraron direcciones para el usuario especificado."]);
+            http_response_code(404);
+            echo json_encode(["error" => "direccion no eencontrada.", "/", "No se ha pasado el id de la direccion"]);
         }
     } else {
-        http_response_code(400);  // Bad Request
-        echo json_encode(["error" => "ID de usuario no proporcionado."]);
+        $direcciones = $repoDireccion->mostrarTodos();
+        http_response_code(200);
+        echo json_encode($direcciones);
     }
 } elseif ($method === 'POST') {
-    if (isset($input['direccion'], $input['estado'], $input['usuario_id_usuario'])) {
-        $direccion = new Direccion(null, $input['direccion'], $input['estado'], $input['usuario_id_usuario']);
+     // Crear un nuevo kebab
+     if (isset($input['direccion'], $input['estado'], $input['id_usuario'])) {
+        $direccion = new Direccion(
+            null, 
+            $input['direccion'],
+            $input['estado'],
+            $input['id_usuario']
+        );
         $result = $repoDireccion->crear($direccion);
-        if ($result) {
-            http_response_code(201);  // Created
-            echo json_encode(["success" => true, "mensaje" => "Dirección creada correctamente."]);
+        if ($result){
+            http_response_code(201); 
+            echo json_encode(["message" => "direccion creada exitosamente"]);
         } else {
-            http_response_code(500);  // Internal Server Error
+            http_response_code(500); 
             echo json_encode(["error" => "Error al crear la dirección."]);
         }
     } else {
-        http_response_code(400);  // Bad Request
-        echo json_encode(["error" => "Datos insuficientes para crear la dirección."]);
+        http_response_code(400); 
+        echo json_encode(["error" => "Datos incompletos para crear la dirección."]);
     }
 } elseif ($method === 'PUT') {
-    if (isset($input['id_direccion'], $input['direccion'], $input['estado'])) {
-        $direccion = new Direccion($input['id_direccion'], $input['direccion'], $input['estado'], null);
+    // Actualizar una dirección existente
+    if (isset($input['direccion'], $input['estado'], $input['id_usuario'])) {
+        $direccion = new Direccion(
+            $input['id_direccion'],
+            $input['direccion'],
+            $input['estado'],
+            $input['id_usuario']
+        );
         $result = $repoDireccion->modificar($direccion);
         if ($result) {
-            http_response_code(200);  // OK
+            http_response_code(200); 
             echo json_encode(["success" => true, "mensaje" => "Dirección actualizada correctamente."]);
         } else {
-            http_response_code(500);  // Internal Server Error
+            http_response_code(500);
             echo json_encode(["error" => "Error al actualizar la dirección."]);
         }
     } else {
-        http_response_code(400);  // Bad Request
+        http_response_code(400);
         echo json_encode(["error" => "Datos insuficientes para actualizar la dirección."]);
     }
 } elseif ($method === 'DELETE') {
+    // Eliminar una direccion por ID
     if (isset($input['id_direccion'])) {
-        $result = $repoDireccion->eliminar($input['id_direccion']);
+        $id_direccion = $input['id_direccion'];
+        $result = $repoDireccion->eliminar($id_direccion);
         if ($result) {
-            http_response_code(200);  // OK
+            http_response_code(200);
             echo json_encode(["success" => true, "mensaje" => "Dirección eliminada correctamente."]);
         } else {
-            http_response_code(500);  // Internal Server Error
-            echo json_encode(["error" => "No se pudo eliminar la dirección."]);
+            http_response_code(500);
+            echo json_encode(["error" => "Error al eliminar la dirección."]);
         }
     } else {
-        http_response_code(400);  // Bad Request
-        echo json_encode(["error" => "Falta el ID para eliminar la dirección."]);
+        http_response_code(400);
+        echo json_encode(["error" => "ID de dirección no proporcionado."]);
     }
 } else {
-    http_response_code(405);  // Method Not Allowed
+    http_response_code(405); // Método no permitido
     echo json_encode(["error" => "Método no soportado."]);
 }
 ?>
