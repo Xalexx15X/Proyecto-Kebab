@@ -63,36 +63,41 @@ class RepoLinea_Pedido
 
     // Método para actualizar una línea de pedido
     public function modificar(Linea_Pedido $linea_pedido)
-{
-    try {
-        // Validación adicional antes de la consulta
-        $linea_pedidos_json = $linea_pedido->getLineaPedidos(); // Obtiene el JSON
-        if (json_decode($linea_pedidos_json) === null) {
-            echo json_encode(["error" => "El valor de 'linea_pedidos' no es un JSON válido."]);
+    {
+        try {
+            // Asegurarse de que linea_pedidos esté en formato JSON string
+            $linea_pedidos_json = $linea_pedido->getLineaPedidos();
+            if (is_array($linea_pedidos_json)) {
+                $linea_pedidos_json = json_encode($linea_pedidos_json);
+            }
+
+            if ($linea_pedidos_json === false) {
+                echo json_encode(["error" => "El valor de 'linea_pedidos' no se pudo codificar como JSON."]);
+                return false;
+            }
+
+            $sql = "UPDATE linea_pedido SET cantidad = :cantidad, precio = :precio, 
+                    linea_pedidos = :linea_pedidos, pedidos_id_pedidos = :id_pedidos
+                    WHERE id_linea_pedido = :id";
+            $stm = $this->con->prepare($sql);
+            $stm->bindValue(':id', $linea_pedido->getIdLineaPedido(), PDO::PARAM_INT);
+            $stm->bindValue(':cantidad', $linea_pedido->getCantidad());
+            $stm->bindValue(':precio', $linea_pedido->getPrecio());
+            $stm->bindValue(':linea_pedidos', $linea_pedidos_json); // Pasar el JSON como string
+            $stm->bindValue(':id_pedidos', $linea_pedido->getIdPedidos());
+
+            if ($stm->execute()) {
+                return true;
+            } else {
+                echo json_encode(["error" => "No se pudo modificar la línea de pedido."]);
+                return false;
+            }
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al modificar la línea de pedido: " . $e->getMessage()]);
             return false;
         }
-
-        $sql = "UPDATE linea_pedido SET cantidad = :cantidad, precio = :precio, 
-                linea_pedidos = :linea_pedidos, pedidos_id_pedidos = :id_pedidos
-                WHERE id_linea_pedido = :id";
-        $stm = $this->con->prepare($sql);
-        $stm->bindValue(':id', $linea_pedido->getIdLineaPedido(), PDO::PARAM_INT);
-        $stm->bindValue(':cantidad', $linea_pedido->getCantidad());
-        $stm->bindValue(':precio', $linea_pedido->getPrecio());
-        $stm->bindValue(':linea_pedidos', $linea_pedidos_json); // Asegúrate de pasar el JSON válido
-        $stm->bindValue(':id_pedidos', $linea_pedido->getIdPedidos());
-
-        if ($stm->execute()) {
-            return true;
-        } else {
-            echo json_encode(["error" => "No se pudo modificar la línea de pedido."]);
-            return false;
-        }
-    } catch (PDOException $e) {
-        echo json_encode(["error" => "Error al modificar la línea de pedido: " . $e->getMessage()]);
-        return false;
     }
-}
+
 
 
     // Método para eliminar una línea de pedido

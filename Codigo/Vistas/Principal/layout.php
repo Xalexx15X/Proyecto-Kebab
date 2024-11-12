@@ -27,7 +27,7 @@
     <section>
         <div id="cuerpo">
         <?php
-           require_once './Api/ApiLinea_Pedido.php';
+           require_once './Api/ApiPedido.php';
         ?>
         </div>
     </section>

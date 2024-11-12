@@ -48,13 +48,18 @@ if ($method === 'GET') {
 } elseif ($method === 'PUT') {
     // Actualizar un pedido existente
     if (isset($input['id_pedido'], $input['estado'], $input['precio_total'], $input['fecha_hora'], $input['usuario_id_usuario'])) {
+        
+        // Obtener el pedido existente de la base de datos usando el `id_pedido`
+        $pedido = $repoPedidos->findById($input['id_pedido']);
+        
         if ($pedido) {
-            $pedido->setIdPedidos($input['id_pedido']);
+            // Actualizar los datos del pedido
             $pedido->setEstado($input['estado']);
             $pedido->setPrecioTotal($input['precio_total']);
             $pedido->setFechaHora($input['fecha_hora']);
             $pedido->setIdUsuario($input['usuario_id_usuario']); // Actualizamos el id_usuario
 
+            // Guardar los cambios en la base de datos
             if ($repoPedidos->modificar($pedido)) {
                 http_response_code(200);
                 echo json_encode(["success" => true, "mensaje" => "Pedido actualizado correctamente."]);
@@ -70,6 +75,7 @@ if ($method === 'GET') {
         http_response_code(400);
         echo json_encode(["error" => "Datos insuficientes para actualizar el pedido."]);
     }
+
 } elseif ($method === 'DELETE') {
     // Eliminar un pedido
     if (isset($input['id_pedido'])) {

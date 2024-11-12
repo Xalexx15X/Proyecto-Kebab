@@ -9,26 +9,24 @@ class RepoPedido
     }
 
     // Método para obtener un pedido por ID
-    public function findById($id)
+    public function findById($id_pedido)
     {
         try {
-            $sql = "SELECT * FROM pedidos WHERE id_pedidos = :id";
+            $sql = "SELECT * FROM pedidos WHERE id_pedidos = :id_pedido";
             $stm = $this->con->prepare($sql);
-            $stm->execute(['id' => $id]);
+            $stm->execute(['id_pedido' => $id_pedido]);
             $registro = $stm->fetch(PDO::FETCH_ASSOC);
 
             if ($registro) {
-                $pedido = new Pedido(
+                return new Pedido(
                     $registro['id_pedidos'],
                     $registro['estado'],
                     $registro['precio_total'],
                     $registro['fecha_hora'],
-                    [], // Se puede incluir línea de pedidos si existe una relación
+                    [], // Línea de pedidos si es necesario
                     $registro['usuario_id_usuario']
                 );
-                return $pedido;
             } else {
-                echo json_encode(["error" => "Pedido no encontrado."]);
                 return null;
             }
         } catch (PDOException $e) {
@@ -88,15 +86,22 @@ class RepoPedido
     }
 
     // Método para eliminar un pedido
-    public function eliminarPedido($id_pedido)
+    public function eliminar($id_pedido)
     {
         try {
-            $sql = "DELETE FROM pedidos WHERE id_pedidos = :id_pedido";
-            $stm = $this->con->prepare($sql);
-            $stm->bindParam(':id_pedido', $id_pedido, PDO::PARAM_INT);
-            $stm->execute();
+            // Primero eliminar las líneas de pedido asociadas
+            $sql_lineas = "DELETE FROM linea_pedido WHERE pedidos_id_pedidos = :id_pedido";
+            $stm_lineas = $this->con->prepare($sql_lineas);
+            $stm_lineas->bindParam(':id_pedido', $id_pedido, PDO::PARAM_INT);
+            $stm_lineas->execute();
 
-            return $stm->rowCount() > 0;
+            // Ahora eliminar el pedido
+            $sql_pedido = "DELETE FROM pedidos WHERE id_pedidos = :id_pedido";
+            $stm_pedido = $this->con->prepare($sql_pedido);
+            $stm_pedido->bindParam(':id_pedido', $id_pedido, PDO::PARAM_INT);
+            $stm_pedido->execute();
+
+            return $stm_pedido->rowCount() > 0;
         } catch (PDOException $e) {
             echo json_encode(["error" => "Error al eliminar el pedido: " . $e->getMessage()]);
             return false;

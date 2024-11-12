@@ -40,17 +40,18 @@ if ($method === 'GET') {
     } else {
         echo json_encode(["error" => "Datos incompletos."]);
     }
-} elseif ($method === 'PUT') {
+}elseif ($method === 'PUT') {
     // Verificar que los datos necesarios estén presentes
     if (isset($input['id_linea_pedido'], $input['cantidad'], $input['precio'], $input['linea_pedidos'], $input['id_pedidos'])) {
-        // Verificar si la línea de pedido existe
+        
+        // Intentar obtener la línea de pedido de la base de datos
+        $lineaPedido = $repoLineaPedido->findById($input['id_linea_pedido']);
+        
         if ($lineaPedido) {
-            // Actualizar los datos de la línea de pedido
-            $lineaPedido->getIdLineaPedido($input['id_linea_pedido']);
             $lineaPedido->setCantidad($input['cantidad']);
             $lineaPedido->setPrecio($input['precio']);
-            $lineaPedido->setLineaPedidos($input['linea_pedidos']);  // Asegúrate de que sea el formato correcto
-            $lineaPedido->setIdPedidos($input['id_pedidos']);  // Debe ser setIdPedidos, pero asegúrate de que este valor sea necesario
+            $lineaPedido->setLineaPedidos($input['linea_pedidos']);
+            $lineaPedido->setIdPedidos($input['id_pedidos']);
             
             // Actualizar la línea de pedido en la base de datos
             if ($repoLineaPedido->modificar($lineaPedido)) {
