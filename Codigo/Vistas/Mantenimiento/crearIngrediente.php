@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <label for="fotoIngrediente">Foto:</label>
                     <div class="preview-container" onclick="document.getElementById('fotoIngrediente').click()">
-                        <span>Subir o arrastrar imagen aquí</span>
+                        <span>Subir imagen aquí</span>
                         <input type="file" id="fotoIngrediente" class="form-control-file" accept="image/*" style="display: none;">
                     </div>
                 </div>
@@ -36,8 +36,8 @@
 
                 <!-- Descripción -->
                 <div class="form-group">
-                    <label for="descripcionIngrediente">Descripción:</label>
-                    <textarea id="descripcionIngrediente" rows="4" placeholder="Introduce una descripción del ingrediente"></textarea>
+                    <label for="tipo">Tipo:</label>
+                    <textarea id="tipo" rows="4" placeholder="Introduce Si el ingrediente va a ser obligatorio o no"></textarea>
                 </div>
             </div>
 
@@ -77,6 +77,6 @@
         </div>
     </div>
 
-    <script src="./Js/CrearIngrediente.js"></script> <!-- Enlace al archivo JS -->
+    <script src="./Js/Ingredientes.js"></script>
 </body>
 </html>

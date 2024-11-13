@@ -38,6 +38,16 @@ if (isset($_GET['menu'])) {
         require_once './Vistas/Mantenimiento/modificarIngrediente.php';
     }
 
+    if ($_GET['menu'] == "mantenimientoAlergeno") {
+        require_once './Vistas/Mantenimiento/mantenimientoAlergeno.php';
+    }
+    if ($_GET['menu'] == "crearAlergeno") {
+        require_once './Vistas/Mantenimiento/crearAlergeno.php';
+    }
+    if ($_GET['menu'] == "modificarAlergeno") {
+        require_once './Vistas/Mantenimiento/modificarAlergeno.php';
+    }
+
 
     if ($_GET['menu'] == "contacto") {
         require_once './Vistas/Mantenimiento/contacto.php';
