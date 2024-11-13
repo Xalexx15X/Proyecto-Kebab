@@ -28,23 +28,23 @@ if ($method == 'GET') {
     // Crear un nuevo kebab
     if (isset($input['nombre'], $input['foto'], $input['precio_min'], $input['descripcion'], $input['ingredientes'])) {
         $kebab = new Kebab(
-            null, // ID se autoincrementa en la base de datos
+            null,
             $input['nombre'],
             $input['foto'],
             $input['precio_min'],
             $input['descripcion'],
-            $input['ingredientes'] // Lista de IDs de ingredientes
+            $input['ingredientes'] 
         );
         $result = $repoKebab->crear($kebab);
         if ($result){
-            http_response_code(201); // Created
+            http_response_code(201);
             echo json_encode(["message" => "Kebab creado exitosamente"]);
         } else {
-            http_response_code(500); // Internal Server Error
+            http_response_code(500); 
             echo json_encode(["error" => "Error al crear el kebab"]);
         }
     } else {
-        http_response_code(400); // Bad Request
+        http_response_code(400); 
         echo json_encode(["error" => "Datos incompletos para crear el kebab"]);
     }
     
@@ -57,7 +57,7 @@ if ($method == 'GET') {
             $input['foto'],
             $input['precio_min'],
             $input['descripcion'],
-            $input['ingredientes'] // Lista de IDs de ingredientes
+            $input['ingredientes']
         );
 
         $result = $repoKebab->modificar($kebab);

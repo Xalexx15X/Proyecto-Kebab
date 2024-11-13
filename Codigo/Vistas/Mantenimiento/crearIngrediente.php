@@ -49,17 +49,7 @@
                 <div class="table-container">
                     <div class="table-header">Alergenos del Ingrediente</div>
                     <div class="table-body" id="alergenos-ingrediente">
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div> 
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
+                        <!-- Alergenos se cargarán aquí dinámicamente -->
                     </div>
                 </div>
             </div>
@@ -69,62 +59,16 @@
                 <div class="table-container">
                     <div class="table-header">Alergenos a Elegir</div>
                     <div class="table-body" id="ingredientes-elegir">
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Falafel</div></div>                       
+                        <!-- Alergenos disponibles que se agregarán a la lista -->
                     </div>
-                    <!-- Botón para crear alérgeno -->
-                    <button class="create-allergen-btn" onclick="openAllergenModal()">Crear Alérgeno</button>
                 </div>
             </div>
 
             <!-- Div4: Botones de acción -->
             <div class="div4">
                 <div class="div-botones">
-                    <button class="btn btn-1">Crear</button>
-                    <button class="btn btn-2">Borrar</button>
+                    <button class="btn btn-1" id="crearIngredienteBtn">Crear</button>
+                    <button class="btn btn-2" id="borrarCamposBtn">Borrar</button>
                     <a href="index.php?menu=mantenimientoIngrediente" class="mantenimientoIngrediente">
                         <button class="btn btn-3">Salir</button>
                     </a>
@@ -133,15 +77,6 @@
         </div>
     </div>
 
-    <!-- Modal para crear alérgenos -->
-    <div id="allergenModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeAllergenModal()">&times;</span>
-            <h2>Crear Alérgeno</h2>
-            <input type="text" id="newAllergenName" placeholder="Nombre del alérgeno">
-            <button onclick="addAllergen()">Agregar Alérgeno</button>
-        </div>
-    </div>
-
+    <script src="./Js/CrearIngrediente.js"></script> <!-- Enlace al archivo JS -->
 </body>
 </html>

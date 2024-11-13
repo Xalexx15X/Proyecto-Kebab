@@ -27,7 +27,7 @@
     <section>
         <div id="cuerpo">
         <?php
-           require_once './Api/ApiPedido.php';
+           require_once './Vistas/Principal/enruta.php';
         ?>
         </div>
     </section>

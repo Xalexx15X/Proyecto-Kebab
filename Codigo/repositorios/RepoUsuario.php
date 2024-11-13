@@ -45,6 +45,41 @@ class RepoUsuario
         }
     }
 
+    public function findByNombreYContrasena($nombre, $contrasena)
+    {
+        try {
+            // Usamos una consulta SQL para obtener el usuario con ese nombre y contraseña
+            $sql = "SELECT * FROM usuario WHERE nombre = :nombre AND contrasena = :contrasena";
+            $stm = $this->con->prepare($sql);
+            $stm->execute(['nombre' => $nombre, 'contrasena' => $contrasena]);
+            $registro = $stm->fetch(PDO::FETCH_ASSOC);
+
+            if ($registro) {
+                // Si se encuentra, creamos el objeto Usuario y lo retornamos
+                $usuario = new Usuario(
+                    $registro['id_usuario'],
+                    $registro['nombre'],
+                    $registro['contrasena'],
+                    $registro['carrito'],
+                    $registro['monedero'],
+                    $registro['foto'],
+                    $registro['telefono'],
+                    $registro['ubicacion'],
+                    $registro['correo'],
+                    $registro['tipo'],
+                    $this->findAlergenosByUsuarioId($registro['id_usuario'])
+                );
+                return $usuario;
+            } else {
+                // Si no se encuentra el usuario, retornamos null
+                return null;
+            }
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al obtener el usuario: " . $e->getMessage()]);
+            return null;
+        }
+    }
+
     // Método para crear un usuario
     public function crear(Usuario $usuario)
     {
