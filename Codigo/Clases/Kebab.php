@@ -1,12 +1,12 @@
 <?php
 class Kebab
 {
-    private $id_kebab;
-    private $nombre;
-    private $foto;
-    private $precio_min;
-    private $descripcion;
-    private $ingredientes = [];
+    public $id_kebab;
+    public $nombre;
+    public $foto;
+    public $precio_min;
+    public $descripcion;
+    public $ingredientes = [];
 
     public function __construct($id_kebab, $nombre, $foto, $precio_min, $descripcion, $ingredientes = [])
     {

@@ -1,11 +1,11 @@
 <?php
 class Linea_Pedido
 {
-    private $id_linea_pedido;
-    private $cantidad;
-    private $precio;
-    private $linea_pedidos; // JSON
-    private $id_pedidos;
+    public $id_linea_pedido;
+    public $cantidad;
+    public $precio;
+    public $linea_pedidos; // JSON
+    public $id_pedidos;
 
     public function __construct($id_linea_pedido, $cantidad, $precio, $linea_pedidos, $id_pedidos)
     {

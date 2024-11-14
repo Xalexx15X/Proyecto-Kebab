@@ -1,12 +1,12 @@
 <?php
 class Pedido
 {
-    private $id_pedido;
-    private $estado;
-    private $precio_total;
-    private $fecha_hora;
-    private $linea_pedidos = [];
-    private $id_usuario;  // Solo necesitamos el id_usuario
+    public $id_pedido;
+    public $estado;
+    public $precio_total;
+    public $fecha_hora;
+    public $linea_pedidos = [];
+    public $id_usuario;  // Solo necesitamos el id_usuario
 
     public function __construct($id_pedido, $estado, $precio_total, $fecha_hora, $linea_pedidos = [], $id_usuario = null)
     {

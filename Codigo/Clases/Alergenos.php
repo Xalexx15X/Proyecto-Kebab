@@ -1,11 +1,11 @@
 <?php
 class Alergenos
 {
-    private $id_alergenos;
-    private $nombre;
-    private $foto;
-    private $ingredientes = [];
-    private $usuarios = [];
+    public $id_alergenos;
+    public $nombre;
+    public $foto;
+    public $ingredientes = [];
+    public $usuarios = [];
 
     public function __construct($id_alergenos, $nombre, $foto, $ingredientes = [], $usuarios = [])
     {
@@ -59,4 +59,6 @@ class Alergenos
     public function __toString() {
         return "Alergeno: ID={$this->id_alergenos}, Nombre={$this->nombre}, Ingredientes=[" . implode(", ", $this->ingredientes) . "] Usuarios=[" . implode(", ", $this->usuarios) . "]";
     }
+
+
 }

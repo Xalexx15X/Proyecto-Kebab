@@ -1,12 +1,12 @@
 <?php
 class Ingredientes
 {
-    private $id_ingrediente;
-    private $nombre;
-    private $foto;
-    private $precio;
-    private $tipo;
-    private $alergenos = [];
+    public $id_ingrediente;
+    public $nombre;
+    public $foto;
+    public $precio;
+    public $tipo;
+    public $alergenos = [];
 
 
     public function __construct($id_ingrediente, $nombre, $foto, $precio, $tipo, $alergenos = [])

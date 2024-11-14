@@ -1,8 +1,6 @@
 window.addEventListener('load', function() {
-    // Cargar los alérgenos al cargar la página
     cargarAlergenos();
 
-    // Programar los botones
     const btnCrearIngrediente = document.getElementById('crearIngredienteBtn');
     const btnBorrarCampos = document.getElementById('borrarCamposBtn');
     const inputFotoIngrediente = document.getElementById('fotoIngrediente');
@@ -11,39 +9,37 @@ window.addEventListener('load', function() {
     btnBorrarCampos.addEventListener('click', borrarCampos);
     inputFotoIngrediente.addEventListener('change', mostrarVistaPrevia);
 
-    // Configurar drag and drop
     configurarDragAndDrop();
 });
 
 function cargarAlergenos() {
-    var peticion = new Request('http://localhost/ProyectoKebab/codigo/index.php?route=alergenos', {
+    fetch('http://localhost/ProyectoKebab/codigo/index.php?route=alergenos', {
         method: 'GET'
-    });
-
-    fetch(peticion)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(json => {
-            const alergenosContainer = document.getElementById('ingredientes-elegir');
-            alergenosContainer.innerHTML = '';
-            json.forEach(alergeno => {
-                var alergenoElem = document.createElement('div');
-                alergenoElem.classList.add('alergeno');
-                alergenoElem.draggable = true;
-                alergenoElem.textContent = alergeno.nombre;
-                alergenoElem.dataset.id = alergeno.id;
-                alergenosContainer.appendChild(alergenoElem);
-            });
-
-            configurarDragAndDrop();
-        })
-        .catch(error => {
-            console.error('Error al cargar alérgenos:', error);
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(json => {
+        console.log('Datos de alérgenos recibidos:', json);
+        const alergenosContainer = document.getElementById('ingredientes-elegir');
+        alergenosContainer.innerHTML = '';
+        json.forEach(alergeno => {
+            var alergenoElem = document.createElement('div');
+            alergenoElem.classList.add('alergeno');
+            alergenoElem.draggable = true;
+            alergenoElem.textContent = alergeno.nombre;
+            alergenoElem.dataset.id = alergeno.id_alergenos; 
+            alergenosContainer.appendChild(alergenoElem);
         });
+
+        configurarDragAndDrop();
+    })
+    .catch(error => {
+        console.error('Error al cargar alérgenos:', error);
+    });
 }
 
 function crearIngrediente() {
@@ -53,27 +49,40 @@ function crearIngrediente() {
     }
 
     const nombre = document.getElementById('nombreIngrediente').value.trim();
-    const precio = document.getElementById('precioIngrediente').value.trim();
-    const descripcion = document.getElementById('descripcionIngrediente').value.trim();
-    const foto = document.getElementById('fotoIngrediente').files[0];
+    const precio = parseFloat(document.getElementById('precioIngrediente').value.trim());
+    const tipo = document.getElementById('tipo').value.trim();
+    const fotoInput = document.getElementById('fotoIngrediente');
     const alergenos = Array.from(document.getElementById('alergenos-ingrediente').children)
-        .map(elem => elem.dataset.id);
+        .map(elem => parseInt(elem.dataset.id));
 
-    var formulario = new FormData();
-    formulario.append('nombre', nombre);
-    formulario.append('precio', precio);
-    formulario.append('descripcion', descripcion);
-    formulario.append('foto', foto);
-    formulario.append('alergenos', JSON.stringify(alergenos));
+    const file = fotoInput.files[0];
+    const reader = new FileReader();
+    reader.onloadend = function() {
+        const base64Foto = reader.result.split(',')[1]; // Convertir la imagen a Base64 y eliminar el encabezado
 
-    var peticion = new Request('http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes', {
-        method: 'POST',
-        body: formulario
-    });
+        const ingrediente = {
+            nombre: nombre,
+            foto: base64Foto,
+            precio: precio,
+            tipo: tipo,
+            alergenos: alergenos
+        };
 
-    fetch(peticion)
-        .then(response => response.json())
+        fetch('http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ingrediente)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log('Respuesta del servidor:', data);
             alert('Ingrediente creado con éxito.');
             borrarCampos();
         })
@@ -81,12 +90,15 @@ function crearIngrediente() {
             console.error('Error al crear ingrediente:', error);
             alert('Hubo un problema al crear el ingrediente.');
         });
+    };
+
+    reader.readAsDataURL(file);
 }
 
 function borrarCampos() {
     document.getElementById('nombreIngrediente').value = '';
     document.getElementById('precioIngrediente').value = '';
-    document.getElementById('descripcionIngrediente').value = '';
+    document.getElementById('tipo').value = '';
     document.getElementById('fotoIngrediente').value = '';
     document.querySelector('.preview-container').style.backgroundImage = 'none';
     document.querySelector('.preview-container span').style.display = 'block';
@@ -100,6 +112,7 @@ function mostrarVistaPrevia(event) {
     reader.onload = function(e) {
         const previewContainer = document.querySelector('.preview-container');
         previewContainer.style.backgroundImage = `url(${e.target.result})`;
+        previewContainer.style.backgroundSize = 'cover'; 
         previewContainer.querySelector('span').style.display = 'none';
     };
     reader.readAsDataURL(file);
@@ -107,10 +120,21 @@ function mostrarVistaPrevia(event) {
 
 function validarCampos() {
     const nombre = document.getElementById('nombreIngrediente').value.trim();
-    const precio = document.getElementById('precioIngrediente').value.trim();
-    const descripcion = document.getElementById('descripcionIngrediente').value.trim();
+    const precio = parseFloat(document.getElementById('precioIngrediente').value.trim());
+    const tipo = document.getElementById('tipo').value.trim();
     const foto = document.getElementById('fotoIngrediente').files[0];
-    return nombre && precio && descripcion && foto;
+
+    if (!nombre || !precio || !tipo || !foto) {
+        alert('Todos los campos son obligatorios.');
+        return false;
+    }
+
+    if (isNaN(precio) || precio <= 0) {
+        alert('Por favor, introduce un precio válido.');
+        return false;
+    }
+
+    return true;
 }
 
 function configurarDragAndDrop() {

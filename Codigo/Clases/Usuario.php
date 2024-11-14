@@ -1,17 +1,17 @@
 <?php
 class Usuario
 {
-    private $id_usuario;
-    private $nombre;
-    private $contrasena;
-    private $carrito;  // Manejado como JSON
-    private $monedero;
-    private $foto;
-    private $telefono;
-    private $ubicacion;
-    private $correo; 
-    private $tipo;
-    private $alergenos = [];
+    public $id_usuario;
+    public $nombre;
+    public $contrasena;
+    public $carrito;  // Manejado como JSON
+    public $monedero;
+    public $foto;
+    public $telefono;
+    public $ubicacion;
+    public $correo; 
+    public $tipo;
+    public $alergenos = [];
 
     public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $telefono, $ubicacion, $correo, $tipo, $alergenos = [])
     {

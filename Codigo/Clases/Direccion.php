@@ -2,10 +2,10 @@
 
 class Direccion
 {
-    private $id_direccion;
-    private $direccion;
-    private $estado;
-    private $usuario_id;
+    public $id_direccion;
+    public $direccion;
+    public $estado;
+    public $usuario_id;
 
     public function __construct($id_direccion, $direccion, $estado, $usuario_id)
     {
