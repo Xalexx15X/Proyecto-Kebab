@@ -58,17 +58,6 @@
                     </div>
                 </li>
 
-                <!-- ingredientes con submenú desplegable -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarIngrediente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Alergenos
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarIngrediente">
-                        <a class="dropdown-item" href="?menu=mantenimientoAlergeno">Mantenimiento Alergenos</a>
-                        
-                    </div>
-                </li>
-
                 <!-- Registro -->
                 <li class="nav-item">
                     <a class="nav-link" href="?menu=registro-Pedido">Registro</a>

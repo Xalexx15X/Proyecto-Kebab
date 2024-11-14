@@ -38,57 +38,69 @@ class RepoAlergenos
     public function crear(Alergenos $alergeno)
     {
         try {
+            // Insertar el alérgeno en la tabla `alergenos`
             $sql = "INSERT INTO alergenos (nombre, foto) VALUES (:nombre, :foto)";
             $stm = $this->con->prepare($sql);
             $stm->bindValue(':nombre', $alergeno->getNombre());
             $stm->bindValue(':foto', $alergeno->getFoto());
 
             if ($stm->execute()) {
+                // Obtener el ID del alérgeno recién creado
                 $alergeno_id = $this->con->lastInsertId();
                 $alergeno->setIdAlergenos($alergeno_id);
-
-                // Relacionar ingredientes con el alérgeno
-                foreach ($alergeno->getIngredientes() as $ingrediente_id) {
-                    $this->agregarRelacionAlergenoIngrediente($alergeno_id, $ingrediente_id);
-                }
-
-                // Relacionar usuarios con el alérgeno
-                foreach ($alergeno->getUsuarios() as $usuario_id) {
-                    $this->agregarRelacionAlergenoUsuario($alergeno_id, $usuario_id);
-                }
-
-                return true;
+                return $alergeno_id;  // Retorna el ID del nuevo alérgeno
             }
+            return false;
         } catch (PDOException $e) {
             echo json_encode(["error" => "Error al crear el alérgeno: " . $e->getMessage()]);
             return false;
         }
     }
 
+
     // Relación de alérgenos con ingredientes
-    private function agregarRelacionAlergenoIngrediente($alergeno_id, $ingrediente_id)
+    public function agregarRelacionAlergenoIngrediente($alergeno_id, $ingredientes)
     {
-        $sql = "INSERT INTO alergenos_tiene_ingredientes (alergenos_id_alergenos, ingredientes_id_ingredientes) 
-                VALUES (:alergeno_id_alergenos, :ingrediente_id)";
-        $stm = $this->con->prepare($sql);
-        $stm->bindParam(':alergeno_id_alergenos', $alergeno_id, PDO::PARAM_INT);
-        $stm->bindParam(':ingrediente_id', $ingrediente_id, PDO::PARAM_INT);
-        $stm->execute();
+        try {
+            // Recorrer la lista de ingredientes y asociarlos con el alérgeno
+            foreach ($ingredientes as $ingrediente_id) {
+                $sql = "INSERT INTO alergenos_tiene_ingredientes (alergenos_id_alergenos, ingredientes_id_ingredientes) 
+                        VALUES (:alergeno_id_alergenos, :ingrediente_id)";
+                $stm = $this->con->prepare($sql);
+                $stm->bindParam(':alergeno_id_alergenos', $alergeno_id, PDO::PARAM_INT);
+                $stm->bindParam(':ingrediente_id', $ingrediente_id, PDO::PARAM_INT);
+                $stm->execute();
+            }
+            return true;
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al agregar relación con ingrediente: " . $e->getMessage()]);
+            return false;
+        }
     }
 
-    // Relación de alérgenos con usuarios
-    private function agregarRelacionAlergenoUsuario($alergeno_id, $usuario_id)
+
+    public function agregarRelacionAlergenoUsuario($alergeno_id, $usuarios)
     {
-        $sql = "INSERT INTO usuario_tiene_alergenos (usuario_id_usuario, alergenos_id_alergenos) 
-                VALUES (:usuario_id_usuario, :alergeno_id)";
-        $stm = $this->con->prepare($sql);
-        $stm->bindParam(':usuario_id_usuario', $usuario_id, PDO::PARAM_INT);
-        $stm->bindParam(':alergeno_id', $alergeno_id, PDO::PARAM_INT);
-        $stm->execute();
+        try {
+            // Recorrer la lista de usuarios y asociarlos con el alérgeno
+            foreach ($usuarios as $usuario_id) {
+                $sql = "INSERT INTO usuario_tiene_alergenos (usuario_id_usuario, alergenos_id_alergenos) 
+                        VALUES (:usuario_id_usuario, :alergeno_id)";
+                $stm = $this->con->prepare($sql);
+                $stm->bindParam(':usuario_id_usuario', $usuario_id, PDO::PARAM_INT);
+                $stm->bindParam(':alergeno_id', $alergeno_id, PDO::PARAM_INT);
+                $stm->execute();
+            }
+            return true;
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al agregar relación con usuario: " . $e->getMessage()]);
+            return false;
+        }
     }
+
 
     // Obtener todos los ingredientes de un alérgeno
-    private function findIngredientesByAlergenoId($id_alergeno)
+    public function findIngredientesByAlergenoId($id_alergeno)
     {
         $ingredientes = [];
         $sql = "SELECT i.* FROM ingredientes i
@@ -105,7 +117,7 @@ class RepoAlergenos
     }
 
     // Obtener todos los usuarios que tienen este alérgeno
-    private function findUsuariosByAlergenoId($id_alergeno)
+    public function findUsuariosByAlergenoId($id_alergeno)
     {
         $usuarios = [];
         $sql = "SELECT u.* FROM usuario u
@@ -176,7 +188,7 @@ class RepoAlergenos
     }
 
     // Eliminar relaciones previas de ingredientes y usuarios
-    private function eliminarRelaciones($id_alergeno)
+    public function eliminarRelaciones($id_alergeno)
     {
         // Eliminar las relaciones con los ingredientes
         $sql = "DELETE FROM alergenos_tiene_ingredientes WHERE alergenos_id_alergenos = :id_alergeno";

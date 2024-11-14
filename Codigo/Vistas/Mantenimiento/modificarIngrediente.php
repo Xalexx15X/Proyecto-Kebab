@@ -51,26 +51,7 @@
                         <div>Alergenos del Ingrediente</div>
                     </div>
                     <div class="table-body" id="alergenos-ingrediente">
-                        <!-- Ejemplos de ingredientes en esta lista -->
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
-                        <div class="table-row"><div>Pepino</div></div>
-                        <div class="table-row"><div>Hummus</div></div>
-                        <div class="table-row"><div>Ensalada Mix</div></div>
-                        <div class="table-row"><div>Zanahoria Rallada</div></div>
-                        <div class="table-row"><div>Arroz</div></div>
-                        <div class="table-row"><div>Aguacate</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
-                        <div class="table-row"><div>Pepino</div></div>
-                        <div class="table-row"><div>Hummus</div></div>
-                        <div class="table-row"><div>Ensalada Mix</div></div>
-                        <div class="table-row"><div>Zanahoria Rallada</div></div>
-                        <div class="table-row"><div>Arroz</div></div>
-                        <div class="table-row"><div>Aguacate</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
-                        
+                        <!-- Aquí se cargarán los alérgenos del ingrediente -->
                     </div>
                 </div>
             </div>
@@ -82,26 +63,7 @@
                         <div>Alergenos a Elegir</div>
                     </div>
                     <div class="table-body" id="alergenos-ingrediente">
-                        <!-- Ejemplos de ingredientes disponibles para elegir -->
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Carne de Res</div></div>
-                        <div class="table-row"><div>Carne de Cordero</div></div>
-                        <div class="table-row"><div>Pepino</div></div>
-                        <div class="table-row"><div>Hummus</div></div>
-                        <div class="table-row"><div>Ensalada Mix</div></div>
-                        <div class="table-row"><div>Zanahoria Rallada</div></div>
-                        <div class="table-row"><div>Arroz</div></div>
-                        <div class="table-row"><div>Aguacate</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
-                        <div class="table-row"><div>Pepino</div></div>
-                        <div class="table-row"><div>Hummus</div></div>
-                        <div class="table-row"><div>Ensalada Mix</div></div>
-                        <div class="table-row"><div>Zanahoria Rallada</div></div>
-                        <div class="table-row"><div>Arroz</div></div>
-                        <div class="table-row"><div>Aguacate</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
+                        <!-- Aquí se cargarán los alérgenos disponibles para elegir --> 
                     </div>
                 </div>
             </div>
@@ -111,13 +73,13 @@
                 <div class="div-botones">
                     <button class="btn btn-1">Modificar</button>
                     <button class="btn btn-2">Borrar</button>
-                    <a href="index.php?menu=mantenimientoKebab" class="mantenimientoKebab">
+                    <a href="index.php?menu=mantenimientoIngrediente" class="mantenimientoIngrediente">
                     <button class="btn btn-3">Salir</button>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-
+    <script src="./Js/modificarIngrediente.js"></script>
 </body>
 </html>

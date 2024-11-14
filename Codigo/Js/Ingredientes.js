@@ -18,12 +18,11 @@ function cargarAlergenos() {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('Error al Recoger los datos');
         }
         return response.json();
     })
     .then(json => {
-        console.log('Datos de alérgenos recibidos:', json);
         const alergenosContainer = document.getElementById('ingredientes-elegir');
         alergenosContainer.innerHTML = '';
         json.forEach(alergeno => {
@@ -43,31 +42,27 @@ function cargarAlergenos() {
 }
 
 function crearIngrediente() {
-    if (!validarCampos()) {
-        alert('Todos los campos son obligatorios.');
-        return;
-    }
-
+    // Obtener valores de los campos
     const nombre = document.getElementById('nombreIngrediente').value.trim();
     const precio = parseFloat(document.getElementById('precioIngrediente').value.trim());
     const tipo = document.getElementById('tipo').value.trim();
-    const fotoInput = document.getElementById('fotoIngrediente');
-    const alergenos = Array.from(document.getElementById('alergenos-ingrediente').children)
-        .map(elem => parseInt(elem.dataset.id));
+    const fotoFile = document.getElementById('fotoIngrediente').files[0];
+    const alergenos = Array.from(document.getElementById('alergenos-ingrediente').children).map(elem => parseInt(elem.dataset.id));
 
-    const file = fotoInput.files[0];
     const reader = new FileReader();
     reader.onloadend = function() {
-        const base64Foto = reader.result.split(',')[1]; // Convertir la imagen a Base64 y eliminar el encabezado
+        const fotoBase64 = reader.result.split(',')[1];
 
+        // Crear el objeto de ingrediente
         const ingrediente = {
             nombre: nombre,
-            foto: base64Foto,
+            foto: fotoBase64,
             precio: precio,
             tipo: tipo,
             alergenos: alergenos
         };
 
+        // Enviar la solicitud de creación de ingrediente
         fetch('http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes', {
             method: 'POST',
             headers: {
@@ -76,23 +71,33 @@ function crearIngrediente() {
             body: JSON.stringify(ingrediente)
         })
         .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
+            console.log("Código de estado de la respuesta:", response.status);
+            
+            // Intentar parsear la respuesta como JSON
+            return response.json().catch(() => {
+                // Si el parseo falla, mostrar la respuesta como texto
+                return response.text().then(text => {
+                    throw new Error(`Respuesta no válida del servidor: ${text}`);
+                });
+            });
         })
         .then(data => {
+            // Verificar que el servidor realmente envió un JSON válido
             console.log('Respuesta del servidor:', data);
-            alert('Ingrediente creado con éxito.');
-            borrarCampos();
+            if (data.success) {
+                alert('Ingrediente creado con éxito.');
+                borrarCampos();
+            } else {
+                throw new Error(data.message || "Error desconocido en la creación del ingrediente.");
+            }
         })
         .catch(error => {
-            console.error('Error al crear ingrediente:', error);
-            alert('Hubo un problema al crear el ingrediente.');
-        });
+            console.error('Error al crear ingrediente:', error.message);
+            alert('Hubo un problema al crear el ingrediente. Detalles: ' + error.message);
+        });        
     };
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(fotoFile);
 }
 
 function borrarCampos() {

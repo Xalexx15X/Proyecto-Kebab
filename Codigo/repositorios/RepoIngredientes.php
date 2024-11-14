@@ -59,7 +59,7 @@ class RepoIngredientes
     }
 
     // Método para obtener los alérgenos asociados a un ingrediente por su ID
-    private function findAlergenosByIngredienteId($ingredienteId)
+    public function findAlergenosByIngredienteId($ingredienteId)
     {
         try {
             $sql = "SELECT a.* FROM alergenos a
@@ -115,7 +115,7 @@ class RepoIngredientes
 
 
     // Método para asignar un alérgeno a un ingrediente en la tabla de relación
-    private function asignarAlergeno($ingredienteId, $alergenoId)
+    public function asignarAlergeno($ingredienteId, $alergenoId)
     {
         try {
             $sql = "INSERT INTO alergenos_tiene_ingredientes (alergenos_id_alergenos, ingredientes_id_ingredientes) 
@@ -171,9 +171,8 @@ class RepoIngredientes
         }
     }
 
-
     // Método para eliminar los alérgenos asociados a un ingrediente
-    private function eliminarAlergenos($ingredienteId)
+    public function eliminarAlergenos($ingredienteId)
     {
         try {
             $sql = "DELETE FROM alergenos_tiene_ingredientes WHERE ingredientes_id_ingredientes = :ingrediente_id";

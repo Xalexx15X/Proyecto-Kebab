@@ -116,6 +116,16 @@ textarea {
     text-align: center;
 }
 
+.preview-container:hover {
+    border-color: #00f2ff;
+}
+
+.preview-container span {
+    font-size: 14px;
+    color: #00f2ff;
+}
+
+
 /* Estilo para los botones */
 .div-botones {
     display: flex;

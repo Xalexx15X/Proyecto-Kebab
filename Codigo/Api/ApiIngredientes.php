@@ -5,13 +5,16 @@ $con = Conexion::getConection();
 $repoIngredientes = new RepoIngredientes($con);
 
 $method = $_SERVER['REQUEST_METHOD'];
-$input = json_decode(file_get_contents("php://input"), true);
 
-// Verificar si el JSON recibido es válido
-if (json_last_error() !== JSON_ERROR_NONE) {
-    http_response_code(400); // Bad Request
-    echo json_encode(["error" => "JSON malformado."]);
-    exit;
+if ($method != 'GET') {
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    // Verificar si el JSON recibido es válido
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        http_response_code(400); // Bad Request
+        echo json_encode(["error" => "JSON malformado."]);
+        exit;
+    }
 }
 
 switch ($method) {
@@ -19,9 +22,16 @@ switch ($method) {
         if (isset($_GET['id_ingrediente'])) {
             // Obtener un ingrediente por ID
             $ingrediente = $repoIngredientes->findById($_GET['id_ingrediente']);
+            
             if ($ingrediente) {
+                // Obtener los alérgenos asociados a este ingrediente
+                $alergenos = $repoIngredientes->findAlergenosByIngredienteId($_GET['id_ingrediente']);
+                
+                // Añadir los alérgenos a la respuesta del ingrediente
+                $ingrediente['alergenos'] = $alergenos;
+                
                 http_response_code(200);
-                echo json_encode($ingrediente);
+                echo json_encode($ingrediente);  // Enviamos el ingrediente con sus alérgenos
             } else {
                 http_response_code(404);
                 echo json_encode(["error" => "Ingrediente no encontrado."]);
@@ -29,11 +39,17 @@ switch ($method) {
         } else {
             // Obtener todos los ingredientes
             $ingredientes = $repoIngredientes->mostrarTodo();
+            
+            // Para cada ingrediente, obtenemos los alérgenos
+            foreach ($ingredientes as &$ingrediente) {
+                $alergenos = $repoIngredientes->findAlergenosByIngredienteId($ingrediente['id_ingredientes']);
+                $ingrediente['alergenos'] = $alergenos;
+            }
+            
             http_response_code(200);
-            echo json_encode($ingredientes);
+            echo json_encode($ingredientes);  // Enviamos todos los ingredientes con sus alérgenos
         }
-        break;
-
+        break;    
     case 'POST':
         // Crear un nuevo ingrediente
         if (isset($input['nombre'], $input['foto'], $input['precio'], $input['tipo'], $input['alergenos'])) {
@@ -48,14 +64,14 @@ switch ($method) {
 
             $result = $repoIngredientes->crear($ingrediente);
             if ($result) {
-                http_response_code(201); // Created
+                http_response_code(201);
                 echo json_encode(["success" => true, "mensaje" => "Ingrediente creado correctamente."]);
             } else {
                 http_response_code(500); // Internal Server Error
                 echo json_encode(["error" => "Error al crear el ingrediente."]);
             }
         } else {
-            http_response_code(400); // Bad Request
+            http_response_code(400); 
             echo json_encode(["error" => "Datos insuficientes para crear el ingrediente."]);
         }
         break;
@@ -74,14 +90,14 @@ switch ($method) {
 
             $result = $repoIngredientes->modificar($ingrediente);
             if ($result) {
-                http_response_code(200); // OK
+                http_response_code(200); 
                 echo json_encode(["success" => true, "mensaje" => "Ingrediente actualizado correctamente."]);
             } else {
-                http_response_code(500); // Internal Server Error
+                http_response_code(500); 
                 echo json_encode(["error" => "Error al actualizar el ingrediente."]);
             }
         } else {
-            http_response_code(400); // Bad Request
+            http_response_code(400);
             echo json_encode(["error" => "Datos insuficientes para actualizar el ingrediente."]);
         }
         break;
@@ -92,20 +108,20 @@ switch ($method) {
             $id_ingrediente = $input['id_ingrediente'];
             $result = $repoIngredientes->eliminar($id_ingrediente);
             if ($result) {
-                http_response_code(200); // OK
+                http_response_code(200); 
                 echo json_encode(["success" => true, "mensaje" => "Ingrediente eliminado correctamente."]);
             } else {
-                http_response_code(500); // Internal Server Error
+                http_response_code(500); 
                 echo json_encode(["error" => "Error al eliminar el ingrediente."]);
             }
         } else {
-            http_response_code(400); // Bad Request
+            http_response_code(400);
             echo json_encode(["error" => "ID de ingrediente no proporcionado."]);
         }
         break;
 
     default:
-        http_response_code(405); // Method Not Allowed
+        http_response_code(405);
         echo json_encode(["error" => "Método no soportado."]);
         break;
 }

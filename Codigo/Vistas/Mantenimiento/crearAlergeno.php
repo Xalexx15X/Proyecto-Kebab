@@ -41,5 +41,7 @@
             </div>
         </div>
     </div>
+
+    <script src="./Js/Alergeno.js"></script>
 </body>
 </html>
