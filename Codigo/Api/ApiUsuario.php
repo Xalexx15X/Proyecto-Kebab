@@ -7,11 +7,15 @@ $repoUsuario = new RepoUsuario($con);
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Verificar si el JSON recibido es válido
-$input = json_decode(file_get_contents('php://input'), true);
-if (json_last_error() !== JSON_ERROR_NONE) {
-    http_response_code(400); // Bad Request
-    echo json_encode(["error" => "JSON malformado."]);
-    exit;
+if ($method != 'GET') {
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    // Verificar si el JSON recibido es válido
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        http_response_code(400); // Bad Request
+        echo json_encode(["error" => "JSON malformado."]);
+        exit;
+    }
 }
 
 switch ($method) {
@@ -36,8 +40,7 @@ switch ($method) {
         break;
 
     case 'POST':
-        if (isset($input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'], $input['alergenos']) &&
-            !empty($input['nombre']) && !empty($input['contrasena']) && !empty($input['carrito']) && !empty($input['monedero']) && !empty($input['foto']) && !empty($input['telefono']) && !empty($input['ubicacion']) && !empty($input['correo']) && !empty($input['tipo']) && !empty($input['alergenos'])) {
+        if (isset($input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'])){
 
             // Crear un nuevo usuario
             $usuario = new Usuario(
@@ -50,8 +53,7 @@ switch ($method) {
                 $input['telefono'],
                 $input['ubicacion'],
                 $input['correo'],
-                $input['tipo'],
-                $input['alergenos']
+                $input['tipo'] ?? "Cliente"
             );
 
             $result = $repoUsuario->crear($usuario);
@@ -83,8 +85,7 @@ switch ($method) {
                 $input['telefono'],
                 $input['ubicacion'],
                 $input['correo'],
-                $input['tipo'],
-                $input['alergenos']
+                $input['tipo'] ?? "Cliente"
             );
 
             $result = $repoUsuario->modificar($usuario);

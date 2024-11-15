@@ -40,7 +40,7 @@ switch ($method) {
             $direccion = new Direccion(
                 null, 
                 $input['direccion'],
-                $input['estado'],
+                $input['estado'] ?? "Activa" ,
                 $input['id_usuario']
             );
 

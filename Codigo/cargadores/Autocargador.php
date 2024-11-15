@@ -6,10 +6,10 @@ class Autocargador
         spl_autoload_register([self::class, 'autocarga']);
     }
 
-    public static function autocarga($className)
+    public static function autocarga($nombreClase)
     {
         // Definir las rutas donde están las clases y repositorios
-        $paths = [
+        $Carpetas = [
             './repositorios/',
             './Clases/',
             './Vistas/',
@@ -17,16 +17,16 @@ class Autocargador
             './helper/',
         ];
 
-        foreach ($paths as $path) {
-            $file = $path . $className . '.php';
-            if (file_exists($file)) {
-                require_once $file;
+        foreach ($Carpetas as $Carpetas) {
+            $archivo = $Carpetas . $nombreClase . '.php';
+            if (file_exists($archivo)) {
+                require_once $archivo;
                 return;
             }
         }
 
         // Si la clase no se encontró, puedes lanzar un error (opcional)
-        throw new Exception("No se pudo cargar la clase: $className");
+        throw new Exception("No se pudo cargar la clase: $nombreClase");
     }
 }
 

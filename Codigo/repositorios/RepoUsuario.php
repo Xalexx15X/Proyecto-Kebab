@@ -29,12 +29,7 @@ class RepoUsuario
                     $registro['ubicacion'],
                     $registro['correo'],
                     $registro['tipo'],
-                    $this->findAlergenosByUsuarioId($registro['id_usuario']) // Asignación de alérgenos
                 );
-                
-                // Cargar alérgenos para cada usuario
-                $usuario->setAlergenos($this->findAlergenosByUsuarioId($registro['id_usuario']));
-                return $usuario;
             } else {
                 echo json_encode(["error" => "Usuario no encontrado."]);
                 return null;
@@ -67,7 +62,6 @@ class RepoUsuario
                     $registro['ubicacion'],
                     $registro['correo'],
                     $registro['tipo'],
-                    $this->findAlergenosByUsuarioId($registro['id_usuario'])
                 );
                 return $usuario;
             } else {
@@ -80,11 +74,9 @@ class RepoUsuario
         }
     }
 
-    // Método para crear un usuario
     public function crear(Usuario $usuario)
     {
         try {
-            // Convertimos el carrito a JSON en caso de que sea un array
             $carrito = json_encode($usuario->getCarrito());
 
             $sql = "INSERT INTO usuario (nombre, contrasena, carrito, monedero, foto, telefono, ubicacion, correo, tipo) 
@@ -101,22 +93,14 @@ class RepoUsuario
             $stm->bindValue(':correo', $usuario->getCorreo());
             $stm->bindValue(':tipo', $usuario->getTipo());
 
-            if ($stm->execute()) {
-                $usuario_id = $this->con->lastInsertId();
-                $usuario->setIdUsuario($usuario_id);
-
-                // Asociar alérgenos
-                foreach ($usuario->getAlergenos() as $alergeno_id) {
-                    $this->agregarRelacionUsuarioAlergeno($usuario_id, $alergeno_id);
-                }
-
-                return true;
-            }
+            $resultado = $stm->execute();
+            return $resultado;
         } catch (PDOException $e) {
             echo json_encode(["error" => "Error al crear el usuario: " . $e->getMessage()]);
             return false;
         }
     }
+
 
     public function modificar(Usuario $usuario)
     {
@@ -150,11 +134,6 @@ class RepoUsuario
             $stm->bindParam(':tipo', $tipo);
             $stm->bindParam(':id', $id, PDO::PARAM_INT);
 
-            if ($stm->execute()) {
-                // Actualizamos la relación de alérgenos
-                $this->actualizarRelacionAlergenos($usuario);
-                return true;
-            }
         } catch (PDOException $e) {
             echo json_encode(["error" => "Error al modificar el usuario: " . $e->getMessage()]);
             return false;
@@ -217,10 +196,6 @@ class RepoUsuario
                     $registro['telefono'],
                     $registro['ubicacion']
                 );
-
-                // Cargar alérgenos para cada usuario
-                $usuario->setAlergenos($this->findAlergenosByUsuarioId($registro['id_usuario']));
-                $usuarios[] = $usuario;
             }
             return $usuarios;
         } catch (PDOException $e) {
@@ -256,14 +231,7 @@ class RepoUsuario
     public function eliminarUsuario($id_usuario)
     {
         try {
-            // Primero eliminamos las relaciones del usuario con los alérgenos
-            $sql = "DELETE FROM usuario_tiene_alergenos WHERE usuario_id_usuario = :id_usuario";
-            $stm = $this->con->prepare($sql);
-            $stm->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-            $stm->execute();
-
-            // Luego eliminamos el usuario de la tabla 'usuario'
-            $sql = "DELETE FROM usuario WHERE id_usuario = :id_usuario";
+                    $sql = "DELETE FROM usuario WHERE id_usuario = :id_usuario";
             $stm = $this->con->prepare($sql);
             $stm->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
             $stm->execute();

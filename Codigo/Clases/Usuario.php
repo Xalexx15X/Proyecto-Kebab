@@ -11,9 +11,8 @@ class Usuario
     public $ubicacion;
     public $correo; 
     public $tipo;
-    public $alergenos = [];
 
-    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $telefono, $ubicacion, $correo, $tipo, $alergenos = [])
+    public function __construct($id_usuario, $nombre, $contrasena, $carrito, $monedero, $foto, $telefono, $ubicacion, $correo, $tipo)
     {
         $this->id_usuario = $id_usuario;
         $this->nombre = $nombre;
@@ -24,8 +23,7 @@ class Usuario
         $this->telefono = $telefono;
         $this->ubicacion = $ubicacion;
         $this->correo = $correo;
-        $this->tipo = $tipo;    
-        $this->alergenos = $alergenos;
+        $this->tipo = $tipo;   
     }
 
     public function getIdUsuario() {
@@ -108,16 +106,8 @@ class Usuario
         $this->tipo = $tipo;
     }
 
-    public function getAlergenos() {
-        return $this->alergenos;
-    }
-
-    public function setAlergenos($alergenos) {
-        $this->alergenos = $alergenos;
-    }
-
     public function __toString() {
-        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito=" . json_encode($this->getCarrito()) . ", Monedero={$this->monedero}, Foto={$this->foto}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}, Alergenos = {$this->alergenos}";
+        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito=" . json_encode($this->getCarrito()) . ", Monedero={$this->monedero}, Foto={$this->foto}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}";
     }
 }
 ?>

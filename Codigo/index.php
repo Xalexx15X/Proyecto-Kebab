@@ -6,7 +6,6 @@ class Principal
     public static function main()
     {
         Autocargador::autocargar();
-        require_once './helper/sesion.php';
 
         // Manejar rutas de la API
         $route = $_GET['route'] ?? null;
@@ -16,6 +15,15 @@ class Principal
                 break;
             case 'ingredientes':
                 require './Api/ApiIngredientes.php';
+                break;
+            case 'ingredientes':
+                require './Api/Kebab.php';
+                break;
+            case 'usuarios':
+                require './Api/ApiUsuario.php';
+                break;
+            case 'direccion':
+                require './Api/ApiDireccion.php';
                 break;
             default:
                 self::mostrarPagina();
