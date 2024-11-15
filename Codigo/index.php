@@ -30,7 +30,6 @@ class Principal
                 break;
         }
     }
-
     private static function mostrarPagina()
     {
         $_GET['menu'] = $_GET['menu'] ?? "inicio"; 

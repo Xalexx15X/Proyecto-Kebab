@@ -37,28 +37,6 @@
                 </form>
             </div>
 
-            <!-- Sección de Dirección -->
-            <div class="div2">
-                <h2>Dirección</h2>
-                <form>
-                    <label for="nombre-calle">Nombre de la calle:</label>
-                    <input type="text" id="nombre-calle" name="nombre-calle" placeholder="Introduce el nombre de tu calle">
-
-                    <label for="numero-calle">Número de la calle:</label>
-                    <input type="number" id="numero-calle" name="numero-calle" placeholder="Introduce el número">
-
-                    <label for="tipo-casa">Tipo de casa:</label>
-                    <input type="text" id="tipo-casa" name="tipo-casa" placeholder="Apartamento, casa, etc.">
-
-                    <label for="numero-piso">Número de piso:</label>
-                    <input type="number" id="numero-piso" name="numero-piso" placeholder="Introduce el número de piso">
-
-                    <label for="letra-apartamento">Letra del apartamento:</label>
-                    <input type="text" id="letra-apartamento" name="letra-apartamento" placeholder="Ejemplo: A, B, C">
-                </form>
-            </div>
-        </div>
-
         <!-- Botón Registrarse -->
         <div class="registrarse">
             <button type="submit">Registrarse</button>

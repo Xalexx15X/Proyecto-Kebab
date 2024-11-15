@@ -1,6 +1,12 @@
 <?php
-Sesion::iniciar();
-setcookie('recuerdame',Sesion::leer('login'),time()-10);
-Sesion::eliminar('login');
-header("location:?menu=inicio");
+// Cerrar sesión en el servidor
+require_once './cargadores/Sesion.php';
+
+// Cerrar la sesión
+Sesion::cerrar();
+
+// Enviar un encabezado para indicar que la sesión se cerró correctamente
+header('Content-Type: application/json');
+echo json_encode(['success' => true]);
+exit();
 ?>

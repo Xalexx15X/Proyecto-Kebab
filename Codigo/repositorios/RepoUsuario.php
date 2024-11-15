@@ -28,8 +28,9 @@ class RepoUsuario
                     $registro['telefono'],
                     $registro['ubicacion'],
                     $registro['correo'],
-                    $registro['tipo'],
+                    $registro['tipo']
                 );
+                return $usuario;
             } else {
                 echo json_encode(["error" => "Usuario no encontrado."]);
                 return null;
@@ -61,7 +62,7 @@ class RepoUsuario
                     $registro['telefono'],
                     $registro['ubicacion'],
                     $registro['correo'],
-                    $registro['tipo'],
+                    $registro['tipo']
                 );
                 return $usuario;
             } else {
@@ -194,13 +195,14 @@ class RepoUsuario
                     $registro['monedero'],
                     $registro['foto'],
                     $registro['telefono'],
-                    $registro['ubicacion']
+                    $registro['ubicacion'],
+                    $registro['correo'],
+                    $registro['tipo']
                 );
             }
             return $usuarios;
         } catch (PDOException $e) {
             echo json_encode(["error" => "Error al mostrar los usuarios: " . $e->getMessage()]);
-            return [];
         }
     }
 

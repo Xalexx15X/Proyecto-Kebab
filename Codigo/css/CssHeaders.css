@@ -1,0 +1,227 @@
+/*HEADER ADMINISTRADOR*/
+header {
+    background-color: #959595 !important; /* Color gris para todo el header */
+    padding: 0.5rem 0; /* Reducir el espacio superior e inferior */
+    font-size: 24px;
+    font-weight: bold;
+    
+}
+
+.header-admin {  
+/* Estilos generales para la barra de navegación */
+.navbar {
+    padding: 0.3rem 1rem; /* Espaciado más pequeño */
+    background-color: #959595 !important; /* Color gris oscuro */
+}
+
+/* Estilo para el logotipo */
+.navbar-brand img {
+    max-height: 60px; /* Reducir el tamaño del logo */
+}
+
+/* Estilo para los elementos de navegación */
+.navbar-nav .nav-link {
+    color: #00f2ff !important; /* Texto blanco */
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #00f2ff !important; /* Mantener el color blanco al pasar el ratón */
+}
+
+/* Estilo para el menú desplegable */
+.dropdown-menu {
+    background-color: #959595; /* Fondo gris oscuro */
+    border: 1px solid #959595; /* Borde gris claro */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.dropdown-item {
+    color: #00f2ff !important; /* Texto blanco en el menú desplegable */
+    padding: 10px 15px;
+}
+
+.dropdown-item:hover {
+    background-color: #3d3b3b !important; /* Fondo gris más oscuro al pasar el ratón */
+    color: #00f2ff !important; /* Mantener texto blanco al pasar el ratón */
+}
+
+/* Estilo para el nombre del restaurante */
+.nombre p {
+    color: #00f2ff; /* Texto blanco */
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Estilo para los iconos */
+.navbar-nav .nav-item img {
+    width: 35px; /* Reducir tamaño del icono */
+    height: 35px;
+}
+
+/* Margen para el ícono del monedero */
+.nav-item.d-flex.align-items-center {
+    margin-right: 15px;
+}
+
+/* Espaciado adicional para los botones */
+.ml-3 {
+    margin-left: 1rem;
+}
+
+.ml-1 {
+    color: #00f2ff;
+}
+}
+
+
+
+/*HEADER INVITADO (NO REGISTRADO)*/
+.header-invitado {
+/* Estilos generales para la barra de navegación */
+.navbar {
+    padding: 0.8rem 1rem; /* Espaciado más pequeño */
+    background-color: #959595 !important; /* Color gris oscuro */
+}
+
+/* Estilo para el logotipo */
+.navbar-brand img {
+    max-height: 60px; /* Reducir el tamaño del logo */
+}
+
+/* Estilo para los elementos de navegación */
+.navbar-nav .nav-link {
+    color: #00f2ff !important; /* Texto blanco */
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #00f2ff !important; /* Mantener el color blanco al pasar el ratón */
+}
+
+/* Estilo para el menú desplegable */
+.dropdown-menu {
+    background-color: #959595; /* Fondo gris oscuro */
+    border: 1px solid #959595; /* Borde gris claro */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.dropdown-item {
+    color: #00f2ff !important; /* Texto blanco en el menú desplegable */
+    padding: 10px 15px;
+}
+
+.dropdown-item:hover {
+    background-color: #3d3b3b !important; /* Fondo gris más oscuro al pasar el ratón */
+    color: #00f2ff !important; /* Mantener texto blanco al pasar el ratón */
+}
+
+/* Estilo para el nombre del restaurante */
+.nombre p {
+    color: #00f2ff; /* Texto blanco */
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 500px;
+    margin-top: 20px;
+}
+
+/* Estilo para los iconos */
+.navbar-nav .nav-item img {
+    width: 35px; /* Reducir tamaño del icono */
+    height: 35px;
+}
+
+/* Margen para el ícono del monedero */
+.nav-item.d-flex.align-items-center {
+    margin-right: 15px;
+}
+
+/* Espaciado adicional para los botones */
+.ml-3 {
+    margin-left: 1rem;
+}
+
+.ml-1 {
+    color: #00f2ff;
+}
+}
+
+
+
+/*HEADER CLIENTE*/
+.header-cliente {
+/* Estilos generales para la barra de navegación */
+.navbar {
+    padding: 0.3rem 1rem; /* Espaciado más pequeño */
+    background-color: #959595 !important; /* Color gris oscuro */
+}
+
+/* Estilo para el logotipo */
+.navbar-brand img {
+    max-height: 60px; /* Reducir el tamaño del logo */
+}
+
+/* Estilo para los elementos de navegación */
+.navbar-nav .nav-link {
+    color: #00f2ff !important; /* Texto blanco */
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #00f2ff !important; /* Mantener el color blanco al pasar el ratón */
+}
+
+/* Estilo para el menú desplegable */
+.dropdown-menu {
+    background-color: #959595; /* Fondo gris oscuro */
+    border: 1px solid #959595; /* Borde gris claro */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.dropdown-item {
+    color: #00f2ff !important; /* Texto blanco en el menú desplegable */
+    padding: 10px 15px;
+}
+
+.dropdown-item:hover {
+    background-color: #3d3b3b !important; /* Fondo gris más oscuro al pasar el ratón */
+    color: #00f2ff !important; /* Mantener texto blanco al pasar el ratón */
+}
+
+/* Estilo para el nombre del restaurante */
+.nombre p {
+    color: #00f2ff; /* Texto blanco */
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Estilo para los iconos */
+.navbar-nav .nav-item img {
+    width: 35px; /* Reducir tamaño del icono */
+    height: 35px;
+}
+
+/* Margen para el ícono del monedero */
+.nav-item.d-flex.align-items-center {
+    margin-right: 15px;
+}
+
+/* Espaciado adicional para los botones */
+.ml-3 {
+    margin-left: 1rem;
+}
+
+.ml-1 {
+    color: #00f2ff;
+}
+
+}
+

@@ -20,25 +20,40 @@ if ($method != 'GET') {
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['id'])) {
-            // Obtener usuario por ID
-            $id = $_GET['id'];
-            $usuario = $repoUsuario->findById($id);
+        if (isset($_GET['id_usuario'])) {
+            // Obtener un usuario por ID
+            $usuario = $repoUsuario->findById($_GET['id_usuario']);
+            
             if ($usuario) {
                 http_response_code(200);
-                echo json_encode($usuario);
+                echo json_encode($usuario);  // Enviamos el usuario encontrado
             } else {
-                http_response_code(404); 
+                http_response_code(404);
                 echo json_encode(["error" => "Usuario no encontrado."]);
             }
+        } elseif (isset($_GET['nombre']) && isset($_GET['contrasena'])) {
+            // Autenticar al usuario con nombre y contraseña (en los parámetros de la URL)
+            $nombre = $_GET['nombre'];
+            $contrasena = $_GET['contrasena'];
+
+            // Buscar al usuario por nombre y contraseña
+            $usuario = $repoUsuario->findByNombreYContrasena($nombre, $contrasena);
+
+            if ($usuario) {
+                http_response_code(200); // OK
+                echo json_encode($usuario); // Devolver el usuario encontrado
+            } else {
+                http_response_code(401); // Unauthorized
+                echo json_encode(["error" => "Credenciales incorrectas."]);
+            }
         } else {
-            // Obtener todos los usuarios
+            // Si no se pasa un nombre y contraseña, o un id_usuario, obtener todos los usuarios
             $usuarios = $repoUsuario->mostrarTodos();
-            http_response_code(200); // OK
-            echo json_encode($usuarios);
+            
+            http_response_code(200);
+            echo json_encode($usuarios);  // Enviamos todos los usuarios
         }
         break;
-
     case 'POST':
         if (isset($input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'])){
 

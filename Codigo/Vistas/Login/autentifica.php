@@ -29,5 +29,6 @@
             <p class="text-center"><a href="index.php?menu=registro">Crear una Cuenta</a></p>
         </div>
     </div>
+    <script src="./Js/Login.js"></script>
 </body>
 </html>

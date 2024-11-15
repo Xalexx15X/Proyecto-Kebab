@@ -107,7 +107,7 @@ class Usuario
     }
 
     public function __toString() {
-        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito=" . json_encode($this->getCarrito()) . ", Monedero={$this->monedero}, Foto={$this->foto}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}";
+        return "Usuario: ID={$this->id_usuario}, Nombre={$this->nombre}, Contrasena={$this->contrasena}, Carrito=" . json_encode($this->getCarrito()) . ", Monedero={$this->monedero}, Foto={$this->foto}, Telefono={$this->telefono}, Ubicacion={$this->ubicacion}, Correo={$this->correo}, Tipo={$this->tipo}";
     }
 }
 ?>
