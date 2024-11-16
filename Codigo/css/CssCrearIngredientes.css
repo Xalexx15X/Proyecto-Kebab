@@ -57,6 +57,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-top: 10px;
+    height: 400px;
 }
 
 /* Altura máxima para la lista de alérgenos a elegir */

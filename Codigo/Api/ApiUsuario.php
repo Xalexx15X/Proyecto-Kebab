@@ -86,8 +86,7 @@ switch ($method) {
         break;
 
     case 'PUT':
-        if (isset($input['id'], $input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'], $input['alergenos']) &&
-            !empty($input['id']) && !empty($input['nombre']) && !empty($input['contrasena']) && !empty($input['carrito']) && !empty($input['monedero']) && !empty($input['foto']) && !empty($input['telefono']) && !empty($input['ubicacion']) && !empty($input['correo']) && !empty($input['tipo']) && !empty($input['alergenos'])) {
+        if (isset($input['id'], $input['nombre'], $input['contrasena'], $input['carrito'], $input['monedero'], $input['foto'], $input['telefono'], $input['ubicacion'], $input['correo'], $input['tipo'])) {
 
             // Obtener el usuario existente
             $usuario = new Usuario(
@@ -100,7 +99,7 @@ switch ($method) {
                 $input['telefono'],
                 $input['ubicacion'],
                 $input['correo'],
-                $input['tipo'] ?? "Cliente"
+                $input['tipo']
             );
 
             $result = $repoUsuario->modificar($usuario);
@@ -118,7 +117,7 @@ switch ($method) {
         break;
 
     case 'DELETE':
-        if (isset($input['id']) && !empty($input['id'])) {
+        if (isset($input['id'])) {
             $id = $input['id'];
             $result = $repoUsuario->eliminarUsuario($id);
             if ($result) {

@@ -11,7 +11,7 @@ window.addEventListener('load', function() {
 
         try {
             const response = await fetch(url, {
-                method: 'GET', // Método GET
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },

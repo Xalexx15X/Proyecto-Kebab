@@ -26,7 +26,13 @@ switch ($method) {
                 http_response_code(404);
                 echo json_encode(["error" => "Dirección no encontrada."]);
             }
-        } else {
+        } if (isset($_GET['id_usuario'])) {
+            // Obtener todas las direcciones de un usuario
+            $usuarioId = $_GET['id_usuario'];
+            $direcciones = $repoDireccion->findByUsuarioId($usuarioId);
+            http_response_code(200);
+            echo json_encode($direcciones);
+        }else {
             // Obtener todas las direcciones
             $direcciones = $repoDireccion->mostrarTodos();
             http_response_code(200);
@@ -40,7 +46,7 @@ switch ($method) {
             $direccion = new Direccion(
                 null, 
                 $input['direccion'],
-                $input['estado'] ?? "Activa" ,
+                $input['estado'],
                 $input['id_usuario']
             );
 

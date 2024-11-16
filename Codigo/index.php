@@ -16,8 +16,8 @@ class Principal
             case 'ingredientes':
                 require './Api/ApiIngredientes.php';
                 break;
-            case 'ingredientes':
-                require './Api/Kebab.php';
+            case 'kebabs':
+                require './Api/ApiKebab.php';
                 break;
             case 'usuarios':
                 require './Api/ApiUsuario.php';

@@ -31,6 +31,9 @@
 
                     <label for="telefono">Teléfono:</label>
                     <input type="tel" id="telefono" name="telefono" placeholder="633284407" required>
+
+                    <label for="Email">Correo Electronico:</label>
+                    <input type="text" id="email" name="email" placeholder="ejempol@gmail.com">
                 </form>
             </div>
 
@@ -42,16 +45,13 @@
                 <div class="contenedor-tabla">
                     <div class="cabecera-tabla">Direcciones</div>
                     <div class="cuerpo-tabla" id="direcciones-usuario">
-                        <!-- Se rellenará con direcciones usando JavaScript -->
+                        <!-- Las direcciones se agregarán aquí -->
+                    </div>
+                    <div class="botones-accion">
+                        <button class="btn crear-direccion">Crear Dirección</button>
                     </div>
                 </div>
-                
-                <!-- Controles de edición de dirección -->
-                <div id="controles-edicion" style="display: none;">
-                    <button id="boton-editar">✏️</button>
-                    <button id="boton-borrar">❌</button>
-                    <button id="nueva-direccion">➕ Nueva Dirección</button>
-                </div>
+                                
                 
                 <!-- Formulario de edición/creación de dirección -->
                 <form id="formulario-direccion" style="display: none;">
@@ -83,6 +83,6 @@
         </div>
     </div>
 
-    <script src="./Js/JsConfiguracion.js"></script>
+    <script src="./Js/configuracionPersonal.js"></script>
 </body>
 </html>

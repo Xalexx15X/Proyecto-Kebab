@@ -8,11 +8,15 @@ $repoKebab = new RepoKebab($con);
 $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
 
-// Verificar si el JSON recibido es válido
-if (json_last_error() !== JSON_ERROR_NONE) {
-    http_response_code(400); // Bad Request
-    echo json_encode(["error" => "JSON malformado."]);
-    exit;
+if ($method != 'GET') {
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    // Verificar si el JSON recibido es válido
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        http_response_code(400); // Bad Request
+        echo json_encode(["error" => "JSON malformado."]);
+        exit;
+    }
 }
 
 switch ($method) {
@@ -37,10 +41,7 @@ switch ($method) {
 
     case 'POST':
         // Crear un nuevo kebab
-        if (isset($input['nombre'], $input['foto'], $input['precio_min'], $input['descripcion'], $input['ingredientes']) &&
-            !empty($input['nombre']) && !empty($input['foto']) && !empty($input['precio_min']) &&
-            !empty($input['descripcion']) && !empty($input['ingredientes'])) {
-
+        if (isset($input['nombre'], $input['foto'], $input['precio_min'], $input['descripcion'], $input['ingredientes'])){
             $kebab = new Kebab(
                 null,
                 $input['nombre'],
@@ -52,23 +53,21 @@ switch ($method) {
 
             $result = $repoKebab->crear($kebab);
             if ($result) {
-                http_response_code(201); // Created
+                http_response_code(201);
                 echo json_encode(["message" => "Kebab creado exitosamente."]);
             } else {
-                http_response_code(500); // Internal Server Error
+                http_response_code(500); 
                 echo json_encode(["error" => "Error al crear el kebab."]);
             }
         } else {
-            http_response_code(400); // Bad Request
+            http_response_code(400);
             echo json_encode(["error" => "Datos incompletos para crear el kebab."]);
         }
         break;
 
     case 'PUT':
         // Actualizar un kebab existente
-        if (isset($input['id_kebab'], $input['nombre'], $input['foto'], $input['precio_min'], $input['descripcion'], $input['ingredientes']) &&
-            !empty($input['id_kebab']) && !empty($input['nombre']) && !empty($input['foto']) &&
-            !empty($input['precio_min']) && !empty($input['descripcion']) && !empty($input['ingredientes'])) {
+        if (isset($input['id_kebab'], $input['nombre'], $input['foto'], $input['precio_min'], $input['descripcion'], $input['ingredientes'])) {
 
             $kebab = new Kebab(
                 $input['id_kebab'],

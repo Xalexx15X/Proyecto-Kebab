@@ -133,7 +133,7 @@ class RepoUsuario
             $stm->bindParam(':ubicacion', $ubicacion);
             $stm->bindParam(':correo', $correo);
             $stm->bindParam(':tipo', $tipo);
-            $stm->bindParam(':id', $id, PDO::PARAM_INT);
+            $stm->bindParam(':id', $id);
 
         } catch (PDOException $e) {
             echo json_encode(["error" => "Error al modificar el usuario: " . $e->getMessage()]);

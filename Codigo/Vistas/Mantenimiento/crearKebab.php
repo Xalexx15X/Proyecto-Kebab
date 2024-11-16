@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Kebab</title>
     <link rel="stylesheet" href="./css/CssCrearKebab.css">
-</head>-
+</head>
 <body>
     <div class="container">
         <h1 class="text-center">Crear Kebab</h1>
@@ -28,22 +28,22 @@
                     </div>
                 </div>
 
-                <!-- Precio -->
+                <!-- Precio Recomendado -->
                 <div class="form-group">
-                    <label for="precioKebab">Precio:</label>
-                    <input type="text" id="precioKebab" placeholder="Introduce el precio">
+                    <label for="precio">Precio Kebab:</label>
+                    <input type="text" id="precio" placeholder="Precio Kebab">
                 </div>
 
-                <!-- Precio Recomendado (input solo de lectura) -->
+                <!-- Precio Recomendado -->
                 <div class="form-group">
                     <label for="precioRecomendado">Precio Recomendado:</label>
-                    <input type="text" id="precioRecomendado" placeholder="Calculado automáticamente" readonly>
+                    <input type="text" id="precioRecomendado" placeholder="Calculado automáticamente">
                 </div>
 
                 <!-- Descripción -->
                 <div class="form-group">
-                    <label for="descripcionKebab">Descripción:</label>
-                    <textarea id="descripcionKebab" rows="4" placeholder="Introduce una descripción"></textarea>
+                    <label for="descripcionKebab">Descripción (Alérgenos):</label>
+                    <textarea id="descripcionKebab" rows="4" placeholder="Los alérgenos aparecerán aquí automáticamente"></textarea>
                 </div>
             </div>
 
@@ -53,22 +53,16 @@
             <!-- Div2: Ingredientes del Kebab -->
             <div class="div2">
                 <div class="table-container">
-                    <div class="table-header">
-                        <div>Ingredientes del Kebab</div>
-                    </div>
-                    <div class="table-body" id="ingredientes-kebab">
-                    </div>
+                    <div class="table-header">Ingredientes del Kebab</div>
+                    <div class="table-body" id="ingredientes-kebab"></div>
                 </div>
             </div>
 
             <!-- Div3: Ingredientes a Elegir -->
             <div class="div3">
                 <div class="table-container">
-                    <div class="table-header">
-                        <div>Ingredientes a Elegir</div>
-                    </div>
-                    <div class="table-body" id="ingredientes-elegir">
-                    </div>
+                    <div class="table-header">Ingredientes a Elegir</div>
+                    <div class="table-body" id="ingredientes-elegir"></div>
                 </div>
             </div>
 
@@ -78,7 +72,7 @@
                     <button class="btn btn-1">Crear</button>
                     <button class="btn btn-2">Borrar</button>
                     <a href="index.php?menu=mantenimientoKebab" class="mantenimientoKebab">
-                    <button class="btn btn-3">Salir</button>
+                        <button class="btn btn-3">Salir</button>
                     </a>
                 </div>
             </div>

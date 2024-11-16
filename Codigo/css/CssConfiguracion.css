@@ -92,7 +92,7 @@ form input:focus {
 .contenedor-previa {
     border: 2px dashed #00f2ff;
     border-radius: 5px;
-    height: 150px;
+    height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,15 +101,13 @@ form input:focus {
     color: #333;
     text-align: center;
     position: relative;
-}
-
-.contenedor-previa:hover {
-    border-color: #000000;
+    width: 50%;
+    margin-left: 24%;
 }
 
 .contenedor-previa span {
     font-size: 14px;
-    color: #000000;
+    color: #00f2ff;
 }
 
 /* Estilos de la tabla de direcciones */
@@ -186,6 +184,7 @@ form input:focus {
     margin-top: 20px;
 }
 
+
 .botones-accion .btn {
     padding: 10px 20px;
     font-size: 1.1em;
@@ -196,37 +195,48 @@ form input:focus {
 }
 
 .botones-accion .guardar {
-    color: #28a745;
-    border-color: #28a745;
+    color: #fdfdfd;
+    background-color: #28a745;
 }
 
 .botones-accion .guardar:hover {
     opacity: 0.8;
     color: #ffffff;
-    border-color: #28a745;
-    background-color: #28a745;
+    background-color: #247f39;
 }
 
 .botones-accion .borrar {
-    color: #dc3545;
-    border-color: #dc3545;
+    color: #ffffff;
+    background-color: #dc3545;
 }
 
 .botones-accion .borrar:hover {
     opacity: 0.8;
     color: #ffffff;
-    border-color: #dc3545;
-    background-color: #dc3545;
+    background-color: #9a1724;
 }
 
 .botones-accion .salir {
-    color: #6c757d;
-    border-color: #6c757d;
+    color: #ffffff;
+    background-color: #6c757d;
 }
 
 .botones-accion .salir:hover {
     opacity: 0.8;
     color: #ffffff;
-    border-color: #6c757d;
     background-color: #6c757d;
 }
+
+
+.botones-accion .crear-direccion{
+    color: #ffffff;
+    background-color: #00c6d1;
+    margin-bottom: 10px;
+}
+
+.botones-accion .crear-direccion:hover{
+    color: #ffffff;
+    background-color: #046c83;
+    margin-bottom: 10px;
+}
+
