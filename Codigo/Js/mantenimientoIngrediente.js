@@ -30,26 +30,6 @@ function cargarIngredientes() {
 function mostrarIngredientes(ingredientes) {
     const contenedor = document.querySelector('.cuadricula-ingrediente');
 
-    // Limpiar el contenedor antes de agregar nuevos ingredientes, pero dejar la tarjeta de crear ingrediente
-    const tarjetaCrearIngrediente = document.querySelector('.tarjeta-crear-ingrediente');
-
-    // Si la tarjeta de crear ingrediente no existe, la creamos
-    if (!tarjetaCrearIngrediente) {
-        const tarjetaCrear = document.createElement('a');
-        tarjetaCrear.href = 'index.php?menu=crearIngrediente';
-        tarjetaCrear.classList.add('tarjeta-crear-ingrediente');
-        tarjetaCrear.style.textDecoration = 'none';
-
-        tarjetaCrear.innerHTML = `
-            <div class="contenedor-crear">
-                <span class="icono-mas">+</span>
-                <p>Crear Ingrediente</p>
-            </div>
-        `;
-
-        contenedor.appendChild(tarjetaCrear);  // Añadimos la tarjeta de crear al contenedor
-    }
-
     // Limpiar el contenedor de los ingredientes, pero dejamos la tarjeta de creación intacta
     const ingredientesContenedor = contenedor.querySelectorAll('.tarjeta-ingrediente');
     ingredientesContenedor.forEach(tarjeta => tarjeta.remove());  // Eliminar solo las tarjetas de ingredientes, no la de crear
@@ -70,7 +50,7 @@ function mostrarIngredientes(ingredientes) {
                 <p>Alergenos: ${alergenos}</p> <!-- Usamos join() para unir los alérgenos -->
             </div>
             <div class="grupo-botones">
-                <a href="index.php?menu=modificarIngrediente" class="modificarIngrediente">
+                <a href="index.php?menu=modificarIngrediente&id_ingrediente=${ingrediente.id_ingredientes}" class="modificarIngrediente">
                     <button class="boton boton-modificar">Modificar</button>
                 </a>
                 <button class="boton boton-borrar" onclick="eliminarIngrediente(${ingrediente.id_ingredientes})">Borrar</button>

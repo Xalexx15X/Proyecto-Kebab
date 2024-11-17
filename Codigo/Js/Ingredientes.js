@@ -12,8 +12,11 @@ window.addEventListener('load', function() {
     configurarDragAndDrop();
 });
 
+const apiURLIngredientes = 'http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes'; // URL para ingredientes
+const apiURLAlergenos = 'http://localhost/ProyectoKebab/codigo/index.php?route=alergenos'; // URL para los alérgenos
+
 function cargarAlergenos() {
-    fetch('http://localhost/ProyectoKebab/codigo/index.php?route=alergenos', {
+    fetch(apiURLAlergenos, {
         method: 'GET'
     })
     .then(response => {
@@ -63,7 +66,7 @@ function crearIngrediente() {
         };
 
         // Enviar la solicitud de creación de ingrediente
-        fetch('http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes', {
+        fetch(apiURLIngredientes, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

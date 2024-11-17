@@ -57,26 +57,6 @@
                         <div>Ingredientes del Kebab</div>
                     </div>
                     <div class="table-body" id="ingredientes-kebab">
-                        <!-- Ejemplos de ingredientes en esta lista -->
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
-                        <div class="table-row"><div>Pepino</div></div>
-                        <div class="table-row"><div>Hummus</div></div>
-                        <div class="table-row"><div>Ensalada Mix</div></div>
-                        <div class="table-row"><div>Zanahoria Rallada</div></div>
-                        <div class="table-row"><div>Arroz</div></div>
-                        <div class="table-row"><div>Aguacate</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
-                        <div class="table-row"><div>Pepino</div></div>
-                        <div class="table-row"><div>Hummus</div></div>
-                        <div class="table-row"><div>Ensalada Mix</div></div>
-                        <div class="table-row"><div>Zanahoria Rallada</div></div>
-                        <div class="table-row"><div>Arroz</div></div>
-                        <div class="table-row"><div>Aguacate</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
-                        
                     </div>
                 </div>
             </div>
@@ -88,26 +68,6 @@
                         <div>Ingredientes a Elegir</div>
                     </div>
                     <div class="table-body" id="ingredientes-elegir">
-                        <!-- Ejemplos de ingredientes disponibles para elegir -->
-                        <div class="table-row"><div>Falafel</div></div>
-                        <div class="table-row"><div>Carne de Res</div></div>
-                        <div class="table-row"><div>Carne de Cordero</div></div>
-                        <div class="table-row"><div>Pepino</div></div>
-                        <div class="table-row"><div>Hummus</div></div>
-                        <div class="table-row"><div>Ensalada Mix</div></div>
-                        <div class="table-row"><div>Zanahoria Rallada</div></div>
-                        <div class="table-row"><div>Arroz</div></div>
-                        <div class="table-row"><div>Aguacate</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
-                        <div class="table-row"><div>Pepino</div></div>
-                        <div class="table-row"><div>Hummus</div></div>
-                        <div class="table-row"><div>Ensalada Mix</div></div>
-                        <div class="table-row"><div>Zanahoria Rallada</div></div>
-                        <div class="table-row"><div>Arroz</div></div>
-                        <div class="table-row"><div>Aguacate</div></div>
-                        <div class="table-row"><div>Lechuga</div></div>
-                        <div class="table-row"><div>Tomate</div></div>
                     </div>
                 </div>
             </div>
@@ -115,7 +75,7 @@
             <!-- Div4: Botones de acción -->
             <div class="div4">
                 <div class="div-botones">
-                    <button class="btn btn-1">Crear</button>
+                    <button class="btn btn-1">Guardar</button>
                     <button class="btn btn-2">Borrar</button>
                     <a href="index.php?menu=mantenimientoKebab" class="mantenimientoKebab">
                     <button class="btn btn-3">Salir</button>
@@ -124,6 +84,6 @@
             </div>
         </div>
     </div>
-
+    <script src="./Js/modificarKebab.js"></script>
 </body>
 </html>

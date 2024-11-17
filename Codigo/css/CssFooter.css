@@ -1,3 +1,17 @@
+/* Aplica a todo el documento */
+html, body {
+    height: 100%; /* Asegura que ocupen el 100% de la altura */
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;  /* Asegura que la altura mínima sea la altura de la pantalla */
+}
+
 /* Estilos para el footer */
 #footer {
     background-color: #959595; /* Color gris claro similar al header */
@@ -7,6 +21,7 @@
     justify-content: center; /* Centra el contenido horizontalmente */
     align-items: center; /* Centra el contenido verticalmente */
     font-size: 16px; /* Tamaño base del texto */
+    margin-top: auto; /* Esto empuja el footer al fondo de la página */
 }
 
 /* Contenedor del contenido del footer */

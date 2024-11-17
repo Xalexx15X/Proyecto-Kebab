@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 90px;
 }
 
 /* Título centrado */
@@ -46,7 +46,7 @@
 /* Imagen del kebab */
 .imagen-kebab {
     width: 100%;
-    height: 150px;
+    height: 180px;
     object-fit: cover;
     border-radius: 8px;
 }

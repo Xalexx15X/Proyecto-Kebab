@@ -9,33 +9,20 @@
 <body>
     <div class="contenedor">
         <h1 class="titulo-centrado">Kebabs Disponibles</h1>
+
+        <!-- Contenedor donde se generarán las tarjetas de los kebabs -->
         <div class="cuadricula-kebabs">
-            
             <!-- Tarjeta para crear un nuevo kebab -->
-            <a href="index.php?menu=crearKebab" class="tarjeta-crear-kebab" style = "text-decoration: none;">
+            <a href="index.php?menu=crearKebab" class="tarjeta-crear-kebab" style="text-decoration: none;">
                 <div class="contenedor-crear">
                     <span class="icono-mas">+</span>
                     <p>Crear Kebab</p>
                 </div>
             </a>
-
-            <!-- Tarjeta de kebab -->
-            <div class="tarjeta-kebab">
-                <img src="path/to/kebab-image.jpg" alt="Kebab" class="imagen-kebab">
-                <div class="informacion-kebab">
-                    <h3>Nombre del Kebab</h3>
-                    <p>Ingredientes: Pan, carne, lechuga, tomate, cebolla</p>
-                </div>
-                <div class="grupo-botones">
-                    <a href="index.php?menu=modificarKebab" class="modificarKebab">
-                    <button class="boton boton-modificar">Modificar</button>
-                    </a>
-                    <button class="boton boton-borrar">Borrar</button>
-                </div>
-            </div>
+            <!-- Aquí se generarán las tarjetas de los kebabs mediante JavaScript -->
         </div>
     </div>
 
-    
+    <script src="./Js/mantenimientoKebab.js"></script>
 </body>
 </html>

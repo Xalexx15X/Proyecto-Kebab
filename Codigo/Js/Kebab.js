@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Defino las URLs para obtener los ingredientes y los kebabs desde la API
-    const apiURL = 'http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes'; // URL para ingredientes
+    const apiURLIngredientes = 'http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes'; // URL para ingredientes
     const apiURLKebab = 'http://localhost/ProyectoKebab/codigo/index.php?route=kebabs'; // URL para kebabs
 
     // Función para crear el div de cada ingrediente
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             e.dataTransfer.setData('text/plain', JSON.stringify(ingrediente));  // Almaceno el ingrediente arrastrado
         });
 
-        return ingredienteDiv;  // Retorno el div creado
+        return ingredienteDiv;  // retorno el div 
     }
 
     // Función para actualizar el precio y los alérgenos cuando un ingrediente es agregado o eliminado
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Obtener todos los ingredientes y mostrarlos en la tabla de ingredientes disponibles
-    fetch(`${apiURL}`)
+    fetch(`${apiURLIngredientes}`)
         .then(response => response.json())
         .then(data => {
             const ingredientesElegirContainer = document.getElementById('ingredientes-elegir');
@@ -132,53 +132,54 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Funcionalidad del botón "Crear" para enviar los datos del kebab
-document.querySelector('.btn-1').addEventListener('click', function () {
-    const nombre = document.getElementById('nombreKebab').value;  // Obtengo el nombre del kebab
-    const foto = document.getElementById('fotoKebab').files[0];  // Obtengo la foto seleccionada
-    const precio = document.getElementById('precio').value;  // Obtengo el precio recomendado
-    const descripcion = document.getElementById('descripcionKebab').value;  // Obtengo la descripción
-    const ingredientes = Array.from(ingredientesKebabContainer.children).map(ingrediente => parseInt(ingrediente.getAttribute('data-id')));  // Obtengo los IDs de los ingredientes seleccionados
-
-    // Si falta algún dato, muestro un mensaje de error
-    if (!nombre || !foto || !precio || !descripcion || ingredientes.length === 0) {
-        alert('Todos los campos son obligatorios.');
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        const fotoBase64 = e.target.result;  // Convierte la foto a base64
-        const kebab = {
-            nombre: nombre,
-            foto: fotoBase64,
-            precio_min: parseFloat(precio),
-            descripcion: descripcion,
-            ingredientes: ingredientes
+    document.querySelector('.btn-1').addEventListener('click', function () {
+        const nombre = document.getElementById('nombreKebab').value;  // Obtengo el nombre del kebab
+        const foto = document.getElementById('fotoKebab').files[0];  // Obtengo la foto seleccionada
+        const precio = document.getElementById('precio').value;  // Obtengo el precio recomendado
+        const descripcion = document.getElementById('descripcionKebab').value;  // Obtengo la descripción
+        const ingredientes = Array.from(ingredientesKebabContainer.children).map(ingrediente => parseInt(ingrediente.getAttribute('data-id')));  // Obtengo los IDs de los ingredientes seleccionados
+    
+        // Si falta algún dato, muestro un mensaje de error
+        if (!nombre || !foto || !precio || !descripcion || ingredientes.length === 0) {
+            alert('Todos los campos son obligatorios.');
+            return;
+        }
+    
+        const reader = new FileReader();
+        reader.onloadend = function () {  // Cambio a onloadend para usar split aquí
+            const fotoBase64 = reader.result.split(',')[1];  // Extrae solo el contenido base64
+            const kebab = {
+                nombre: nombre,
+                foto: fotoBase64,
+                precio_min: parseFloat(precio),
+                descripcion: descripcion,
+                ingredientes: ingredientes
+            };
+    
+            // Enviar el kebab a la API para crear el kebab
+            fetch(apiURLKebab, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(kebab)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error en la respuesta: ${response.statusText}`);
+                    }
+                    return response.json(); // Convertir la respuesta a JSON si es válida
+                })
+                .then(data => {
+                    alert('Kebab creado exitosamente.');
+                    limpiarCampos(); // Limpio los campos después de la confirmación
+                })
+                .catch(error => {
+                    console.error('Error al crear el kebab:', error);
+                    alert('Hubo un error al crear el kebab.');
+                });
         };
-
-        // Enviar el kebab a la API para crear el kebab
-        fetch(apiURLKebab, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(kebab)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Error en la respuesta: ${response.statusText}`);
-                }
-                return response.json(); // Convertir la respuesta a JSON si es válida
-            })
-            .then(data => {
-                alert('Kebab creado exitosamente.');
-                limpiarCampos(); // Limpio los campos después de la confirmación
-            })
-            .catch(error => {
-                console.error('Error al crear el kebab:', error);
-                alert('Hubo un error al crear el kebab.');
-            });
-    };
-    reader.readAsDataURL(foto);  // Convierte la foto a base64
-});
+        reader.readAsDataURL(foto);  // Convierte la foto a base64
+    });
+    
 
 // Función para limpiar los campos después de crear el kebab o al pulsar el botón
 function limpiarCampos() {
