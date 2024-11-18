@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Alergeno</title>
-    <link rel="stylesheet" href="./css/CssModificarAlergeno.css">
-</head>
+<link rel="stylesheet" href="./css/CssModificarAlergeno.css">
 <body>
     <div class="container">
         <h1 class="text-center">Crear Alergeno</h1>
@@ -42,4 +35,4 @@
         </div>
     </div>
 </body>
-</html>
+

@@ -21,7 +21,7 @@
     </section>
     <?php
     require_once './Vistas/Principal/footer.php';
-    ?>  
+    ?> 
     <script src="./Js/header.js"></script> <!-- Este será nuestro script dinámico -->
 </body>
 </html>

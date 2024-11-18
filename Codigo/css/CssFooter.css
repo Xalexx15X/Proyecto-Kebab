@@ -3,6 +3,7 @@ html, body {
     height: 100%; /* Asegura que ocupen el 100% de la altura */
     margin: 0;
     padding: 0;
+    height: 50px; /* Tamaño del footer */
 }
 
 /* Contenedor principal */

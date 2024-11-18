@@ -1,0 +1,110 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+
+.titulo-centrado {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Contenedor principal */
+.contenedor {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección de la tabla */
+.seccion-tabla h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #00f2ff;
+    margin-top: 50px;
+}
+
+.tabla-pedidos {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.tabla-pedidos thead {
+    background-color: #0fa1a9;
+    color: #fff;
+}
+
+.tabla-pedidos th,
+.tabla-pedidos td {
+    padding: 10px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/* Botón para ver detalle */
+.boton-ver-detalle {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-ver-detalle:hover {
+    background-color: #218838;
+}
+
+/* Sección de gráficos */
+.seccion-graficos h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #00f2ff;
+    margin-top: 30px;
+}
+
+.contenedor-graficos {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.grafico-contenedor {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grafico {
+    width: 100%;
+    height: 300px;
+    background-color: #e9ecef;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+.texto-grafico {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+}
+

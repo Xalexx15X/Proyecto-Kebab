@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Ingredientes</title>
-    <link rel="stylesheet" href="./css/CssModificarIngredientes.css">
-</head>
+<link rel="stylesheet" href="./css/CssModificarIngredientes.css">
 <body>
     <div class="container">
         <h1 class="text-center">Modificar Ingredientes</h1>
@@ -82,4 +75,3 @@
     </div>
     <script src="./Js/modificarIngrediente.js"></script>
 </body>
-</html>

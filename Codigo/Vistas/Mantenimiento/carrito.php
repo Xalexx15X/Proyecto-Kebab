@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/CssCarrito.css">
-    <title>Contacto</title>
-</head>
+<link rel="stylesheet" href="./css/CssCarrito.css">
 <body>
     <div class="container">
         <h2 class="text-center">Carrito de Compras</h2>
@@ -45,4 +38,3 @@
         </div>
     </div>
 </body>
-</html>

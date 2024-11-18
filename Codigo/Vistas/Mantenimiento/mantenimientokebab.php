@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/CssMantenimientoKebab.css">
-    <title>Mantenimiento de Kebabs</title>
-</head>
+<link rel="stylesheet" href="./css/CssMantenimientoKebab.css">
 <body>
     <div class="contenedor">
         <h1 class="titulo-centrado">Kebabs Disponibles</h1>
@@ -25,4 +18,4 @@
 
     <script src="./Js/mantenimientoKebab.js"></script>
 </body>
-</html>
+

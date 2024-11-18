@@ -1,3 +1,17 @@
+/* TODO: 
+    - Crear una función para obtener los ingredientes disponibles para un kebab
+    - Crear una función para obtener los ingredientes seleccionados por el usuario
+    - Crear una función para obtener los carritos disponibles para un ingrediente
+    - Crear una función para obtener las categorías disponibles para un ingrediente
+    - Crear una función para obtener los alergenos disponibles para un ingrediente
+    - Crear una función para obtener las categorías disponibles para un kebab       
+*/
+
+/* !! Importante !! 
+    - El ID del ingrediente seleccionado por el usuario se obtiene de la URL
+    - El ID del carrito seleccionado por el usuario se obtiene de la URL
+    - El ID de la categoría seleccionada por el usuario se obtiene de la URL    
+*/
 document.addEventListener('DOMContentLoaded', function() {
     cargarKebabs(); // Llamar la función para cargar los kebabs
 });

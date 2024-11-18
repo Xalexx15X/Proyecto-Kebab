@@ -61,12 +61,6 @@ window.addEventListener('load', function () {
                             <li class="nav-item">
                                 <a class="nav-link" href="?menu=registro-Pedido">Registro</a>
                             </li>
-                            
-
-                            <!-- Estado Pedido -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="?menu=estadoPedido">Estado Pedido</a>
-                            </li>
 
                             <!-- Contacto -->
                             <li class="nav-item">

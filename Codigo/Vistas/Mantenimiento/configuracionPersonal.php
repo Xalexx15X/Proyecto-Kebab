@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configuración Personal</title>
-    <link rel="stylesheet" href="./css/CssConfiguracion.css">
-</head>
+<link rel="stylesheet" href="./css/CssConfiguracion.css">
 <body>
     <h1>Configuración Personal</h1>
     <div class="contenedor">
@@ -85,4 +78,3 @@
 
     <script src="./Js/configuracionPersonal.js"></script>
 </body>
-</html>

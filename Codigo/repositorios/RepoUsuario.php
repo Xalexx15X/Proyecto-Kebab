@@ -104,42 +104,34 @@ class RepoUsuario
 
 
     public function modificar(Usuario $usuario)
-    {
-        try {
-            $sql = "UPDATE usuario SET nombre = :nombre, contrasena = :contrasena, carrito = :carrito, 
-                    monedero = :monedero, foto = :foto, telefono = :telefono, ubicacion = :ubicacion, correo = :correo, tipo = :tipo
-                    WHERE id_usuario = :id";
-            $stm = $this->con->prepare($sql);
+{
+    try {
+        $carrito = json_encode($usuario->getCarrito());
+        
+        $sql = "UPDATE usuario SET nombre = :nombre, contrasena = :contrasena, carrito = :carrito, 
+                monedero = :monedero, foto = :foto, telefono = :telefono, ubicacion = :ubicacion, correo = :correo, tipo = :tipo
+                WHERE id_usuario = :id";
+        $stm = $this->con->prepare($sql);
 
-            // Asignación de variables intermedias
-            $nombre = $usuario->getNombre();
-            $contrasena = $usuario->getContrasena();
-            $carrito = json_encode($usuario->getCarrito());
-            $monedero = $usuario->getMonedero();
-            $foto = $usuario->getFoto();
-            $telefono = $usuario->getTelefono();
-            $ubicacion = $usuario->getUbicacion();
-            $correo = $usuario->getCorreo();
-            $tipo = $usuario->getTipo();
-            $id = $usuario->getIdUsuario();
+        // Vinculación de variables
+        $stm->bindValue(':nombre', $usuario->getNombre());
+        $stm->bindValue(':contrasena', $usuario->getContrasena());
+        $stm->bindValue(':carrito', $carrito);
+        $stm->bindValue(':monedero', $usuario->getMonedero());
+        $stm->bindValue(':foto', $usuario->getFoto());
+        $stm->bindValue(':telefono', $usuario->getTelefono());
+        $stm->bindValue(':ubicacion', $usuario->getUbicacion());
+        $stm->bindValue(':correo', $usuario->getCorreo());
+        $stm->bindValue(':tipo', $usuario->getTipo());
+        $stm->bindValue(':id', $usuario->getIdUsuario(), PDO::PARAM_INT);
 
-            // Vinculación de variables
-            $stm->bindParam(':nombre', $nombre);
-            $stm->bindParam(':contrasena', $contrasena);
-            $stm->bindParam(':carrito', $carrito);
-            $stm->bindParam(':monedero', $monedero);
-            $stm->bindParam(':foto', $foto);
-            $stm->bindParam(':telefono', $telefono);
-            $stm->bindParam(':ubicacion', $ubicacion);
-            $stm->bindParam(':correo', $correo);
-            $stm->bindParam(':tipo', $tipo);
-            $stm->bindParam(':id', $id);
-
-        } catch (PDOException $e) {
-            echo json_encode(["error" => "Error al modificar el usuario: " . $e->getMessage()]);
-            return false;
-        }
+        // Ejecución de la consulta
+        return $stm->execute(); // Aquí estaba el problema
+    } catch (PDOException $e) {
+        echo json_encode(["error" => "Error al modificar el usuario: " . $e->getMessage()]);
+        return false;
     }
+}
 
     // Método para actualizar la relación de alérgenos de un usuario
     public function actualizarRelacionAlergenos(Usuario $usuario)

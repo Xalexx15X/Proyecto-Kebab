@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/CssMantenimientoIngrediente.css">
-    <title>Mantenimiento de Ingredientes</title>
-</head>
+<link rel="stylesheet" href="./css/CssMantenimientoIngrediente.css">
 <body>
     <div class="contenedor">
         <h1 class="titulo-centrado">Ingredientes Disponibles</h1>
@@ -25,4 +18,3 @@
 
     <script src="./Js/mantenimientoIngrediente.js"></script>
 </body>
-</html>

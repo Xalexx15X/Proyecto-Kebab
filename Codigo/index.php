@@ -7,7 +7,6 @@ class Principal
     {
         Autocargador::autocargar();
 
-        // Manejar rutas de la API
         $route = $_GET['route'] ?? null;
         switch ($route) {
             case 'alergenos':
@@ -30,6 +29,7 @@ class Principal
                 break;
         }
     }
+    
     private static function mostrarPagina()
     {
         $_GET['menu'] = $_GET['menu'] ?? "inicio"; 
