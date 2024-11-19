@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (inputSubirFoto) inputSubirFoto.addEventListener("change", mostrarVistaPrevia);
 });
 
+const apiURLDireccion = 'http://localhost/ProyectoKebab/codigo/index.php?route=direccion'; // URL para usuario
+const apiURLUsarios = 'http://localhost/ProyectoKebab/codigo/index.php?route=usuarios'; // URL para direccion
+
 // Cargar los datos del usuario en el formulario
 function cargarDatosUsuario(usuario) {
     document.getElementById("nombre-cuenta").value = usuario.nombre;
@@ -65,6 +68,7 @@ function mostrarVistaPrevia(event) {
 }
 
 // Guardar los datos del usuario (actualización de los campos)
+// Guardar los datos del usuario (actualización de los campos)
 function guardarDatosUsuario() {
     const usuarioSesion = JSON.parse(localStorage.getItem("usuario"));
 
@@ -73,28 +77,33 @@ function guardarDatosUsuario() {
     const telefono = document.getElementById("telefono").value;
     const correo = document.getElementById("email").value;
 
-    // Se realiza el PUT solo con los datos modificados y manteniendo el resto igual
-    fetch("http://localhost/ProyectoKebab/codigo/index.php?route=usuarios", {
+    // Crear el objeto con los datos actualizados
+    const usuarioActualizado = {
+    id: usuarioSesion.id_usuario,  // Cambiar si es necesario
+    nombre: nombre,             
+    contrasena: contrasena,         
+    carrito: usuarioSesion.carrito,      
+    monedero: usuarioSesion.monedero,    
+    foto: usuarioSesion.foto,            
+    telefono: telefono,           
+    ubicacion: usuarioSesion.ubicacion,  
+    correo: correo,             
+    tipo: usuarioSesion.tipo   
+    };
+
+    // Realizar la petición PUT
+    fetch(`${apiURLUsarios}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            id: usuarioSesion.id_id_usuario,
-            nombre: nombre,             // Solo el nombre actualizado
-            contrasena: contrasena,         // Solo la contraseña actualizada
-            carrito: usuarioSesion.carrito,      // Se mantiene igual
-            monedero: usuarioSesion.monedero,    // Se mantiene igual
-            foto: usuarioSesion.foto,            // Se mantiene igual
-            telefono: telefono,           // Solo el teléfono actualizado
-            ubicacion: usuarioSesion.ubicacion,  // Se mantiene igual
-            correo: correo,             // Solo el correo actualizado
-            tipo: usuarioSesion.tipo            // Se mantiene igual
-        }),
+        body: JSON.stringify(usuarioActualizado),
     })
-    .then(response => response.text())
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
             alert("Datos guardados correctamente.");
-            // Puedes realizar alguna otra acción aquí si es necesario
+
+            // Actualizar el localStorage con los nuevos datos del usuario
+            localStorage.setItem("usuario", JSON.stringify(usuarioActualizado));
         } else {
             console.error("Error al guardar los datos del usuario:", data);
         }
@@ -107,42 +116,45 @@ function guardarDatosUsuario() {
 // Cargar direcciones desde el backend
 // Función para cargar las direcciones del usuario
 function cargarDirecciones() {
-    // Recuperar el ID del usuario desde el localStorage
     const usuario = JSON.parse(localStorage.getItem("usuario"));
-    if (!usuario || !usuario.id_usuario) {
-        console.error("No se encontró el ID de usuario.");
+
+    if (!usuario) {
+        console.error("No se encontró información del usuario en localStorage.");
         return;
     }
 
-    // Construir la URL con el id_usuario como parámetro de consulta
-    const url = `http://localhost/ProyectoKebab/codigo/index.php?route=direccion&id_usuario=${usuario.id_usuario}`;
+    if (!usuario.id) { // Verificar que el usuario tiene un ID válido
+        console.error("El usuario no tiene un ID válido:", usuario);
+        return;
+    }
 
-    // Realizar la solicitud GET
-    fetch(url, {
-        method: 'GET',  // El método es GET, así que no hay body
+    // Realizar la solicitud POST con el id_usuario en la URL y un body vacío
+    fetch(`${apiURLDireccion}&id_usuario=${usuario.id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error al cargar las direcciones');
+            throw new Error(`Error en la respuesta: ${response.status}`);
         }
         return response.json();
     })
     .then(json => {
         const direccionesContainer = document.getElementById('direcciones-usuario');
-        direccionesContainer.innerHTML = '';  // Limpiar el contenedor antes de mostrar nuevas direcciones
+        direccionesContainer.innerHTML = ''; // Limpiar el contenedor antes de mostrar nuevas direcciones
 
-        // Verificar si la respuesta contiene direcciones
         if (json && Array.isArray(json) && json.length > 0) {
             json.forEach(direccion => {
-                var direccionElem = document.createElement('div');
+                const direccionElem = document.createElement('div');
                 direccionElem.classList.add('direccion');
                 
-                // Mostrar la dirección
                 direccionElem.innerHTML = `
                     <div>${direccion.direccion}</div>
                     <div>${direccion.estado}</div>
                     <div>
-                        <button class="btn editar" onclick="editarDireccion(${direccion.id_direccion})">Editar</button>
                         <button class="btn eliminar" onclick="eliminarDireccion(${direccion.id_direccion})">Eliminar</button>
                     </div>
                 `;
@@ -157,23 +169,43 @@ function cargarDirecciones() {
     });
 }
 
+// Llamar a la función para cargar las direcciones cuando se cargue la página
+document.addEventListener("DOMContentLoaded", function () {
+    cargarDirecciones();
+});
+
 
 // Llamar a la función para cargar las direcciones cuando se cargue la página
 window.onload = function() {
     cargarDirecciones();
 };
 
-// Función para editar una dirección (todavía no implementada)
-function editarDireccion(id) {
-    console.log("Editar dirección con ID:", id);
-    // Aquí puedes agregar la lógica para editar la dirección
+
+// Función para eliminar una dirección (DELETE)
+function eliminarDireccion(id) {
+    if (!confirm("¿Estás seguro de que deseas eliminar esta dirección?")) {
+        return;
+    }
+
+    fetch(`${apiURLDireccion}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_direccion: id })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Dirección eliminada correctamente.");
+                cargarDirecciones(); // Recargar las direcciones
+            } else {
+                alert("Error al eliminar la dirección: " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error al eliminar la dirección:", error);
+        });
 }
 
-// Función para eliminar una dirección (todavía no implementada)
-function eliminarDireccion(id) {
-    console.log("Eliminar dirección con ID:", id);
-    // Aquí puedes agregar la lógica para eliminar la dirección
-}
 
 // Mostrar el formulario para crear una dirección
 function mostrarFormularioDireccion() {
@@ -184,9 +216,6 @@ function mostrarFormularioDireccion() {
 function guardarDireccion(event) {
     event.preventDefault();
     const usuarioSesion = JSON.parse(localStorage.getItem("usuario"));
-
-    // Verifica qué id está tomando el usuario
-    console.log("ID del usuario en localStorage:", usuarioSesion.id);
 
     // Obtener los valores del formulario
     const nombreCalle = document.getElementById("nombre-calle").value.trim();
@@ -206,13 +235,13 @@ function guardarDireccion(event) {
     const estado = "Activa";  // Esto se puede cambiar si el estado es otro
 
     // Hacemos la petición POST pasando el id de usuario desde localStorage
-    fetch("http://localhost/ProyectoKebab/codigo/index.php?route=direccion", {
+    fetch(`${apiURLDireccion}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             direccion, 
             estado, 
-            id_usuario: usuarioSesion.id_usuario  // Usamos el id del usuario desde localStorage
+            id_usuario: usuarioSesion.id  // Usamos el id del usuario desde localStorage
         }),
     })
     .then(response => response.json())

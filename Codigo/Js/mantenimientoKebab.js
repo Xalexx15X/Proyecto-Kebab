@@ -15,7 +15,7 @@ function cargarKebabs() {
         })
         .catch(error => {
             console.error("Error al cargar los kebabs:", error);
-        });
+    });
 }
 
 // Función para mostrar las tarjetas de los kebabs en la cuadrícula
@@ -74,5 +74,6 @@ function eliminarKebab(id) {
         })
         .catch(error => {
             console.error("Error al eliminar kebab", error);
-        });
+    });
+    
 }

@@ -240,3 +240,26 @@ form input:focus {
     margin-bottom: 10px;
 }
 
+.btn.editar {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.btn.editar:hover {
+    opacity: 0.8;
+    color: #ffffff;
+    border-color: #28a745;
+    background-color: #28a745;
+}
+
+.btn.eliminar {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn.eliminar:hover {
+    opacity: 0.8;
+    color: #ffffff;
+    border-color: #dc3545;
+    background-color: #dc3545;
+}

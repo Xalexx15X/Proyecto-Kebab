@@ -16,33 +16,34 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 
 switch ($method) {
     case 'GET':
-        if (isset($_GET['id_direccion'])) {
-            // Obtener una dirección por ID
-            $direccion = $repoDireccion->findById($_GET['id_direccion']);
-            if ($direccion) {
-                http_response_code(200);
-                echo json_encode($direccion);
-            } else {
-                http_response_code(404);
-                echo json_encode(["error" => "Dirección no encontrada."]);
-            }
-        } if (isset($_GET['id_usuario'])) {
-            // Obtener todas las direcciones de un usuario
-            $usuarioId = $_GET['id_usuario'];
-            $direcciones = $repoDireccion->findByUsuarioId($usuarioId);
+        // Mostrar todas las direcciones
+        $direcciones = $repoDireccion->mostrarTodo();
+        
+        if ($direcciones) {
             http_response_code(200);
-            echo json_encode($direcciones);
-        }else {
-            // Obtener todas las direcciones
-            $direcciones = $repoDireccion->mostrarTodos();
-            http_response_code(200);
-            echo json_encode($direcciones);
+            echo json_encode($direcciones); // Enviar todas las direcciones como JSON
+        } else {
+            http_response_code(404);
+            echo json_encode(["error" => "No se encontraron direcciones."]);
         }
         break;
 
     case 'POST':
+        // Si se pasa id_usuario por la URL y el cuerpo está vacío, mostrar direcciones por usuario
+        if (isset($_GET['id_usuario']) && empty($input)) {
+            $id_usuario = $_GET['id_usuario'];
+            $direcciones = $repoDireccion->findByUsuarioId($id_usuario);
+            
+            if ($direcciones) {
+                http_response_code(200);
+                echo json_encode($direcciones); // Enviar las direcciones como JSON
+            } else {
+                http_response_code(404);
+                echo json_encode(["error" => "No se encontraron direcciones para el usuario especificado."]);
+            }
+        } 
         // Crear una nueva dirección
-        if (isset($input['direccion'], $input['estado'], $input['id_usuario'])) {
+        else if (isset($input['direccion'], $input['estado'], $input['id_usuario'])) {
             $direccion = new Direccion(
                 null, 
                 $input['direccion'],
@@ -60,7 +61,7 @@ switch ($method) {
             }
         } else {
             http_response_code(400); // Bad Request
-            echo json_encode(["error" => "Datos incompletos para crear la dirección."]);
+            echo json_encode(["error" => "Datos incompletos o parámetros inválidos."]);
         }
         break;
 

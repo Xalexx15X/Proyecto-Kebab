@@ -10,18 +10,26 @@ class RepoDireccion
     }
 
     // Método para obtener todas las direcciones de un usuario por ID
-    public function findByUsuarioId($usuarioId)
-    {
+    public function findByUsuarioId($id_usuario)
+        {
         try {
-            $sql = "SELECT * FROM direccion WHERE usuario_id_usuario = :usuario_id_usuario";
+            $sql = "SELECT * FROM direccion WHERE usuario_id_usuario = :id_usuario";
             $stm = $this->con->prepare($sql);
-            $stm->execute(['usuario_id_usuario' => $usuarioId]);
-            return $stm->fetchAll(PDO::FETCH_ASSOC);
+            $stm->execute(['id_usuario' => $id_usuario]);
+            $direcciones = $stm->fetchAll(PDO::FETCH_ASSOC);
+            if (!$direcciones) {
+                echo json_encode(["error" => "No se encontraron direcciones."]);
+                http_response_code(404);  // Not Found
+            } else {
+                return $direcciones;
+            }
         } catch (PDOException $e) {
             echo json_encode(["error" => "Error al obtener las direcciones: " . $e->getMessage()]);
+            http_response_code(500);  // Internal Server Error
             return [];
         }
-    }
+    }   
+
 
     // Método para obtener una dirección por su ID
     public function findById($id)

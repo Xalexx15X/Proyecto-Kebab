@@ -22,6 +22,9 @@ if (isset($_GET['menu'])) {
     if ($_GET['menu'] == "kebabCasa") {
         require_once './Vistas/Mantenimiento/kebabDeLaCasa.php';
     }
+    if ($_GET['menu'] == "kebabGusto") {
+        require_once './Vistas/Mantenimiento/kebabAlGusto.php';
+    }
     if ($_GET['menu'] == "crearKebab") {
         require_once './Vistas/Mantenimiento/crearKebab.php';
     }
