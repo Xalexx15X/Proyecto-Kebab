@@ -48,7 +48,6 @@ function crearIngrediente() {
     // Obtener valores de los campos
     const nombre = document.getElementById('nombreIngrediente').value.trim();
     const precio = parseFloat(document.getElementById('precioIngrediente').value.trim());
-    const tipo = document.getElementById('tipo').value.trim();
     const fotoFile = document.getElementById('fotoIngrediente').files[0];
     const alergenos = Array.from(document.getElementById('alergenos-ingrediente').children).map(elem => parseInt(elem.dataset.id));
 
@@ -61,7 +60,6 @@ function crearIngrediente() {
             nombre: nombre,
             foto: fotoBase64,
             precio: precio,
-            tipo: tipo,
             alergenos: alergenos
         };
 
@@ -75,12 +73,13 @@ function crearIngrediente() {
         })
         .then(response => {
             console.log("Código de estado de la respuesta:", response.status);
-            
+            borrarCampos();
             // Intentar parsear la respuesta como JSON
             return response.json().catch(() => {
                 // Si el parseo falla, mostrar la respuesta como texto
                 return response.text().then(text => {
                     throw new Error(`Respuesta no válida del servidor: ${text}`);
+                    
                 });
             });
         })
@@ -93,20 +92,14 @@ function crearIngrediente() {
             } else {
                 throw new Error(data.message || "Error desconocido en la creación del ingrediente.");
             }
-        })
-        .catch(error => {
-            console.error('Error al crear ingrediente:', error.message);
-            alert('Hubo un problema al crear el ingrediente. Detalles: ' + error.message);
-        });        
+        });
     };
-
     reader.readAsDataURL(fotoFile);
 }
 
 function borrarCampos() {
     document.getElementById('nombreIngrediente').value = '';
     document.getElementById('precioIngrediente').value = '';
-    document.getElementById('tipo').value = '';
     document.getElementById('fotoIngrediente').value = '';
     document.querySelector('.preview-container').style.backgroundImage = 'none';
     document.querySelector('.preview-container span').style.display = 'block';
@@ -129,7 +122,6 @@ function mostrarVistaPrevia(event) {
 function validarCampos() {
     const nombre = document.getElementById('nombreIngrediente').value.trim();
     const precio = parseFloat(document.getElementById('precioIngrediente').value.trim());
-    const tipo = document.getElementById('tipo').value.trim();
     const foto = document.getElementById('fotoIngrediente').files[0];
 
     if (!nombre || !precio || !tipo || !foto) {

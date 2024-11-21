@@ -24,6 +24,12 @@ class Principal
             case 'direccion':
                 require './Api/ApiDireccion.php';
                 break;
+            case 'lineaPedido':
+                require './Api/ApiLinea_Pedido.php';
+                break;
+            case 'pedido':
+                require './Api/ApiPedido.php';
+                break;
             default:
                 self::mostrarPagina();
                 break;

@@ -22,6 +22,6 @@
     <?php
     require_once './Vistas/Principal/footer.php';
     ?> 
-    <script src="./Js/header.js"></script> <!-- Este será nuestro script dinámico -->
+    <script src="./Js/header.js"></script> 
 </body>
 </html>

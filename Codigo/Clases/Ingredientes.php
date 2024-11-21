@@ -5,17 +5,15 @@ class Ingredientes
     public $nombre;
     public $foto;
     public $precio;
-    public $tipo;
     public $alergenos = [];
 
 
-    public function __construct($id_ingrediente, $nombre, $foto, $precio, $tipo, $alergenos = [])
+    public function __construct($id_ingrediente, $nombre, $foto, $precio, $alergenos = [])
     {
         $this->id_ingrediente = $id_ingrediente;
         $this->nombre = $nombre;
         $this->foto = $foto;
         $this->precio = $precio;
-        $this->tipo = $tipo;
         $this->alergenos = $alergenos;
         
     }
@@ -52,14 +50,6 @@ class Ingredientes
         $this->precio = $precio;
     }
     
-    public function getTipo() {
-        return $this->tipo;
-    }
-
-    public function setTipo($tipo) {
-        $this->tipo = $tipo;
-    }
-
     public function getAlergenos() {
         return $this->alergenos;
     }
@@ -69,7 +59,7 @@ class Ingredientes
     }
 
     public function __toString() {
-        return "Ingrediente: ID={$this->id_ingrediente}, Nombre={$this->nombre}, Precio={$this->precio}, Tipo={$this->tipo}, Alergenos=[" . implode(", ", $this->alergenos) . "]";
+        return "Ingrediente: ID={$this->id_ingrediente}, Nombre={$this->nombre}, Precio={$this->precio}, Alergenos=[" . implode(", ", $this->alergenos) . "]";
     }
 }
 ?>

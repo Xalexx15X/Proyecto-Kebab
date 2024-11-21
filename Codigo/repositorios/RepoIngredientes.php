@@ -44,7 +44,6 @@ class RepoIngredientes
                     $registro['nombre'],
                     $registro['foto'],
                     $registro['precio'],
-                    $registro['tipo'],
                     $alergenos
                 );
 
@@ -79,14 +78,13 @@ class RepoIngredientes
     {
         try {
             // Insertar el ingrediente sin usar transacción
-            $sql = "INSERT INTO ingredientes (nombre, foto, precio, tipo) 
-                    VALUES (:nombre, :foto, :precio, :tipo)";
+            $sql = "INSERT INTO ingredientes (nombre, foto, precio) 
+                    VALUES (:nombre, :foto, :precio)";
             $stm = $this->con->prepare($sql);
 
             $stm->bindValue(':nombre', $ingrediente->getNombre());
             $stm->bindValue(':foto', $ingrediente->getFoto());
             $stm->bindValue(':precio', $ingrediente->getPrecio());
-            $stm->bindValue(':tipo', $ingrediente->getTipo());
 
             if ($stm->execute()) {
                 $ingredienteId = $this->con->lastInsertId();
@@ -132,14 +130,13 @@ class RepoIngredientes
     {
         try {
             // Primero, actualiza los campos de la tabla `ingredientes`
-            $sql = "UPDATE ingredientes SET nombre = :nombre, foto = :foto, precio = :precio, tipo = :tipo 
+            $sql = "UPDATE ingredientes SET nombre = :nombre, foto = :foto, precio = :precio
                     WHERE id_ingredientes = :id";
             $stm = $this->con->prepare($sql);
 
             $stm->bindValue(':nombre', $ingrediente->getNombre());
             $stm->bindValue(':foto', $ingrediente->getFoto());
             $stm->bindValue(':precio', $ingrediente->getPrecio());
-            $stm->bindValue(':tipo', $ingrediente->getTipo());
             $stm->bindValue(':id', $ingrediente->getIdIngrediente(), PDO::PARAM_INT);
 
             if (!$stm->execute()) {

@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             alergenosList = alergenosList.filter(alergeno => !ingrediente.alergenos.map(a => a.nombre).includes(alergeno));  // Si se restan, elimino los alérgenos
         }
-        descripcionKebab.value = `Alergenos del Kebab: ${[...new Set(alergenosList)].join(', ')}`;  // Actualizo la descripción con los alérgenos únicos
+        descripcionKebab.value = `${[...new Set(alergenosList)].join(' ')}`;  // Actualizo la descripción con los alérgenos únicos
     }
 
     // Obtener todos los ingredientes y mostrarlos en la tabla de ingredientes disponibles
@@ -188,7 +188,7 @@ function limpiarCampos() {
     document.getElementById('fotoKebab').value = '';
     document.getElementById('precio').value = '';
     document.getElementById('precioRecomendado').value = '';
-    document.getElementById('descripcionKebab').value = 'Alergenos del Kebab:';
+    document.getElementById('descripcionKebab').value = '';
 
     // Limpio la vista previa de la imagen
     const previewContainer = document.querySelector(".preview-container");

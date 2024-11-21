@@ -112,4 +112,5 @@ switch ($method) {
         echo json_encode(["error" => "Método no soportado."]);
         break;
 }
-?>
+
+

@@ -26,12 +26,6 @@
                     <label for="precioIngrediente">Precio:</label>
                     <input type="text" id="precioIngrediente" placeholder="Introduce el precio del ingrediente">
                 </div>
-
-                <!-- Descripción -->
-                <div class="form-group">
-                    <label for="tipo">Tipo:</label>
-                    <textarea id="tipo" rows="4" placeholder="Introduce Si el ingrediente va a ser obligatorio o no"></textarea>
-                </div>
             </div>
 
             <!-- Separador -->
@@ -52,7 +46,6 @@
                 <div class="table-container">
                     <div class="table-header">Alergenos a Elegir</div>
                     <div class="table-body" id="ingredientes-elegir">
-                        <!-- Alergenos disponibles que se agregarán a la lista -->
                     </div>
                 </div>
             </div>

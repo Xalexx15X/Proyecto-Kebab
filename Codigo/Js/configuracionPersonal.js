@@ -71,7 +71,6 @@ function mostrarVistaPrevia(event) {
 // Guardar los datos del usuario (actualización de los campos)
 function guardarDatosUsuario() {
     const usuarioSesion = JSON.parse(localStorage.getItem("usuario"));
-
     const nombre = document.getElementById("nombre-cuenta").value;
     const contrasena = document.getElementById("contrasena").value;
     const telefono = document.getElementById("telefono").value;
@@ -123,13 +122,13 @@ function cargarDirecciones() {
         return;
     }
 
-    if (!usuario.id) { // Verificar que el usuario tiene un ID válido
+    if (!usuario.id_usuario) { // Verificar que el usuario tiene un ID válido
         console.error("El usuario no tiene un ID válido:", usuario);
         return;
     }
 
     // Realizar la solicitud POST con el id_usuario en la URL y un body vacío
-    fetch(`${apiURLDireccion}&id_usuario=${usuario.id}`, {
+    fetch(`${apiURLDireccion}&id_usuario=${usuario.id_usuario}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -241,7 +240,7 @@ function guardarDireccion(event) {
         body: JSON.stringify({
             direccion, 
             estado, 
-            id_usuario: usuarioSesion.id  // Usamos el id del usuario desde localStorage
+            id_usuario: usuarioSesion.id_usuario  // Usamos el id del usuario desde localStorage
         }),
     })
     .then(response => response.json())

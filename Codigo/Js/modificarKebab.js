@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function () {
     cargarIngredientesDisponibles();
 });
 
+// Variables globales
+let precioBaseKebab = 0; // Precio base del kebab
+
 // Función para obtener el ID del kebab desde la URL
 function obtenerIdKebab() {
     const params = new URLSearchParams(window.location.search);
@@ -35,16 +38,10 @@ function mostrarDatosKebab(kebab) {
     // Rellenar campos básicos
     document.querySelector('#nombreKebab').value = kebab.nombre;
     document.querySelector('#descripcionKebab').value = kebab.descripcion;
-    document.querySelector('#precioKebab').value = kebab.precio || 0;
 
-    // Calcular el precio recomendado sumando los ingredientes
-    let precioRecomendado = kebab.precio || 0;
-    if (Array.isArray(kebab.ingredientes)) {
-        kebab.ingredientes.forEach(ingrediente => {
-            precioRecomendado += ingrediente.precio; // Suponiendo que cada ingrediente tiene un precio
-        });
-    }
-    document.querySelector('#precioRecomendado').value = precioRecomendado.toFixed(2);
+    // Guardar y mostrar el precio base del kebab
+    precioBaseKebab = kebab.precio || 0;
+    document.querySelector('#precioKebab').value = precioBaseKebab.toFixed(2);
 
     // Manejar imagen del kebab
     if (kebab.foto) {
@@ -52,7 +49,7 @@ function mostrarDatosKebab(kebab) {
         imagen.style.backgroundImage = `url('data:image/jpeg;base64,${kebab.foto}')`;
         imagen.style.backgroundSize = 'cover';
         imagen.style.backgroundPosition = 'center';
-        document.querySelector('.preview-container span').style.display = 'none'; // Ocultar el texto "Subir o arrastrar imagen aquí"
+        document.querySelector('.preview-container span').style.display = 'none'; // Ocultar texto "Subir o arrastrar imagen aquí"
     }
 
     // Rellenar ingredientes del kebab
@@ -61,39 +58,37 @@ function mostrarDatosKebab(kebab) {
         ingredientesKebab.innerHTML = ''; // Limpiar la lista actual
 
         kebab.ingredientes.forEach(ingrediente => {
-            const div = crearIngredienteDiv(ingrediente);  // Crear div para cada ingrediente
+            const div = crearIngredienteDiv(ingrediente); // Crear div para cada ingrediente
             ingredientesKebab.appendChild(div);
-            // Permitir que el ingrediente ya agregado también sea movido de vuelta
-            div.setAttribute('draggable', 'true');
-            div.addEventListener('dragstart', function (e) {
-                e.dataTransfer.setData('text/plain', JSON.stringify(ingrediente));
-            });
-            // Actualizar el precio y los alérgenos con el ingrediente
-            actualizarPrecioYAlergenos(ingrediente, 'sumar');
+
+            // Configurar arrastrar y soltar
+            configurarArrastre(div, ingrediente);
         });
     }
+
+    // Cargar ingredientes disponibles excluyendo los del kebab
+    cargarIngredientesDisponibles(kebab.ingredientes.map(i => i.id_ingredientes));
+
+    // Actualizar el precio recomendado
+    actualizarPrecioRecomendado();
 }
 
 // Función para cargar los ingredientes disponibles
-function cargarIngredientesDisponibles() {
+function cargarIngredientesDisponibles(ingredientesExcluidos = []) {
     fetch('http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes') // URL de la API para obtener ingredientes
         .then(response => response.json())
         .then(data => {
-            const ingredientesKebabContainer = document.getElementById('ingredientes-kebab');
             const ingredientesElegirContainer = document.getElementById('ingredientes-elegir');
+            ingredientesElegirContainer.innerHTML = ''; // Limpiar lista
 
-            // Obtener los ingredientes ya seleccionados en el kebab
-            const ingredientesDelKebab = Array.from(ingredientesKebabContainer.children).map(div => div.getAttribute('data-id'));
-
-            // Mostrar solo los ingredientes que no están en el kebab
             data.forEach(ingrediente => {
-                if (!ingredientesDelKebab.includes(ingrediente.id_ingredientes.toString())) {
+                // Agregar solo ingredientes que no están en el kebab
+                if (!ingredientesExcluidos.includes(ingrediente.id_ingredientes)) {
                     const ingredienteDiv = crearIngredienteDiv(ingrediente);
-                    // Permitir el arrastre de ingredientes
-                    ingredienteDiv.setAttribute('draggable', 'true');
-                    ingredienteDiv.addEventListener('dragstart', function (e) {
-                        e.dataTransfer.setData('text/plain', JSON.stringify(ingrediente));
-                    });
+
+                    // Configurar arrastre y soltar
+                    configurarArrastre(ingredienteDiv, ingrediente);
+
                     ingredientesElegirContainer.appendChild(ingredienteDiv);
                 }
             });
@@ -107,38 +102,45 @@ function cargarIngredientesDisponibles() {
 function crearIngredienteDiv(ingrediente) {
     const div = document.createElement('div');
     div.classList.add('ingrediente-item');
-    div.textContent = `${ingrediente.nombre} - $${ingrediente.precio.toFixed(2)}`;
+    div.textContent = `${ingrediente.nombre} - €${ingrediente.precio.toFixed(2)}`;
     div.setAttribute('data-id', ingrediente.id_ingredientes);
+    div.setAttribute('data-precio', ingrediente.precio);
     return div;
 }
 
-// Actualizar el precio y alérgenos del kebab
-function actualizarPrecioYAlergenos(ingrediente, accion) {
-    const precioKebab = document.querySelector('#precioKebab');
-    let precioActual = parseFloat(precioKebab.value);
-
-    if (accion === 'sumar') {
-        precioActual += ingrediente.precio;
-    } else if (accion === 'restar') {
-        precioActual -= ingrediente.precio;
-    }
-
-    precioKebab.value = precioActual.toFixed(2);
+// Configurar arrastrar y soltar para un ingrediente
+function configurarArrastre(div, ingrediente) {
+    div.setAttribute('draggable', 'true');
+    div.addEventListener('dragstart', function (e) {
+        e.dataTransfer.setData('text/plain', JSON.stringify(ingrediente));
+    });
 }
 
-// Manejo del "dragover" y "drop" para la zona de ingredientes del kebab
+// Actualizar el precio recomendado
+function actualizarPrecioRecomendado() {
+    let precioRecomendado = precioBaseKebab;
+    const ingredientes = [...document.querySelector('#ingredientes-kebab').children];
+    ingredientes.forEach(div => {
+        const precioIngrediente = parseFloat(div.getAttribute('data-precio'));
+        if (!isNaN(precioIngrediente)) {
+            precioRecomendado += precioIngrediente;
+        }
+    });
+    document.querySelector('#precioRecomendado').value = precioRecomendado.toFixed(2);
+}
+
+// Manejo del "dragover" y "drop" para las zonas de ingredientes
 const ingredientesKebabContainer = document.getElementById('ingredientes-kebab');
 const ingredientesElegirContainer = document.getElementById('ingredientes-elegir');
 
-// Habilitar el "dragover" para la zona de ingredientes del kebab (donde se sueltan los ingredientes)
-ingredientesKebabContainer.addEventListener('dragover', function (e) {
-    e.preventDefault();  // Permite el "drop"
-});
+// Permitir el "dragover" en ambas zonas
+ingredientesKebabContainer.addEventListener('dragover', e => e.preventDefault());
+ingredientesElegirContainer.addEventListener('dragover', e => e.preventDefault());
 
-// Manejo del "drop" de ingredientes en el kebab
+// Manejo del "drop" en el kebab
 ingredientesKebabContainer.addEventListener('drop', function (e) {
     e.preventDefault();
-    const ingrediente = JSON.parse(e.dataTransfer.getData('text/plain'));  // Obtengo el ingrediente arrastrado
+    const ingrediente = JSON.parse(e.dataTransfer.getData('text/plain'));
 
     // Verificar si el ingrediente ya está en el kebab
     if ([...ingredientesKebabContainer.children].some(div => div.getAttribute('data-id') === ingrediente.id_ingredientes.toString())) {
@@ -146,44 +148,42 @@ ingredientesKebabContainer.addEventListener('drop', function (e) {
         return;
     }
 
-    // Agregar el ingrediente al kebab
     const ingredienteDiv = crearIngredienteDiv(ingrediente);
     ingredientesKebabContainer.appendChild(ingredienteDiv);
 
     // Removerlo de la lista de ingredientes disponibles
-    const ingredienteElegir = [...ingredientesElegirContainer.children].find(div => div.getAttribute('data-id') === ingrediente.id_ingredientes.toString());
+    const ingredienteElegir = [...ingredientesElegirContainer.children]
+        .find(div => div.getAttribute('data-id') === ingrediente.id_ingredientes.toString());
     if (ingredienteElegir) {
         ingredientesElegirContainer.removeChild(ingredienteElegir);
     }
 
-    // Actualizar el precio y los alérgenos
-    actualizarPrecioYAlergenos(ingrediente, 'sumar');
+    // Configurar arrastre y actualizar precios
+    configurarArrastre(ingredienteDiv, ingrediente);
+    actualizarPrecioRecomendado();
 });
 
-// Habilitar el "dragover" para la zona de ingredientes disponibles
-ingredientesElegirContainer.addEventListener('dragover', function (e) {
-    e.preventDefault();  // Permite el "drop"
-});
-
-// Manejo del "drop" de ingredientes en la zona de ingredientes disponibles
+// Manejo del "drop" en los ingredientes disponibles
 ingredientesElegirContainer.addEventListener('drop', function (e) {
     e.preventDefault();
-    const ingrediente = JSON.parse(e.dataTransfer.getData('text/plain'));  // Obtengo el ingrediente arrastrado
+    const ingrediente = JSON.parse(e.dataTransfer.getData('text/plain'));
 
     // Verificar si el ingrediente ya está en la lista de ingredientes disponibles
     if ([...ingredientesElegirContainer.children].some(div => div.getAttribute('data-id') === ingrediente.id_ingredientes.toString())) {
         return;
     }
 
-    // Agregar el ingrediente de nuevo a la lista de ingredientes disponibles
     const ingredienteDiv = crearIngredienteDiv(ingrediente);
     ingredientesElegirContainer.appendChild(ingredienteDiv);
 
     // Removerlo de los ingredientes del kebab
-    const ingredienteKebab = [...ingredientesKebabContainer.children].find(div => div.getAttribute('data-id') === ingrediente.id_ingredientes.toString());
+    const ingredienteKebab = [...ingredientesKebabContainer.children]
+        .find(div => div.getAttribute('data-id') === ingrediente.id_ingredientes.toString());
     if (ingredienteKebab) {
         ingredientesKebabContainer.removeChild(ingredienteKebab);
-        // Actualizar el precio y los alérgenos
-        actualizarPrecioYAlergenos(ingrediente, 'restar');
     }
+
+    // Configurar arrastre y actualizar precios
+    configurarArrastre(ingredienteDiv, ingrediente);
+    actualizarPrecioRecomendado();
 });

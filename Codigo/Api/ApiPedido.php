@@ -41,10 +41,9 @@ switch ($method) {
             // Crear un nuevo pedido
             $pedido = new Pedido(
                 null, // El ID será autoincrementado por la base de datos
-                $input['estado'],
+                $input['estado'] ?? "Pendiente",
                 $input['precio_total'],
                 $input['fecha_hora'],
-                [], // Inicialmente, sin líneas de pedido
                 $input['usuario_id_usuario'] // El ID del usuario
             );
 

@@ -55,8 +55,8 @@
                     <div class="table-header">
                         <div>Alergenos a Elegir</div>
                     </div>
-                    <div class="table-body" id="alergenos-ingrediente">
-                        <!-- Aquí se cargarán los alérgenos disponibles para elegir --> 
+                    <div class="table-body" id="alergenos-a-elegir">
+                        <!-- Aquí se cargarán los alérgenos disponibles para elegir -->
                     </div>
                 </div>
             </div>

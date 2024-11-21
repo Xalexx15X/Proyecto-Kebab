@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // API URLs
     const apiURLIngredientes = 'http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes';
-    const apiURLKebab = 'http://localhost/ProyectoKebab/codigo/index.php?route=kebabs';
 
     // Función para crear el div de cada ingrediente
     function crearIngredienteDiv(ingrediente) {
@@ -115,33 +114,42 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Función para añadir al carrito
     document.querySelector('.btn-1').addEventListener('click', function () {
-        const precioRecomendado = document.getElementById('precioRecomendado').value;
-        const descripcionKebab = document.getElementById('descripcionKebab').value;
-        const ingredientes = Array.from(ingredientesKebabContainer.children).map(ingrediente => parseInt(ingrediente.getAttribute('data-id')));
-
-        // Crear el objeto kebab con la información
+        const precioRecomendado = parseFloat(document.getElementById('precioRecomendado').value) || 0; // Convertir a número
+        const descripcionKebab = document.getElementById('descripcionKebab').value; // Descripción
+        const ingredientes = Array.from(document.getElementById('ingredientes-kebab').children).map(ingrediente => ({
+            id: parseInt(ingrediente.getAttribute('data-id')), // ID del ingrediente
+            nombre: ingrediente.textContent.trim() // Nombre del ingrediente
+        }));
+    
+        // Crear el objeto kebab
         const kebab = {
-            precio: parseFloat(precioRecomendado),
-            descripcion: descripcionKebab,
-            ingredientes: ingredientes
+            nombre: 'Kebab al gusto', // Nombre fijo
+            precio: parseFloat(precioRecomendado.toFixed(2)), // Precio numérico redondeado, pero guardado como número
+            descripcion: descripcionKebab || 'Sin descripción', // Aseguramos que haya una descripción
+            ingredientes: ingredientes.map(ing => ing.nombre) // Lista de nombres de ingredientes
         };
-
+    
         // Guardar en localStorage
-        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        carrito.push(kebab);
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || []; // Obtener carrito existente
+        carrito.push(kebab); // Añadir el kebab
+        localStorage.setItem('carrito', JSON.stringify(carrito)); // Guardar actualizado
+    
         // Mostrar mensaje de éxito
-        alert('Kebab añadido al carrito.');
-
+        alert('Kebab al gusto añadido al carrito.');
+    
         // Console log para depuración
         console.log('Carrito en localStorage:', JSON.parse(localStorage.getItem('carrito')));
+    
+
+    // Mostrar mensaje de éxito
+    alert('Kebab al gusto añadido al carrito.');
+
+    // Console log para depuración
+    console.log('Carrito en localStorage:', JSON.parse(localStorage.getItem('carrito')));
     });
 
     // Función para limpiar los campos (Borrar)
-   // Función para limpiar los campos (Borrar)
     function limpiarCampos() {
         const precioRecomendado = document.getElementById('precioRecomendado');
         const descripcionKebab = document.getElementById('descripcionKebab');
@@ -163,8 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
             actualizarPrecioYAlergenos(ingredienteData, 'restar');
         });
     }
-
-
     // Evento para borrar
     document.querySelector('.btn-2').addEventListener('click', limpiarCampos);
 

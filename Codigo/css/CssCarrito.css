@@ -1,61 +1,99 @@
-/* Estilos generales para el carrito */
+/* Centrar todo el contenido en el medio del body */
+body {
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    height: 80vh; /* Altura completa de la ventana */
+    margin: 0; /* Eliminar márgenes predeterminados */
+    background-color: #f5f5f5; /* Fondo claro para mejor contraste */
+}
+h2 {
+    color: #00f2ff; /* Color del título */
+    margin-right: 20px; /* Espacio inferior */
+}
+
+/* Estilos generales para el contenedor principal */
 .container {
-    margin-top: 4.75%; /* Margen superior reducido para aprovechar más espacio vertical */
-    margin-bottom: 4.75%; /* Margen inferior para separar del fondo */
-    margin-left: auto; /* Centrando el contenedor horizontalmente */
-    margin-right: auto; /* Centrando el contenedor horizontalmente */
-    display: flex; /* Usar Flexbox para centrar contenido */
-    flex-direction: column; /* Colocar elementos en columna */
-    align-items: center; /* Centrar elementos en el eje transversal */
+    padding: 20px; /* Relleno interno */
+    align-items: center; /* Centrar contenido horizontalmente */
+    justify-content: center; /* Centrar contenido verticalmente */
+    border: 1px solid #a8a8a8; /* Borde azul */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: white; /* Fondo blanco */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efecto de elevación */
+    width: 100%; /* Ajustar ancho del contenedor */
+    margin-top: 3%;
+    margin-bottom: 3%;
 }
 
-/* Centrando todo el texto */
-.text-center {
-    text-align: center; /* Alinea el texto al centro */
-    margin-left: 180px;
+/* Estilo para las listas desplegables más anchas */
+.table-container {
+    width: 100%; /* Hacer que ocupe todo el ancho disponible */
+    max-height: 500px; /* Altura máxima */
+    overflow-y: scroll; /* Habilitar scroll vertical */
+    border: 1px solid #ccc; /* Borde alrededor de la tabla */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-top: 10px; /* Separación superior */
+    height: 400px; /* Altura fija */
+    display: flex;
+    flex-direction: column;
+    padding: 10px; /* Espaciado interno */
+    background-color: #f9f9f9; /* Fondo claro */
 }
 
-/* Estilo para los inputs de solo lectura */
-input[readonly] {
-    background-color: #f9f9f9; /* Color de fondo gris claro */
-    cursor: not-allowed; /* Cambia el cursor para indicar que no se puede editar */
-    text-align: center; /* Centrar el texto dentro del input */
+/* Ajustar la lista desplegable */
+.table-body {
+    padding: 0; /* Sin relleno interno */
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem; /* Tamaño del texto */
+}
+
+/* Cada fila como un div */
+.table-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 4 columnas de igual tamaño */
+    padding: 10px; /* Espaciado interno */
+    font-size: 1rem; /* Tamaño de fuente */
+    border-bottom: 1px solid #ddd; /* Línea divisoria */
+}
+
+/* Columnas dentro de las filas */
+.table-row .column {
+    text-align: center; /* Texto centrado */
+    padding: 5px 0; /* Espaciado interno */
     font-weight: bold; /* Texto en negrita */
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.5); /* Sombreado gris para el texto */
 }
 
-/* Botones */
+/* Hover para las filas */
+.table-row:hover {
+    background-color: #f0f0f0; /* Fondo claro al pasar el ratón */
+}
+
+/* Encabezado de la tabla más ancho */
+.table-header {
+    background-color: #959595; /* Fondo gris oscuro */
+    color: white; /* Texto blanco */
+    padding: 15px; /* Más relleno interno */
+    font-size: 1.2rem; /* Tamaño de fuente más grande */
+    text-align: center; /* Centrado del texto */
+    font-weight: bold; /* Texto en negrita */
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.5); /* Sombreado gris para el texto */
+}
+
+/* Estilo para botones */
 .btn {
-    margin-top: 2%; /* Espacio superior para botones aumentado para separación */
-    width: auto; /* Ancho automático */
-    padding: 10px 20px; /* Ajusta el tamaño del padding para hacerlos más pequeños */
-    font-size: 18px; /* Tamaño de fuente más pequeño */
-    display: inline-flex; /* Usar Flexbox para alinear contenido dentro del botón */
-    align-items: center; /* Centrar íconos o texto verticalmente */
-    font-weight: bold; /* Texto en negrita para botones */
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.5); /* Sombreado gris para el texto */
-    margin-left: 180px;
-}
-
-/* Ajustar el ancho de los botones */
-.btn-outline-primary,
-.btn-success {
-    width: auto; /* Ancho automático */
+    padding: 10px 20px; /* Más ancho y alto */
+    font-size: 18px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
     border-radius: 5px; /* Bordes redondeados */
+    color: #ffffff;
+    background-color: #28a745; /* Fondo verde */
+    border: 1px solid #28a745; /* Borde verde */
+    cursor: pointer; /* Cambiar cursor a mano al pasar sobre el botón */
 }
 
-/* Espaciado entre los inputs y botones */
-.form-group {
-    margin-bottom: 3%; /* Aumenta el espacio entre grupos de formulario */
-    width: 100%; /* Hacer que el grupo ocupe todo el ancho */
-    display: flex; /* Usar Flexbox para centrar el contenido del grupo */
-    justify-content: center; /* Centrar el contenido horizontalmente */
-    align-items: center; /* Centrar el contenido verticalmente */
-}
-
-/* Estilo para labels */
-label {
-    font-weight: bold; /* Texto en negrita para labels */
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.5); /* Sombreado gris para el texto */
-    width: 180px;
+.btn:hover {
+    background-color: #24923e; /* Fondo verde oscuro al pasar el ratón */
+    color: #ffffff;
 }

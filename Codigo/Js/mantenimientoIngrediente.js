@@ -82,4 +82,3 @@ function eliminarIngrediente(id) {
         console.error("Error al eliminar ingrediente", error);
     });
 }
-

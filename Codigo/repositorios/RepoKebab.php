@@ -191,8 +191,7 @@ class RepoKebab
                 $registro['id_ingredientes'], 
                 $registro['nombre'], 
                 $registro['foto'] ?? '', 
-                $registro['precio'], 
-                $registro['tipo']
+                $registro['precio']
             );
         }
         return $ingredientes;

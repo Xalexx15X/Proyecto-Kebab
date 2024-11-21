@@ -36,25 +36,17 @@ window.addEventListener('load', function () {
                                 </div>
                             </li>
 
-                            <!-- Kebab con submenú desplegable -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarKebab" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Kebab
+                            <li class="nav-item">
+                                <a class="nav-link" href="?menu=mantenimientoKebab" id="navbarKebab">
+                                Kebab
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarKebab">
-                                    <a class="dropdown-item" href="?menu=mantenimientoKebab">Mantenimiento Kebab</a>
-                                </div>
                             </li>
 
-                            <!-- ingredientes con submenú desplegable -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarIngrediente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    ingredientes
+                            <!-- Ingredientes con botón -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="?menu=mantenimientoIngrediente" id="navbarIngrediente">
+                                Ingredientes
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarIngrediente">
-                                    <a class="dropdown-item" href="?menu=mantenimientoIngrediente">Mantenimiento Ingredientes</a>
-                                    
-                                </div>
                             </li>
 
                             <!-- Registro -->
@@ -233,13 +225,44 @@ window.addEventListener('load', function () {
         header.className = 'header-invitado'; // Cambiar clase del header para invitado
     }
 });
+
 document.body.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'cerrarSesionBtn') {
                 // Borrar el localStorage
                 localStorage.removeItem('usuario');
+                localStorage.removeItem('carrito');
 
                 // Recargar la página y redirigir al index.php
                 window.location.href = 'index.php';
     }
 });
+
+window.onload = function () {
+    // Obtener el objeto de usuario desde localStorage
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    // Verificar si el usuario existe
+    if (usuario) {
+        console.log("Usuario cargado:", usuario);  // Depuración
+
+        // Comprobar si el usuario tiene la propiedad 'monedero'
+        if (usuario.monedero !== undefined) {
+            // Seleccionar el span donde se mostrará el saldo del monedero
+            const monederoSpan = document.querySelector('.nav-item.d-flex.align-items-center span');
+
+            // Verificar si se encontró el span
+            if (monederoSpan) {
+                console.log("Span encontrado:", monederoSpan);  // Depuración
+                // Actualizar el contenido del span con el saldo del monedero
+                monederoSpan.textContent = `${usuario.monedero.toFixed(2)}€`;
+            } else {
+                console.error("No se encontró el span del monedero en el header.");
+            }
+        } else {
+            console.error("No se encontró el monedero del usuario en localStorage.");
+        }
+    } 
+};
+
+
 

@@ -52,13 +52,12 @@ switch ($method) {
         break;    
     case 'POST':
         // Crear un nuevo ingrediente
-        if (isset($input['nombre'], $input['foto'], $input['precio'], $input['tipo'], $input['alergenos'])) {
+        if (isset($input['nombre'], $input['foto'], $input['precio'], $input['alergenos'])) {
             $ingrediente = new Ingredientes(
                 null, 
                 $input['nombre'],
                 $input['foto'],
                 $input['precio'],
-                $input['tipo'],
                 $input['alergenos'] 
             );
 
@@ -78,13 +77,12 @@ switch ($method) {
 
     case 'PUT':
         // Actualizar un ingrediente existente
-        if (isset($input['id_ingrediente'], $input['nombre'], $input['foto'], $input['precio'], $input['tipo'], $input['alergenos'])) {
+        if (isset($input['id_ingrediente'], $input['nombre'], $input['foto'], $input['precio'], $input['alergenos'])) {
             $ingrediente = new Ingredientes(
                 $input['id_ingrediente'],
                 $input['nombre'],
                 $input['foto'],
                 $input['precio'],
-                $input['tipo'],
                 $input['alergenos'] 
             );
 

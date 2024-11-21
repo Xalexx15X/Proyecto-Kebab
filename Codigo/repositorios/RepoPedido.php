@@ -23,7 +23,6 @@ class RepoPedido
                     $registro['estado'],
                     $registro['precio_total'],
                     $registro['fecha_hora'],
-                    [], // Línea de pedidos si es necesario
                     $registro['usuario_id_usuario']
                 );
             } else {
