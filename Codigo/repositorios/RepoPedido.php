@@ -33,7 +33,37 @@ class RepoPedido
             return null;
         }
     }
-
+    
+    public function findByUsuarioId($id_usuario)
+    {
+        try {
+            // Modificamos la consulta para obtener solo el último pedido del usuario
+            $sql = "SELECT * FROM pedidos WHERE usuario_id_usuario = :id_usuario ORDER BY fecha_hora DESC LIMIT 1";
+            $stm = $this->con->prepare($sql);
+            $stm->execute(['id_usuario' => $id_usuario]);
+            $pedido = $stm->fetch(PDO::FETCH_ASSOC);  // Solo obtenemos un pedido
+    
+            if (!$pedido) {
+                echo json_encode(["error" => "No se encontró el último pedido para el usuario especificado."]);
+                http_response_code(404);  // Not Found
+                return null;
+            }
+    
+            // Convertir el resultado en un objeto Pedido
+            return new Pedido(
+                $pedido['id_pedidos'],
+                $pedido['estado'],
+                $pedido['precio_total'],
+                $pedido['fecha_hora'],
+                $pedido['usuario_id_usuario']
+            );
+    
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al obtener el último pedido: " . $e->getMessage()]);
+            http_response_code(500);  // Internal Server Error
+            return null;
+        }
+    }
     // Método para crear un nuevo pedido
     public function crear(Pedido $pedido)
     {
@@ -123,7 +153,6 @@ class RepoPedido
                     $registro['estado'],
                     $registro['precio_total'],
                     $registro['fecha_hora'],
-                    [], // Aquí también puedes agregar las líneas de pedido si es necesario
                     $registro['usuario_id_usuario']
                 );
                 $pedidos[] = $pedido;
@@ -134,5 +163,68 @@ class RepoPedido
             return [];
         }
     }
-}
+
+    public function mostrarTodosConUsuarios()
+    {
+        try {
+            // Consulta con JOIN para obtener pedidos junto con los nombres de usuario
+            $sql = "
+                SELECT 
+                    p.id_pedidos, 
+                    p.estado, 
+                    p.precio_total, 
+                    p.fecha_hora, 
+                    p.usuario_id_usuario, 
+                    u.nombre AS nombre_usuario
+                FROM 
+                    pedidos p
+                INNER JOIN 
+                    usuario u ON p.usuario_id_usuario = u.id_usuario
+            ";
+            $stm = $this->con->prepare($sql);
+            $stm->execute();
+            $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
+    
+            return $registros; // Devuelve un array con los pedidos y los nombres de usuario
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al mostrar los pedidos con usuarios: " . $e->getMessage()]);
+            return [];
+        }
+    }  
+
+    public function mostrarPedidosPorClienteConLineas($id_usuario)
+    {
+        try {
+            // Consulta SQL para obtener los pedidos y las líneas de pedido
+            $sql = "
+                SELECT 
+                    p.id_pedidos, 
+                    p.fecha_hora, 
+                    p.precio_total, 
+                    lp.linea_pedidos
+                FROM 
+                    pedidos p
+                LEFT JOIN 
+                    linea_pedido lp ON p.id_pedidos = lp.pedidos_id_pedidos
+                WHERE 
+                    p.usuario_id_usuario = :id_usuario
+                ORDER BY 
+                    p.fecha_hora DESC
+            ";
+
+            // Preparar la consulta
+            $stm = $this->con->prepare($sql);
+            $stm->execute(['id_usuario' => $id_usuario]);
+
+            // Obtener los resultados
+            $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            // Devolver directamente los registros
+            return $registros;
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al obtener los pedidos del cliente: " . $e->getMessage()]);
+            return [];
+        }
+    }
+}    
 ?>

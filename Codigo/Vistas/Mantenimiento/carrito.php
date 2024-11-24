@@ -20,7 +20,6 @@
             </div>
         </div>
 
-
         <!-- Selección de Dirección -->
         <div class="form-group">
             <label for="direccionUsuario">Elige tu dirección de entrega:</label>
@@ -54,7 +53,6 @@
         <div class="form-group">
             <button type="button" class="btn btn-success btn-block" onclick="tramitarPedido()">Tramitar Pedido</button>
         </div>
-
         <!-- Crédito Restante -->
         <div class="form-group">
             <label for="creditoFinal">Crédito Después de Tramitar:</label>
@@ -65,3 +63,4 @@
     <script src="./Js/linea_pedido.js"></script>
 </body>
 </html>
+

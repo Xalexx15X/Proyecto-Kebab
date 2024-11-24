@@ -4,14 +4,16 @@ header("Content-Type: application/json");
 $con = Conexion::getConection();
 $repoLineaPedido = new RepoLinea_Pedido($con);
 
-$method = $_SERVER['REQUEST_METHOD'];
-$input = json_decode(file_get_contents("php://input"), true);
-
 // Verificar si el JSON recibido es válido
-if (json_last_error() !== JSON_ERROR_NONE) {
-    http_response_code(400); // Bad Request
-    echo json_encode(["error" => "JSON malformado."]);
-    exit;
+if ($method != 'GET') {
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    // Verificar si el JSON recibido es válido
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        http_response_code(400); // Bad Request
+        echo json_encode(["error" => "JSON malformado."]);
+        exit;
+    }
 }
 
 switch ($method) {

@@ -4,9 +4,7 @@ window.addEventListener('load', function () {
     btnRegistrar.addEventListener('click', registrarUsuario);
 });
 
-function registrarUsuario(event) {
-    event.preventDefault(); // Evitar recargar la página.
-
+function registrarUsuario() {
     // Obtener valores del formulario
     const nombre = document.getElementById('nombre-cuenta').value.trim();
     const contrasena = document.getElementById('contrasena').value.trim();
@@ -49,21 +47,27 @@ function registrarUsuario(event) {
             },
             body: JSON.stringify(usuario)
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Usuario creado con éxito.');
+        .then(async response => {
+            if (response.ok) {
+                const data = await response.json();
 
-                // Guardar el usuario en localStorage como "logueado"
-                localStorage.setItem('usuario', JSON.stringify(usuario)); 
+                if (data.success) {
+                    alert('Usuario creado con éxito.');
 
-                // Limpiar el formulario
-                borrarCampos(); 
+                    // Guardar el usuario en localStorage como "logueado"
+                    localStorage.setItem('usuario', JSON.stringify(usuario));
 
-                // Redirigir al index (página principal)
-                window.location.href = "index.php"; // Cambia la URL según sea necesario
+                    // Limpiar el formulario
+                    borrarCampos();
+
+                    // Redirigir al index (página principal)
+                    window.location.href = "index.php"; // Cambia la URL según sea necesario
+                } else {
+                    throw new Error(data.message || "Error al crear el usuario.");
+                }
             } else {
-                throw new Error(data.message || "Error al crear el usuario.");
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Error desconocido.");
             }
         })
         .catch(error => {

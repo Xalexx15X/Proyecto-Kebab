@@ -45,4 +45,3 @@ INSERT INTO usuario_tiene_alergenos (usuario_id_usuario, alergenos_id_alergenos)
 
 SELECT * FROM usuario WHERE id_usuario = 1;
 SELECT * FROM alergenos WHERE id_alergenos = 1;
-

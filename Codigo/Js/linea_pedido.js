@@ -60,7 +60,7 @@ function mostrarCarrito(carrito) {
         tableRow.innerHTML = `
             <div class="column">${kebab.cantidad}</div>
             <div class="column">${kebab.nombre} - Ingredientes: ${kebab.ingredientes.join(', ')}</div>
-            <div class="column">€${kebab.precio}</div>
+            <div class="column">${kebab.precio + "€"}</div>
             <div class="column">
                 <button class="btn" onclick="disminuirCantidad(${index})">-</button>
             </div>
@@ -111,6 +111,7 @@ window.añadirCredito = function () {
 
     // Realizar la petición PUT para actualizar el monedero
     actualizarMonederoEnServidor();
+    console.log(actualizarMonederoEnServidor);
 
     // Guardar el nuevo monedero en localStorage
     usuario.monedero = nuevoMonedero;
@@ -123,20 +124,24 @@ window.añadirCredito = function () {
     añadirCreditoInput.value = '';
 };
 
-function actualizarMonederoEnServidor() {
+function actualizarMonederoEnServidor(nuevoSaldo) {
     const usuarioSesion = JSON.parse(localStorage.getItem("usuario"));
-    const nuevaCantidad = parseFloat(añadirCreditoInput.value);
+    if (!usuarioSesion || !usuarioSesion.id_usuario) {
+        console.error("Usuario no válido para actualizar el monedero en el servidor.");
+        return;
+    }
+
     const datosActualizados = {
         id: usuarioSesion.id_usuario,
         nombre: usuarioSesion.nombre,
         contrasena: usuarioSesion.contrasena,
         carrito: usuarioSesion.carrito,
-        monedero: nuevaCantidad,
+        monedero: nuevoSaldo, // Aquí usamos el nuevo saldo
         foto: usuarioSesion.foto,
         telefono: usuarioSesion.telefono,
         ubicacion: usuarioSesion.ubicacion,
         correo: usuarioSesion.correo,
-        tipo: usuarioSesion.tipo 
+        tipo: usuarioSesion.tipo,
     };
 
     fetch(`${apiURLUsarios}`, {
@@ -144,25 +149,35 @@ function actualizarMonederoEnServidor() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(datosActualizados),
     })
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`Error al actualizar el monedero en el servidor: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((data) => {
         if (data.success) {
             console.log("Monedero actualizado correctamente en el servidor.");
         } else {
-            console.error("Error al actualizar el monedero en el servidor:", data);
+            console.error("El servidor devolvió un error al actualizar el monedero:", data);
         }
     })
-    .catch(error => {
+    .catch((error) => {
         console.error("Error al realizar la petición de actualización del monedero:", error);
     });
 }
 
+
 // Función para actualizar el monedero en la vista
 function actualizarMonedero(cantidad) {
-    // Buscar el elemento del header
     const monederoSpan = document.querySelector('.nav-item span');
     if (monederoSpan) {
         monederoSpan.textContent = `${cantidad.toFixed(2)}€`; // Mostrar el saldo actualizado
+    }
+
+    // Actualizamos también el crédito actual en el input
+    if (creditoActual) {
+        creditoActual.value = cantidad.toFixed(2);
     }
 }
 
@@ -264,7 +279,7 @@ function mostrarCredito() {
     actualizarCreditoRestante();
 }
 
-window.tramitarPedido = function () {    
+window.tramitarPedido = function () {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
     const precioTotal = parseFloat(importePagar.value);
 
@@ -273,45 +288,146 @@ window.tramitarPedido = function () {
         return;
     }
 
-        // Obtener el monedero del usuario desde el objeto 'usuario' en el localStorage
-    const monedero = parseFloat(usuario.monedero) || 0; // Si no existe, asumimos que es 0
+    const monedero = parseFloat(usuario.monedero) || 0;
 
-    // Verificar si el monedero es suficiente para tramitar el pedido
     if (monedero < precioTotal) {
         alert("No tienes suficiente saldo en tu monedero para tramitar el pedido.");
         return;
     }
 
-    // Usar la función para obtener la fecha en formato MySQL
     const fechaHora = formatoFechaMysql();
 
     const pedidoData = {
         estado: "Pendiente",
         precio_total: precioTotal.toFixed(2),
         fecha_hora: fechaHora,
-        usuario_id_usuario: usuario.id_usuario
+        usuario_id_usuario: usuario.id_usuario,
     };
 
-    console.log("Pedido Data:", pedidoData); // Revisa la data para asegurarte de que todo está correcto
+    console.log("Creando pedido con datos:", pedidoData);
 
+    // Crear el pedido
     fetch(apiURLPedido, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify(pedidoData)
+        body: JSON.stringify(pedidoData),
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log("Pedido creado correctamente:", data);
-            crearLineasPedido(data.id_pedido);
-        } else {
-            console.error("Error al crear el pedido:", data);
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error en la creación del pedido.");
+            }
+            return response.json(); // Aquí esperamos el ID del pedido recién creado
+        })
+        .then((data) => {
+            if (data && data.id_pedido) {
+                console.log("Pedido creado con éxito. ID del pedido:", data.id_pedido);
+
+                // Crear líneas de pedido con el ID recién creado
+                crearLineasPedido(data.id_pedido);
+
+                // Restar el crédito del monedero después de procesar el pedido
+                const nuevoMonedero = monedero - precioTotal;
+
+                // Actualizar el monedero en localStorage
+                usuario.monedero = nuevoMonedero;
+                localStorage.setItem("usuario", JSON.stringify(usuario));
+
+                // Actualizar el monedero en la interfaz
+                actualizarMonedero(nuevoMonedero);
+
+                // Actualizar el monedero en la base de datos
+                actualizarMonederoEnServidor();
+
+                tramitarPedido()
+
+                // Borrar el carrito del localStorage
+                localStorage.removeItem("carrito");
+
+                // Actualizar el total a pagar y crédito restante
+                calcularTotal([]);
+
+                console.log("Carrito borrado después de tramitar el pedido.");
+            } else {
+                throw new Error("El servidor no devolvió un ID de pedido válido.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error al tramitar el pedido:", error);
+        });
+};
+
+
+// Función para crear las líneas de pedido
+function crearLineasPedido(id_pedido) {
+    const lineas = document.querySelectorAll("#ticketCarrito .table-row");
+
+    if (!lineas.length) {
+        console.warn("No se encontraron líneas en el ticket para crear líneas de pedido.");
+        return;
+    }
+
+    console.log("Creando líneas para el pedido ID:", id_pedido);
+
+    lineas.forEach((linea, index) => {
+        const columnas = linea.querySelectorAll(".column");
+
+        if (columnas.length < 3) {
+            console.error(`Fila ${index + 1}: No contiene las columnas necesarias.`);
+            return;
         }
-    })
-    .catch(error => {
-        console.error("Error al hacer el POST para crear el pedido:", error);
+
+        const cantidadText = columnas[0]?.textContent.trim();
+        const detallesKebab = columnas[1]?.textContent.trim();
+        const precioText = columnas[2]?.textContent.replace("€", "").trim();
+
+        const cantidad = parseInt(cantidadText, 10);
+        const precio = parseFloat(precioText);
+
+        if (isNaN(cantidad) || isNaN(precio)) {
+            console.error(`Fila ${index + 1}: Datos inválidos para cantidad o precio.`);
+            return;
+        }
+
+        let nombre = "Desconocido";
+        let ingredientes = [];
+        if (detallesKebab) {
+            const [nombreText, ingredientesText] = detallesKebab.split(" - Ingredientes: ");
+            nombre = nombreText?.trim() || "Desconocido";
+            ingredientes = ingredientesText ? ingredientesText.split(", ").map((ing) => ing.trim()) : [];
+        }
+
+        const lineaPedidoData = {
+            cantidad: cantidad,
+            precio: precio,
+            linea_pedidos: {
+                nombre: nombre,
+                ingredientes: ingredientes.join(", "),
+            },
+            id_pedidos: id_pedido,
+        };
+
+        console.log(`Creando línea ${index + 1} con datos:`, lineaPedidoData);
+
+        fetch(apiURLLinea_Pedido, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(lineaPedidoData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    console.log(`Línea ${index + 1} creada correctamente:`, data);
+                } else {
+                    console.error(`Error al crear la línea ${index + 1}:`, data);
+                }
+            })
+            .catch((error) => {
+                console.error(`Error al enviar la línea ${index + 1}:`, error);
+            });
     });
 }
 
@@ -327,45 +443,4 @@ function formatoFechaMysql() {
 
     return `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
 }
-
-
-function crearLineasPedido(idPedido) {
-    const lineas = document.querySelectorAll(".linea-tiket");
-
-    lineas.forEach(linea => {
-        const cantidad = parseInt(linea.querySelector(".cantidad").textContent);
-        const precioTotal = parseFloat(linea.querySelector(".precio-total").textContent);
-        const nombreKebab = linea.querySelector(".nombre-kebab").textContent;
-        const ingredientes = linea.querySelector(".ingredientes").textContent;
-
-        const lineaPedidoData = {
-            cantidad: cantidad,
-            precio: precioTotal,
-            linea_pedidos: nombreKebab + " - " + ingredientes,
-            id_pedidos: idPedido
-        };
-
-        fetch(apiURLLinea_Pedido, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(lineaPedidoData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                console.log("Línea de pedido creada correctamente:", data);
-            } else {
-                console.error("Error al crear la línea de pedido:", data);
-            }
-        })
-        .catch(error => {
-            console.error("Error al crear la línea de pedido:", error);
-        });
-    });
-}
-
-
-
 

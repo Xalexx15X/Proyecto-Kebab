@@ -8,12 +8,6 @@ body {
     color: #333;
 }
 
-
-.titulo-centrado {
-    font-size: 28px;
-    font-weight: bold;
-}
-
 /* Contenedor principal */
 .contenedor {
     max-width: 1200px;
@@ -30,6 +24,10 @@ body {
     margin-bottom: 10px;
     color: #00f2ff;
     margin-top: 50px;
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .tabla-pedidos {
@@ -51,9 +49,9 @@ body {
 }
 
 /* Botón para ver detalle */
-.boton-ver-detalle {
-    padding: 8px 12px;
-    font-size: 14px;
+.boton-ver-pdf {
+    padding: 10px 20px;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
     background-color: #28a745;
@@ -62,49 +60,47 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.boton-ver-detalle:hover {
+.boton-ver-pdf:hover {
     background-color: #218838;
 }
 
-/* Sección de gráficos */
-.seccion-graficos h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: #00f2ff;
-    margin-top: 30px;
-}
-
-.contenedor-graficos {
+/* Filtros */
+.filtros {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.grafico-contenedor {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.grafico {
     width: 100%;
-    height: 300px;
-    background-color: #e9ecef;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
+    max-width: 800px;
+    margin-bottom: 20px;
+    margin-left: 200px;
 }
 
-.texto-grafico {
-    margin-top: 10px;
+.filtros label {
     font-size: 16px;
+    margin-right: 10px;
     color: #333;
-    text-align: center;
 }
+
+.filtros select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.boton-aplicar-filtro {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #00f2ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.boton-aplicar-filtro:hover {
+    background-color: #00c2cc;
+}
+
 

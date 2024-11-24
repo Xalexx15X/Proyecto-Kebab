@@ -1,10 +1,10 @@
 <?php
 header("Content-Type: application/json");
 
-$con = Conexion::getConection();
-$repoPedidos = new RepoPedido($con);
+$con = Conexion::getConection();  // Conexión a la base de datos
+$repoPedidos = new RepoPedido($con);  // Repositorio de pedidos
 
-$method = $_SERVER['REQUEST_METHOD'];
+$method = $_SERVER['REQUEST_METHOD'];  // Obtiene el tipo de petición HTTP
 
 // Verificar si el JSON recibido es válido
 $input = json_decode(file_get_contents("php://input"), true);
@@ -35,10 +35,18 @@ switch ($method) {
         break;
 
     case 'POST':
-        if (isset($input['estado'], $input['precio_total'], $input['fecha_hora'], $input['usuario_id_usuario']) &&
-            !empty($input['estado']) && !empty($input['precio_total']) && !empty($input['fecha_hora']) && !empty($input['usuario_id_usuario'])) {
-            
-            // Crear un nuevo pedido
+        if (isset($input['usuario_id_usuario']) && count($input) === 1) {
+            // Obtener los pedidos del último usuario (Caso 2)
+            $pedido = $repoPedidos->findByUsuarioId($input['usuario_id_usuario']);
+            if ($pedido) {
+                http_response_code(200); // OK
+                echo json_encode($pedido);
+            } else {
+                http_response_code(404);
+                echo json_encode(["error" => "No se encontró el último pedido para el usuario especificado."]);
+            }
+        } elseif (isset($input['estado'], $input['precio_total'], $input['fecha_hora'], $input['usuario_id_usuario'])) {
+            // Crear un nuevo pedido (Caso 3)
             $pedido = new Pedido(
                 null, // El ID será autoincrementado por la base de datos
                 $input['estado'] ?? "Pendiente",
@@ -49,24 +57,38 @@ switch ($method) {
 
             if ($repoPedidos->crear($pedido)) {
                 http_response_code(201); // Created
-                echo json_encode(["success" => true, "mensaje" => "Pedido creado correctamente."]);
+                echo json_encode([
+                    "success" => true,
+                    "mensaje" => "Pedido creado correctamente.",
+                    "id_pedido" => $pedido->getIdPedidos(),
+                ]);
             } else {
                 http_response_code(500); // Internal Server Error
                 echo json_encode(["error" => "Error al crear el pedido."]);
             }
+        } elseif (isset($input['id_usuario'])) {
+            // Obtener los pedidos del cliente con las líneas (Método modificado)
+            $pedidos = $repoPedidos->mostrarPedidosPorClienteConLineas($input['id_usuario']);
+            http_response_code(200);
+            echo json_encode($pedidos);
+        
+        } elseif (isset($input['mostrar_todos'])) {
+            // Mostrar todos los pedidos con usuarios
+            $pedidos = $repoPedidos->mostrarTodosConUsuarios();
+            http_response_code(200);
+            echo json_encode($pedidos);
         } else {
-            http_response_code(400); // Bad Request
-            echo json_encode(["error" => "Datos insuficientes o inválidos para crear el pedido."]);
+            // Caso: Datos insuficientes o inválidos
+            http_response_code(400);
+            echo json_encode(["error" => "Datos insuficientes o inválidos para procesar la solicitud."]);
         }
         break;
 
     case 'PUT':
-        if (isset($input['id_pedido'], $input['estado'], $input['precio_total'], $input['fecha_hora'], $input['usuario_id_usuario']) &&
-            !empty($input['id_pedido']) && !empty($input['estado']) && !empty($input['precio_total']) && !empty($input['fecha_hora']) && !empty($input['usuario_id_usuario'])) {
-            
+        if (isset($input['id_pedido'], $input['estado'], $input['precio_total'], $input['fecha_hora'], $input['usuario_id_usuario'])) {
             // Obtener el pedido existente
             $pedido = $repoPedidos->findById($input['id_pedido']);
-            
+
             if ($pedido) {
                 // Actualizar los datos del pedido
                 $pedido->setEstado($input['estado']);

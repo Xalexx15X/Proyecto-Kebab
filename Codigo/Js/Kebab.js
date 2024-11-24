@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ingredienteDiv.setAttribute('data-id', ingrediente.id_ingredientes);  // Asigno el ID del ingrediente
         ingredienteDiv.setAttribute('data-precio', ingrediente.precio);  // Asigno el precio
         ingredienteDiv.setAttribute('data-alergenos', JSON.stringify(ingrediente.alergenos)); // Guardo los alérgenos como JSON
-        ingredienteDiv.textContent = `${ingrediente.nombre} - €${ingrediente.precio}`; // Muestro el nombre y el precio
+        ingredienteDiv.textContent = `${ingrediente.nombre} - ${ingrediente.precio + "€"}`; // Muestro el nombre y el precio
         ingredienteDiv.draggable = true;  // Hago que el div sea arrastrable
 
         // Al iniciar el arrastre, guardo los datos del ingrediente en el arrastre

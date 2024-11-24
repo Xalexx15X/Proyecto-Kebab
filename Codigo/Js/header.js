@@ -84,7 +84,6 @@ window.addEventListener('load', function () {
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarUser">
                                     <a class="dropdown-item" href="?menu=configuracion">Configuración Personal</a>
-                                    <a class="dropdown-item" href="?menu=historial">Historial de Pedidos</a>
                                     <a class="dropdown-item" href="?menu=inicio" id="cerrarSesionBtn">Cerrar Sesión</a>
                                 </div>
                             </div>
@@ -156,7 +155,6 @@ window.addEventListener('load', function () {
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarUser">
                                 <a class="dropdown-item" href="?menu=configuracion">Configuración Personal</a>
-                                <a class="dropdown-item" href="?menu=historial">Historial de Pedidos</a>
                                 <a class="dropdown-item" href="?menu=inicio" id="cerrarSesionBtn">Cerrar Sesión</a>
                             </div>
                         </div>
@@ -226,16 +224,51 @@ window.addEventListener('load', function () {
     }
 });
 
+
 document.body.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'cerrarSesionBtn') {
+        // Borrar el localStorage
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('carrito');
+
+        // Recargar la página y redirigir al index.php
+        window.location.href = 'index.php';
+    }
+});
+
+document.body.addEventListener('click', function(event) {
+    if (event.target && event.target.id === 'cerrarSesionBtn') {
+        fetch('http://localhost/ProyectoKebab/codigo/index.php?route=usuarios', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'SESSION_DESTROY' })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                console.log(data.mensaje); // Mensaje del servidor
                 // Borrar el localStorage
                 localStorage.removeItem('usuario');
                 localStorage.removeItem('carrito');
 
-                // Recargar la página y redirigir al index.php
-                window.location.href = 'index.php';
+                // Redirigir a la página principal
+                window.location.href = 'index.php'; // Puede ser la página principal
+            } else {
+                console.error(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Sesion cerrada:');
+            alert("Se a cerrado la sesion");  // Muestra el error
+        });
     }
 });
+
 
 window.onload = function () {
     // Obtener el objeto de usuario desde localStorage
@@ -263,6 +296,3 @@ window.onload = function () {
         }
     } 
 };
-
-
-

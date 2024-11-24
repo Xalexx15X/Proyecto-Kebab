@@ -49,7 +49,7 @@ function mostrarKebabs(kebabs) {
                 <h3>${kebab.nombre}</h3>
                 <p><strong>Ingredientes:</strong> ${ingredientes}</p>
                 <p><strong>Alergenos Del Kebab:</strong> ${kebab.descripcion ? kebab.descripcion : 'No se especifica descripción.'}</p>
-                <p><strong>Precio:</strong> €${precioRecomendado.toFixed(2)}</p>
+                <p><strong>Precio:</strong> ${precioRecomendado.toFixed(2) + "€"}</p>
             </div>
             <div class="grupo-botones">
                 <button class="boton boton-agregar-carrito" id="btn-agregar-${index}">
