@@ -71,23 +71,37 @@ function mostrarVistaPrevia(event) {
 // Guardar los datos del usuario (actualización de los campos)
 function guardarDatosUsuario() {
     const usuarioSesion = JSON.parse(localStorage.getItem("usuario"));
-    const nombre = document.getElementById("nombre-cuenta").value;
-    const contrasena = document.getElementById("contrasena").value;
-    const telefono = document.getElementById("telefono").value;
-    const correo = document.getElementById("email").value;
+    const nombre = document.getElementById("nombre-cuenta").value.trim();
+    const contrasena = document.getElementById("contrasena").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const correo = document.getElementById("email").value.trim();
+
+    // Validar el número de teléfono español móvil
+    const telefonoValido = /^[67]\d{8}$/.test(telefono);
+    if (!telefonoValido) {
+        alert("El número de teléfono debe ser español, tener 9 dígitos y comenzar por 6 o 7.");
+        return;
+    }
+
+    // Validar el correo electrónico (debe tener @ y terminar en .com)
+    const correoValido = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/.test(correo);
+    if (!correoValido) {
+        alert("El correo electrónico debe ser válido y terminar en .com.");
+        return;
+    }
 
     // Crear el objeto con los datos actualizados
     const usuarioActualizado = {
-    id: usuarioSesion.id_usuario,  // Cambiar si es necesario
-    nombre: nombre,             
-    contrasena: contrasena,         
-    carrito: usuarioSesion.carrito,      
-    monedero: usuarioSesion.monedero,    
-    foto: usuarioSesion.foto,            
-    telefono: telefono,           
-    ubicacion: usuarioSesion.ubicacion,  
-    correo: correo,             
-    tipo: usuarioSesion.tipo   
+        id: usuarioSesion.id_usuario,
+        nombre: nombre,
+        contrasena: contrasena,
+        carrito: usuarioSesion.carrito,
+        monedero: usuarioSesion.monedero,
+        foto: usuarioSesion.foto,
+        telefono: telefono,
+        ubicacion: usuarioSesion.ubicacion,
+        correo: correo,
+        tipo: usuarioSesion.tipo,
     };
 
     // Realizar la petición PUT
@@ -111,6 +125,7 @@ function guardarDatosUsuario() {
         console.error("Error al guardar los datos del usuario:", error);
     });
 }
+
 
 // Cargar direcciones desde el backend
 // Función para cargar las direcciones del usuario

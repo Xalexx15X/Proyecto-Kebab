@@ -1,4 +1,17 @@
 <?php
+    /*
+        Clase para cargar automáticamente las clases y repositorios
+        
+        Métodos:
+            autocargar(): Carga automáticamente las clases y repositorios
+            autocarga($nombreClase): Carga una clase o repositorio
+            
+        TODO: Implementar métodos para cargar automáticamente las clases y repositorios (autocargar, autocarga)
+        * Carga automáticamente las clases y repositorios: Carga automáticamente las clases y repositorios
+        * Carga una clase o repositorio: Carga una clase o repositorio  
+        
+    */
+
 class Autocargador
 {
     public static function autocargar()

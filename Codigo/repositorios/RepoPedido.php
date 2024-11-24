@@ -1,4 +1,28 @@
 <?php
+    /*
+        Clase para gestionar los pedidos
+        
+        Métodos:
+            findById($id_pedido): Obtener un pedido por su ID
+            findByUsuarioId($id_usuario): Obtener el último pedido del usuario
+            crear($pedido): Crear un nuevo pedido
+            modificar($pedido): Modificar un pedido         
+            eliminar($id_pedido): Eliminar un pedido por su ID
+            mostrarTodos(): Obtener todos los pedidos
+            mostrarTodosConUsuarios(): Obtener todos los pedidos con sus nombres de usuario
+            mostrarPedidosPorClienteConLineas($id_usuario): Obtener los pedidos del cliente con las líneas de pedido
+            
+        TODO: Implementar métodos para gestionar los pedidos (findById, findByUsuarioId, crear, modificar, eliminar, mostrarTodos, mostrarTodosConUsuarios, mostrarPedidosPorClienteConLineas)
+        * Obtener un pedido por su ID: Obtener un pedido por su ID        
+        * Obtener el último pedido del usuario: Obtener el último pedido del usuario
+        * Crear un nuevo pedido: Crear un nuevo pedido          
+        * Modificar un pedido: Modificar un pedido
+        * Eliminar un pedido por su ID: Eliminar un pedido por su ID
+        * Obtener todos los pedidos: Obtener todos los pedidos
+        * Obtener todos los pedidos con sus nombres de usuario: Obtener todos los pedidos con sus nombres de usuario
+        * Obtener los pedidos del cliente con las líneas de pedido: Obtener los pedidos del cliente con las líneas de pedido
+    */
+    
 class RepoPedido
 {
     private $con;

@@ -1,4 +1,23 @@
 <?php
+    /*
+        Clase para gestionar los kebabs
+        
+        Métodos:
+            findById($id_kebab): Obtener un kebab por su ID
+            crear($kebab): Crear un nuevo kebab
+            modificar($kebab): Modificar un kebab
+            eliminar($id_kebab): Eliminar un kebab por su ID
+            mostrarTodos(): Obtener todos los kebabs
+            
+        TODO: Implementar métodos para gestionar los kebabs (findById, crear, modificar, eliminar, mostrarTodos)
+        * Obtener un kebab por su ID: Obtener un kebab por su ID
+        * Crear un nuevo kebab: Crear un nuevo kebab
+        * Modificar un kebab: Modificar un kebab
+        * Eliminar un kebab por su ID: Eliminar un kebab por su ID
+        * Obtener todos los kebabs: Obtener todos los kebabs    
+    */  
+
+
 class RepoKebab
 {
     private $con;

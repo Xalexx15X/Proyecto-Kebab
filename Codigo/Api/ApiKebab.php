@@ -1,4 +1,27 @@
 <?php
+    /*
+        Ruta para gestionar los kebabs
+
+        Métodos:
+            GET: Obtener un kebab por ID
+            POST: Crear un nuevo kebab
+            PUT: Modificar un kebab
+            DELETE: Eliminar un kebab
+            
+        @param $input: JSON con los datos del kebab
+        @param $result: JSON con los datos del kebab
+        @param $kebab: Objeto con los datos del kebab
+        @param $kebabCreado: Objeto con los datos del kebab creado
+        
+        TODO: Implementar métodos para gestionar los kebabs (crear, modificar, eliminar)
+        * Crear: Crear un nuevo kebab
+        * Modificar: Modificar un kebab
+        * Eliminar: Eliminar un kebab
+        * Obtener un kebab por ID: Obtener un kebab por ID
+        * Obtener todos los kebabs: Obtener todos los kebabs    
+    */  
+
+
 header("Content-Type: application/json");
 
 $con = Conexion::getConection(); // Obtén la conexión PDO

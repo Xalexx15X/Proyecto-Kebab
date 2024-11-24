@@ -1,4 +1,28 @@
 <?php
+    /*
+        Ruta para gestionar direcciones
+        
+        Métodos:
+            GET: Obtener todas las direcciones
+            POST: Crear una nueva dirección
+            PUT: Modificar una dirección
+            DELETE: Eliminar una dirección
+            
+        @param $input: JSON con los datos de la dirección
+        @param $result: JSON con los datos de la dirección
+        @param $direccion: Objeto con los datos de la dirección
+        @param $direccionCreado: Objeto con los datos de la dirección creado
+        
+        TODO: Implementar métodos para gestionar las direcciones (crear, modificar, eliminar)
+        * Crear: Crear una nueva dirección
+        * Modificar: Modificar una dirección
+        * Eliminar: Eliminar una dirección
+        * Obtener todas las direcciones: Obtener todas las direcciones  
+        * Obtener una dirección por ID: Obtener una dirección por ID
+        * Obtener direcciones por usuario: Obtener direcciones por usuario
+        
+    */
+
 header("Content-Type: application/json");
 
 $con = Conexion::getConection();

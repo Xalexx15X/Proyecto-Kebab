@@ -110,7 +110,7 @@ window.añadirCredito = function () {
     const nuevoMonedero = (usuario.monedero || 0) + cantidad;
 
     // Realizar la petición PUT para actualizar el monedero
-    actualizarMonederoEnServidor();
+    actualizarMonederoEnServidor(nuevoMonedero);
     console.log(actualizarMonederoEnServidor);
 
     // Guardar el nuevo monedero en localStorage
@@ -281,15 +281,32 @@ function mostrarCredito() {
 
 window.tramitarPedido = function () {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     const precioTotal = parseFloat(importePagar.value);
 
+    // Validación: Verificar si el carrito está vacío
+    if (carrito.length === 0) {
+        alert("No hay nada en el carrito para procesar el pedido.");
+        return;
+    }
+
+    // Validación: Verificar si el usuario está registrado
     if (!usuario || !usuario.id_usuario) {
-        console.error("Usuario no encontrado en localStorage.");
+        alert("Para procesar el pedido necesitamos que te registres o inicies sesión.");
+        window.location.href = "index.php?menu=registro"; // Redirigir a la ventana de registro
+        return;
+    }
+
+    // Validación: Verificar si el usuario tiene una dirección seleccionada
+    const direccionSeleccionada = direccionUsuario.value;
+    if (!direccionSeleccionada || direccionSeleccionada.trim() === '') {
+        alert("Por favor, selecciona una dirección para continuar.");
         return;
     }
 
     const monedero = parseFloat(usuario.monedero) || 0;
 
+    // Validación: Verificar si el usuario tiene suficiente crédito
     if (monedero < precioTotal) {
         alert("No tienes suficiente saldo en tu monedero para tramitar el pedido.");
         return;
@@ -338,9 +355,7 @@ window.tramitarPedido = function () {
                 actualizarMonedero(nuevoMonedero);
 
                 // Actualizar el monedero en la base de datos
-                actualizarMonederoEnServidor();
-
-                tramitarPedido()
+                actualizarMonederoEnServidor(nuevoMonedero);
 
                 // Borrar el carrito del localStorage
                 localStorage.removeItem("carrito");
@@ -357,7 +372,6 @@ window.tramitarPedido = function () {
             console.error("Error al tramitar el pedido:", error);
         });
 };
-
 
 // Función para crear las líneas de pedido
 function crearLineasPedido(id_pedido) {

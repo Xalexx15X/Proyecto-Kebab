@@ -1,5 +1,30 @@
 <?php
 
+    /*
+        Ruta para gestionar alérgenos
+        
+        Métodos:
+            GET: Obtener todos los alérgenos
+            POST: Crear un nuevo alérgeno
+            PUT: Modificar un alérgeno
+            DELETE: Eliminar un alérgeno
+            
+        @param $input: JSON con los datos del alérgeno
+        @param $result: JSON con los datos del alérgeno
+        @param $alergeno: Objeto con los datos del alérgeno
+        @param $alergenoCreado: Objeto con los datos del alérgeno creado
+        
+        TODO: Implementar métodos para gestionar los alérgenos (crear, modificar, eliminar)
+        * Crear: Crear un nuevo alérgeno
+        * Modificar: Modificar un alérgeno
+        * Eliminar: Eliminar un alérgeno
+        * Obtener todos los alérgenos: Obtener todos los alérgenos  
+        * Obtener un alérgeno por ID: Obtener un alérgeno por ID
+        * Obtener todos los alérgenos asociados a un ingrediente: Obtener todos los alérgenos asociados a un ingrediente
+        * Obtener un alérgeno asociado a un ingrediente por ID: Obtener un alérgeno asociado a un ingrediente por ID
+        
+    */
+    
 header("Content-Type: application/json");
 
 $con = Conexion::getConection();

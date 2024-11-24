@@ -1,4 +1,28 @@
 <?php
+    /*
+        Clase para almacenar los pedidos
+        
+        Atributos:
+            id_pedido (int): Identificador único del pedido
+            estado (string): Estado del pedido (Pendiente, Procesado, Finalizado)
+            precio_total (float): Precio total del pedido
+            fecha_hora (string): Fecha y hora del pedido
+            id_usuario (int): Identificador único del usuario
+            
+        Métodos:
+            getIdPedidos(): Devuelve el ID del pedido
+            setIdPedidos($id_pedido): Establece el ID del pedido
+            getEstado(): Devuelve el estado del pedido (Pendiente, Procesado, Finalizado)
+            setEstado($estado): Establece el estado del pedido (Pendiente, Procesado, Finalizado)
+            getPrecioTotal(): Devuelve el precio total del pedido
+            setPrecioTotal($precio_total): Establece el precio total del pedido
+            getFechaHora(): Devuelve la fecha y hora del pedido
+            setFechaHora($fecha_hora): Establece la fecha y hora del pedido
+            getIdUsuario(): Devuelve el ID del usuario
+            setIdUsuario($id_usuario): Establece el ID del usuario
+            __toString(): Devuelve una representación de la clase como string
+    */
+
 class Pedido
 {
     public $id_pedido;

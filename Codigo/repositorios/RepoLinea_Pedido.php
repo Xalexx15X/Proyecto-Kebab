@@ -1,4 +1,22 @@
 <?php
+    /*
+        Clase para gestionar las líneas de pedido
+        
+        Métodos:        
+            findById($id_linea_pedido): Obtener una línea de pedido por su ID
+            crear($linea_pedido): Crear una nueva línea de pedido           
+            modificar($linea_pedido): Modificar una línea de pedido
+            eliminar($id_linea_pedido): Eliminar una línea de pedido por su ID
+            mostrarTodos(): Obtener todas las líneas de pedido
+            
+        TODO: Implementar métodos para gestionar las líneas de pedido (findById, crear, modificar, eliminar, mostrarTodos)
+        * Obtener una línea de pedido por su ID: Obtener una línea de pedido por su ID
+        * Crear una nueva línea de pedido: Crear una nueva línea de pedido
+        * Modificar una línea de pedido: Modificar una línea de pedido
+        * Eliminar una línea de pedido por su ID: Eliminar una línea de pedido por su ID    
+            Obtener todas las líneas de pedido: Obtener todas las líneas de pedido        
+    */
+
 class RepoLinea_Pedido
 {
     private $con;

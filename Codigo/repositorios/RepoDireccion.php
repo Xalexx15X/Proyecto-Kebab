@@ -1,4 +1,25 @@
 <?php
+    /*  
+        Clase para gestionar las direcciones de un usuario
+        
+        Métodos:
+            findByUsuarioId($id_usuario): Obtener todas las direcciones de un usuario por ID
+            findById($id): Obtener una dirección por su ID
+            crear($direccion): Crear una nueva dirección
+            modificar($direccion): Modificar una dirección
+            mostrarTodos(): Obtener todas las direcciones
+            eliminar($id): Eliminar una dirección por su ID
+            
+        TODO: Implementar métodos para gestionar las direcciones de un usuario (findByUsuarioId, findById, crear, modificar, mostrarTodos, eliminar)
+        * Obtener todas las direcciones de un usuario por ID: Obtener todas las direcciones de un usuario por ID
+        * Obtener una dirección por su ID: Obtener una dirección por su ID
+        * Crear una nueva dirección: Crear una nueva dirección
+        * Modificar una dirección: Modificar una dirección
+        * Obtener todas las direcciones: Obtener todas las direcciones        
+        * Eliminar una dirección por su ID: Eliminar una dirección por su ID
+    */
+
+
 
 class RepoDireccion
 {

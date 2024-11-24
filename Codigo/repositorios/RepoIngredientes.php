@@ -1,4 +1,25 @@
 <?php
+    /*
+        Clase para gestionar los ingredientes
+        
+        Métodos:
+            findById($id_ingrediente): Obtener un ingrediente por su ID
+            mostrarTodo(): Obtener todos los ingredientes
+            crear($ingrediente): Crear un nuevo ingrediente
+            modificar($ingrediente): Modificar un ingrediente
+            eliminar($id_ingrediente): Eliminar un ingrediente por su ID
+            findById($id_ingrediente): Obtener todos los ingredientes asociados a un alérgeno por su ID
+            findById($id_ingrediente): Obtener un ingrediente asociado a un alérgeno por su ID        
+        TODO: Implementar métodos para gestionar los ingredientes (findById, mostrarTodo, crear, modificar, eliminar, findById, findById)
+        * Obtener un ingrediente por su ID: Obtener un ingrediente por su ID
+        * Obtener todos los ingredientes: Obtener todos los ingredientes
+        * Crear un nuevo ingrediente: Crear un nuevo ingrediente
+        * Modificar un ingrediente: Modificar un ingrediente
+        * Eliminar un ingrediente por su ID: Eliminar un ingrediente por su ID
+        * Obtener todos los ingredientes asociados a un alérgeno por su ID: Obtener todos los ingredientes asociados a un alérgeno por su ID
+        * Obtener un ingrediente asociado a un alérgeno por su ID: Obtener un ingrediente asociado a un alérgeno por su ID
+    */  
+
 
 class RepoIngredientes
 {

@@ -1,4 +1,26 @@
 <?php
+    /*
+        Ruta para gestionar líneas de pedido
+        
+        Métodos:
+            GET: Obtener una línea de pedido por ID
+            POST: Crear una nueva línea de pedido
+            PUT: Modificar una línea de pedido
+            DELETE: Eliminar una línea de pedido
+            
+        @param $input: JSON con los datos de la línea de pedido
+        @param $result: JSON con los datos de la línea de pedido
+        @param $lineaPedido: Objeto con los datos de la línea de pedido
+        @param $lineaPedidoCreado: Objeto con los datos de la línea de pedido creado
+
+        TODO: Implementar métodos para gestionar las líneas de pedido (crear, modificar, eliminar)
+        * Crear: Crear una nueva línea de pedido
+        * Modificar: Modificar una línea de pedido
+        * Eliminar: Eliminar una línea de pedido        
+        * Obtener una línea de pedido por ID: Obtener una línea de pedido por ID
+        * Obtener todas las líneas de pedido: Obtener todas las líneas de pedido
+    */
+
 header("Content-Type: application/json");
 
 $con = Conexion::getConection();

@@ -1,4 +1,25 @@
 <?php
+/*
+    Ruta para gestionar pedidos
+    
+    Métodos:
+        GET: Obtener todos los pedidos
+        POST: Crear un nuevo pedido
+        PUT: Modificar un pedido
+        DELETE: Eliminar un pedido
+        
+@param $input: JSON con los datos del pedido
+@param $result: JSON con los datos del pedido
+@param $pedido: Objeto con los datos del pedido
+@param $pedidoCreado: Objeto con los datos del pedido creado    
+
+TODO: Implementar métodos para gestionar los pedidos (crear, modificar, eliminar)
+* Crear: Crear un nuevo pedido
+* Modificar: Modificar un pedido
+* Eliminar: Eliminar un pedido      
+* Obtener todos los pedidos: Obtener todos los pedidos
+*/
+
 header("Content-Type: application/json");
 
 $con = Conexion::getConection();  // Conexión a la base de datos

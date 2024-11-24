@@ -1,142 +1,166 @@
 <?php
+
+    /*
+        Clase para validar datos
+        
+        Métodos:
+            Requerido($campo): Verifica si un campo es requerido
+            EnteroRango($campo, $min, $max): Verifica si un campo es un número entero entre un rango opcional
+            Telefono($campo): Verifica si un campo es un teléfono válido (formato genérico)
+            Gmail($campo): Verifica si un campo es un correo Gmail válido
+            Numero($campo): Verifica si un campo es un número
+            Cadena($campo): Verifica si un campo es una cadena (string)
+            Json($campo): Verifica si un campo es un JSON válido
+            FechaHora($campo): Verifica si un campo es una fecha y hora válida (formato: YYYY-MM-DD HH:MM:SS)
+            getValor($campo): Devuelve el valor de un campo del POST
+            getSelected($campo, $valor): Devuelve el valor de un campo seleccionado
+            getChecked($campo, $valor): Devuelve el valor de un campo seleccionado
+            
+        TODO: Implementar métodos para validar datos (Requerido, EnteroRango, Telefono, Gmail, Numero, Cadena, Json, FechaHora, getValor, getSelected, getChecked)
+        * Requerido: Verifica si un campo es requerido
+        * EnteroRango: Verifica si un campo es un número entero entre un rango opcional
+        * Telefono: Verifica si un campo es un teléfono válido (formato genérico)
+        * Gmail: Verifica si un campo es un correo Gmail válido
+        * Numero: Verifica si un campo es un número
+        * Cadena: Verifica si un campo es una cadena (string)
+        * Json: Verifica si un campo es un JSON válido
+        * FechaHora: Verifica si un campo es una fecha y hora válida (formato: YYYY-MM-DD HH:MM:SS)
+        * getValor: Devuelve el valor de un campo del POST
+        * getSelected: Devuelve el valor de un campo seleccionado    
+        * getChecked: Devuelve el valor de un campo seleccionado    
+    */
+
 class Validacion
 {
-    //Array de errores
+    // Array de errores
     private $errores;
 
-    //Constructor
+    // Constructor
     public function __construct()
     {
-        $this->errores=array();
+        $this->errores = array();
     }
 
     /**
-     * Comprueba si esta vacio
+     * Comprueba si está vacío
      *
-     * @param [type] $campo
+     * @param string $campo
      * @return boolean
-     */ 
+     */
     public function Requerido($campo)
     {
-        if(!isset($_POST[$campo]) || empty($_POST[$campo]))
-        {
-            $this->errores[$campo]="El campo $campo no puede estar vacio";
+        if (!isset($_POST[$campo]) || empty($_POST[$campo])) {
+            $this->errores[$campo] = "El campo $campo no puede estar vacío";
             return false;
         }
         return true;
     }
 
     /**
-     * Método que comprueba que el campo es un valor entero
-     * y de manera opcional un rango de valores
+     * Valida si el campo es un número entero entre un rango opcional
      *
-     * @param [String] $campo
-     * @param [int] $min
-     * @param [int] $max
+     * @param string $campo
+     * @param int $min
+     * @param int $max
      * @return boolean
      */
-    public function EnteroRango($campo,$min=PHP_INT_MIN,$max=PHP_INT_MAX)
+    public function EnteroRango($campo, $min = PHP_INT_MIN, $max = PHP_INT_MAX)
     {
-        if(!filter_var($_POST[$campo],FILTER_VALIDATE_INT,
-            ["options"=>["min_range"=>$min,"max_range"=>$max]]))
-        {
-            $this->errores[$campo]="Debe ser entero entre $min y $max";
+        if (!filter_var($_POST[$campo], FILTER_VALIDATE_INT, ["options" => ["min_range" => $min, "max_range" => $max]])) {
+            $this->errores[$campo] = "Debe ser entero entre $min y $max";
             return false;
         }
         return true;
     }
 
     /**
-     * Método que comprueba el número de caracteres de la cadena
-     * entre un mínimo y un máximo
+     * Valida si es un teléfono válido (formato genérico)
      *
-     * @param [String] $campo
-     * @param [integer] $max
-     * @param integer $min
+     * @param string $campo
      * @return boolean
      */
-    public function CadenaRango($campo,$max,$min=0)
+    public function Telefono($campo)
     {
-        if(!(strlen($_POST[$campo])>$min && strlen($_POST[$campo])<$max))
-        {
-            $this->errores[$campo]="Debe tener entre $min y $max caracteres";
-            return false;
-        }
-        return true;
-
-    }
-
-    /**
-     * Comprueba si el campo es un email válido
-     *
-     * @param [String] $campo
-     * @return boolean
-     */
-    public function Email($campo)
-    {
-        if(!filter_var($_POST[$campo],FILTER_VALIDATE_EMAIL))
-        {
-            $this->errores[$campo]="Debe ser un email válido";
-            return false; 
-        }
-        return true;
-    }
-
-    public function Dni($campo)
-    {
-        $letras="TRWAGMYFPDXBNJZSQVHLCKE";
-        $mensaje="";
-        if(preg_match("/^[0-9]{8}[a-zA-z]{1}$/",$_POST[$campo])==1)
-        {
-            $numero=substr($_POST[$campo],0,8);
-            $letra=substr($_POST[$campo],8,1);
-            if($letras[$numero%23]==strtoupper($letra))
-            {
-                return TRUE;
-            }
-            else
-            {
-                $mensaje="El campo $campo es un Dni con letra no válida";
-            }
-        }
-        else
-        {
-            $mensaje="El campo $campo no es un Dni válido";
-        }
-        $this->errores[$campo]=$mensaje;
-        return FALSE;
-    }
-
-    /**
-     * Comprueba si el campo cumple una expresión regular (patrón)
-     *
-     * @param [string] $campo
-     * @param [string] $patron
-     * @return boolean
-     */
-    public function Patron($campo,$patron)
-    {
-        if(!preg_match($patron,$_POST[$campo]))
-        {
-            $this->errores[$campo]="No cumple el patrón $patron";
+        if (!preg_match("/^\+?[0-9]{7,15}$/", $_POST[$campo])) {
+            $this->errores[$campo] = "El campo $campo debe ser un teléfono válido";
             return false;
         }
         return true;
     }
 
     /**
-     * Ejecuta una función que será la encargada de validar el campo
+     * Valida si es un correo Gmail válido
      *
-     * @param [type] $campo
-     * @param [type] $funcion
-     * @param [type] $mensaje
+     * @param string $campo
      * @return boolean
      */
-    public function ValidaConFuncion($campo,$funcion,$mensaje)
+    public function Gmail($campo)
     {
-        if(!call_user_func($funcion))
-        {
-            $this->errores[$campo]=$mensaje;
+        if (!filter_var($_POST[$campo], FILTER_VALIDATE_EMAIL) || !str_ends_with($_POST[$campo], "@gmail.com")) {
+            $this->errores[$campo] = "Debe ser un correo de Gmail válido";
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Valida si el campo es un número
+     *
+     * @param string $campo
+     * @return boolean
+     */
+    public function Numero($campo)
+    {
+        if (!is_numeric($_POST[$campo])) {
+            $this->errores[$campo] = "El campo $campo debe ser un número";
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Valida si el campo es una cadena (string)
+     *
+     * @param string $campo
+     * @return boolean
+     */
+    public function Cadena($campo)
+    {
+        if (!is_string($_POST[$campo]) || empty(trim($_POST[$campo]))) {
+            $this->errores[$campo] = "El campo $campo debe ser una cadena válida";
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Valida si el campo es un JSON válido
+     *
+     * @param string $campo
+     * @return boolean
+     */
+    public function Json($campo)
+    {
+        json_decode($_POST[$campo]);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $this->errores[$campo] = "El campo $campo debe ser un JSON válido";
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Valida si el campo es una fecha y hora válida (formato: YYYY-MM-DD HH:MM:SS)
+     *
+     * @param string $campo
+     * @return boolean
+     */
+    public function FechaHora($campo)
+    {
+        $formato = 'Y-m-d H:i:s';
+        $fecha = DateTime::createFromFormat($formato, $_POST[$campo]);
+        if (!$fecha || $fecha->format($formato) !== $_POST[$campo]) {
+            $this->errores[$campo] = "El campo $campo debe tener el formato YYYY-MM-DD HH:MM:SS";
             return false;
         }
         return true;
@@ -145,39 +169,56 @@ class Validacion
     /**
      * Comprueba si hay errores
      *
-     * @return void
+     * @return boolean
      */
     public function ValidacionPasada()
     {
-        if(count($this->errores)!=0)
-        {
-            return false;
-        }
-        return true;
+        return count($this->errores) === 0;
     }
 
+    /**
+     * Imprime un error de un campo
+     *
+     * @param string $campo
+     * @return string
+     */
     public function ImprimirError($campo)
     {
-        return
-        isset($this->errores[$campo])?'<span class="error_mensaje">'.$this->errores[$campo].'</span>':'';
+        return isset($this->errores[$campo]) ? '<span class="error_mensaje">' . $this->errores[$campo] . '</span>' : '';
     }
 
+    /**
+     * Devuelve el valor de un campo del POST
+     *
+     * @param string $campo
+     * @return mixed
+     */
     public function getValor($campo)
     {
-        return
-        isset($_POST[$campo])?$_POST[$campo]:'';
+        return isset($_POST[$campo]) ? $_POST[$campo] : '';
     }
 
-    public function getSelected($campo,$valor)
+    /**
+     * Devuelve 'selected' para listas desplegables
+     *
+     * @param string $campo
+     * @param mixed $valor
+     * @return string
+     */
+    public function getSelected($campo, $valor)
     {
-        return
-        isset($_POST[$campo]) && $_POST[$campo]==$valor?'selected':'';
+        return isset($_POST[$campo]) && $_POST[$campo] == $valor ? 'selected' : '';
     }
 
-    public function getChecked($campo,$valor)
+    /**
+     * Devuelve 'checked' para checkboxes o radios
+     *
+     * @param string $campo
+     * @param mixed $valor
+     * @return string
+     */
+    public function getChecked($campo, $valor)
     {
-        return
-        isset($_POST[$campo]) && $_POST[$campo]==$valor?'checked':'';
+        return isset($_POST[$campo]) && $_POST[$campo] == $valor ? 'checked' : '';
     }
-     
 }

@@ -21,6 +21,20 @@ function registrarUsuario() {
         return;
     }
 
+    // Validar el número de teléfono español móvil
+    const telefonoValido = /^[67]\d{8}$/.test(telefono);
+    if (!telefonoValido) {
+        alert("El número de teléfono debe ser español, tener 9 dígitos y comenzar por 6 o 7.");
+        return;
+    }
+
+    // Validar el correo electrónico (debe tener @ y terminar en .com)
+    const correoValido = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/.test(correo);
+    if (!correoValido) {
+        alert("El correo electrónico debe ser válido y terminar en .com.");
+        return;
+    }
+
     // Leer la foto como base64
     const reader = new FileReader();
     reader.onloadend = function () {

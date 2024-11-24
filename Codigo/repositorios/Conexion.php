@@ -1,4 +1,15 @@
 <?php
+    /*
+        Clase para gestionar la conexión a la base de datos
+        
+        Métodos:
+            getConection(): Obtener la conexión a la base de datos
+            
+        TODO: Implementar métodos para gestionar la conexión a la base de datos (getConection)
+        * Obtener la conexión a la base de datos: Obtener la conexión a la base de datos
+    */
+
+
 class Conexion {
     // Variable estática para almacenar la conexión
     private static $con;

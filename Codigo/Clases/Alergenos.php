@@ -1,4 +1,28 @@
 <?php
+/*
+    Clase para almacenar los alérgenos de un ingrediente    
+    
+    Atributos:
+        id_alergenos (int): Identificador único del alérgeno
+        nombre (string): Nombre del alérgeno
+        foto (string): URL de la foto del alérgeno
+        ingredientes (array): Lista de ingredientes al que pertenece el alérgeno        
+        usuarios (array): Lista de usuarios que tienen el alérgeno
+    
+    Métodos:
+        getIdAlergenos(): Devuelve el ID del alérgeno
+        setIdAlergenos($id_alergenos): Establece el ID del alérgeno
+        getNombre(): Devuelve el nombre del alérgeno
+        setNombre($nombre): Establece el nombre del alérgeno
+        getFoto(): Devuelve la URL de la foto del alérgeno
+        setFoto($foto): Establece la URL de la foto del alérgeno
+        getIngredientes(): Devuelve la lista de ingredientes al que pertenece el alérgeno
+        setIngredientes($ingredientes): Establece la lista de ingredientes al que pertenece el alérgeno
+        getUsuarios(): Devuelve la lista de usuarios que tienen el alérgeno
+        setUsuarios($usuarios): Establece la lista de usuarios que tienen el alérgeno
+        __toString(): Devuelve una representación de la clase como string   
+*/
+
 class Alergenos
 {
     public $id_alergenos;

@@ -1,4 +1,29 @@
 <?php
+/*
+    Clase para almacenar las líneas de pedido
+    
+    Atributos:
+        id_linea_pedido (int): Identificador único de la línea de pedido
+        cantidad (int): Cantidad de pedidos en la línea
+        precio (float): Precio total de la línea de pedido
+        linea_pedidos (string): JSON con la lista de pedidos en la línea
+        id_pedidos (int): Identificador único del pedido
+        
+    Métodos:
+        getIdLineaPedido(): Devuelve el ID de la línea de pedido
+        setIdLineaPedido($id_linea_pedido): Establece el ID de la línea de pedido
+        getCantidad(): Devuelve la cantidad de pedidos en la línea
+        setCantidad($cantidad): Establece la cantidad de pedidos en la línea
+        getPrecio(): Devuelve el precio total de la línea de pedido
+        setPrecio($precio): Establece el precio total de la línea de pedido
+        getLineaPedidos(): Devuelve la lista de pedidos en la línea
+        setLineaPedidos($linea_pedidos): Establece la lista de pedidos en la línea
+        getIdPedidos(): Devuelve el ID del pedido
+        setIdPedidos($id_pedidos): Establece el ID del pedido
+        __toString(): Devuelve una representación de la clase como string
+*/  
+
+
 class Linea_Pedido
 {
     public $id_linea_pedido;

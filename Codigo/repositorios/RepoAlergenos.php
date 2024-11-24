@@ -1,4 +1,27 @@
 <?php
+
+    /*
+        Clase para gestionar los alérgenos
+        
+        Métodos:
+            findById($id_alergenos): Obtener un alérgeno por su ID
+            mostrarTodos(): Obtener todos los alérgenos
+            crear($alergeno): Crear un nuevo alérgeno
+            modificar($alergeno): Modificar un alérgeno
+            eliminar($id_alergenos): Eliminar un alérgeno por su ID
+            findByIngredienteId($id_ingrediente): Obtener todos los alérgenos asociados a un ingrediente        
+            findByIngredienteId($id_ingrediente): Obtener un alérgeno asociado a un ingrediente por su ID
+            
+        TODO: Implementar métodos para gestionar los alérgenos (findById, mostrarTodos, crear, modificar, eliminar, findByIngredienteId, findByIngredienteId)
+        * Obtener un alérgeno por su ID: Obtener un alérgeno por su ID
+        * Obtener todos los alérgenos: Obtener todos los alérgenos
+        * Crear un nuevo alérgeno: Crear un nuevo alérgeno
+        * Modificar un alérgeno: Modificar un alérgeno
+        * Eliminar un alérgeno por su ID: Eliminar un alérgeno por su ID        
+        * Obtener todos los alérgenos asociados a un ingrediente: Obtener todos los alérgenos asociados a un ingrediente
+        * Obtener un alérgeno asociado a un ingrediente por su ID: Obtener un alérgeno asociado a un ingrediente por su ID      
+    */
+        
 class RepoAlergenos
 {
     private $con;

@@ -1,4 +1,28 @@
 <?php
+    /*
+        Ruta para gestionar los ingredientes
+        
+        Métodos:
+            GET: Obtener un ingrediente por ID
+            POST: Crear un nuevo ingrediente
+            PUT: Modificar un ingrediente
+            DELETE: Eliminar un ingrediente
+            
+        @param $input: JSON con los datos del ingrediente
+        @param $result: JSON con los datos del ingrediente
+        @param $ingrediente: Objeto con los datos del ingrediente
+        @param $ingredienteCreado: Objeto con los datos del ingrediente creado
+        
+        TODO: Implementar métodos para gestionar los ingredientes (crear, modificar, eliminar)
+        * Crear: Crear un nuevo ingrediente
+        * Modificar: Modificar un ingrediente
+        * Eliminar: Eliminar un ingrediente
+        * Obtener un ingrediente por ID: Obtener un ingrediente por ID
+        * Obtener todos los ingredientes: Obtener todos los ingredientes    
+
+    */
+
+    
 header("Content-Type: application/json");
 
 $con = Conexion::getConection();

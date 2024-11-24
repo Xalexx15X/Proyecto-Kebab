@@ -1,4 +1,24 @@
 <?php
+    /*
+        Clase para gestionar los usuarios
+        
+        Métodos:
+            findById($id_usuario): Obtener un usuario por su ID
+            crear($usuario): Crear un nuevo usuario
+            modificar($usuario): Modificar un usuario
+            eliminar($id_usuario): Eliminar un usuario por su ID
+            mostrarTodos(): Obtener todos los usuarios
+            
+        TODO: Implementar métodos para gestionar los usuarios (findById, crear, modificar, eliminar, mostrarTodos)
+        * Obtener un usuario por su ID: Obtener un usuario por su ID
+        * Crear un nuevo usuario: Crear un nuevo usuario
+        * Modificar un usuario: Modificar un usuario
+        * Eliminar un usuario por su ID: Eliminar un usuario por su ID
+        * Obtener todos los usuarios: Obtener todos los usuarios        
+    */  
+
+
+
 class RepoUsuario
 {
     private $con;

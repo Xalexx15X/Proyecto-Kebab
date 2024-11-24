@@ -1,4 +1,25 @@
 <?php
+    /*
+        Clase para gestionar la sesión
+        
+        Métodos:
+            iniciar(): Inicia la sesión
+            escribir($clave, $valor): Escribe un valor en la sesión
+            leer($clave): Lee un valor de la sesión
+            existe($clave): Verifica si una clave existe en la sesión
+            eliminar($clave): Elimina una clave de la sesión
+            cerrar(): Cierra la sesión
+            
+        TODO: Implementar métodos para gestionar la sesión (iniciar, escribir, leer, existe, eliminar, cerrar)
+        * Iniciar: Inicia la sesión
+        * Escribir: Escribe un valor en la sesión
+        * Leer: Lee un valor de la sesión
+        * Existe: Verifica si una clave existe en la sesión
+        * Eliminar: Elimina una clave de la sesión
+        * Cerrar: Cierra la sesión
+    */
+
+
 class Sesion {
     // Inicia la sesión, se debe llamar al principio de cada página
     public static function iniciar() {

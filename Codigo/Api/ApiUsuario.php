@@ -1,4 +1,25 @@
 <?php
+/*
+    Ruta para gestionar usuarios
+    
+    Métodos:
+        GET: Obtener todos los usuarios
+        POST: Crear un nuevo usuario
+        PUT: Modificar un usuario
+        DELETE: Eliminar un usuario
+
+@param $input: JSON con los datos del usuario
+@param $result: JSON con los datos del usuario
+@param $usuario: Objeto con los datos del usuario
+@param $usuarioCreado: Objeto con los datos del usuario creado  
+
+TODO: Implementar métodos para gestionar los usuarios (crear, modificar, eliminar)
+* Crear: Crear un nuevo usuario
+* Modificar: Modificar un usuario
+* Eliminar: Eliminar un usuario
+* Obtener todos los usuarios: Obtener todos los usuarios
+*/
+
 
 header("Content-Type: application/json");
 

@@ -1,4 +1,43 @@
 <?php
+/*
+    Clase para almacenar los usuarios
+    
+    Atributos:
+        id_usuario (int): Identificador único del usuario
+        nombre (string): Nombre del usuario
+        contrasena (string): Contraseña del usuario
+        carrito (string): JSON con la lista de pedidos del usuario
+        monedero (float): Saldo del monedero del usuario
+        foto (string): URL de la foto del usuario
+        telefono (string): Teléfono del usuario
+        ubicacion (string): Ubicación del usuario
+        correo (string): Correo electrónico del usuario
+        tipo (string): Tipo del usuario (Cliente o Administrador)
+        
+    Métodos:
+        getIdUsuario(): Devuelve el ID del usuario
+        setIdUsuario($id_usuario): Establece el ID del usuario
+        getNombre(): Devuelve el nombre del usuario
+        setNombre($nombre): Establece el nombre del usuario
+        getContrasena(): Devuelve la contraseña del usuario
+        setContrasena($contrasena): Establece la contraseña del usuario
+        getCarrito(): Devuelve la lista de pedidos del usuario
+        setCarrito($carrito): Establece la lista de pedidos del usuario
+        getMonedero(): Devuelve el saldo del monedero del usuario
+        setMonedero($monedero): Establece el saldo del monedero del usuario
+        getFoto(): Devuelve la URL de la foto del usuario
+        setFoto($foto): Establece la URL de la foto del usuario
+        getTelefono(): Devuelve el teléfono del usuario
+        setTelefono($telefono): Establece el teléfono del usuario
+        getUbicacion(): Devuelve la ubicación del usuario
+        setUbicacion($ubicacion): Establece la ubicación del usuario
+        getCorreo(): Devuelve el correo electrónico del usuario
+        setCorreo($correo): Establece el correo electrónico del usuario
+        getTipo(): Devuelve el tipo del usuario (Cliente o Administrador)
+        setTipo($tipo): Establece el tipo del usuario (Cliente o Administrador)
+        __toString(): Devuelve una representación de la clase como string
+*/  
+
 class Usuario
 {
     public $id_usuario;
