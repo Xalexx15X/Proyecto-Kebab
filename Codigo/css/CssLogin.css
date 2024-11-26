@@ -44,7 +44,7 @@ h2 {
     border-radius: 5px; /* Bordes redondeados */
     transition: background-color 0.3s; /* Transición suave */
     width: 20%;
-    margin-left: 350px;
+    margin-left: 40%;
 }
 
 .btn-primary:hover {
@@ -63,4 +63,59 @@ h2 {
 
 .checkbox-inline {
     font-size: 0.9em; /* Tamaño de fuente más pequeño */
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        margin-top: 50px; /* Menos espacio superior en tabletas */
+        margin-bottom: 50px; /* Menos espacio inferior */
+    }
+
+    .login-form {
+        padding: 15px; /* Menos padding para adaptarse mejor en pantallas más pequeñas */
+    }
+
+    .btn-primary {
+        width: 80%; /* Hacer que el botón ocupe el 50% del ancho */
+        margin-left: 0; /* Alinear el botón con el formulario */
+    }
+
+    h2 {
+        font-size: 1.8em; /* Reducir el tamaño del título */
+        margin-bottom: 15px; /* Menos espacio debajo del título */
+    }
+
+    .form-group {
+        margin-bottom: 40px; /* Menos espacio entre campos del formulario */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin-top: 30px; /* Aumentar el espacio superior en pantallas pequeñas */
+        margin-bottom: 30px; /* Aumentar el espacio inferior */
+    }
+
+    .login-form {
+        padding: 10px; /* Menos padding en pantallas pequeñas */
+    }
+
+    .btn-primary {
+        width: 80%; /* Hacer que el botón ocupe el 80% del ancho en móviles */
+        margin-left: 40%; /* Alinear el botón al centro */
+    }
+
+    h2 {
+        font-size: 1.5em; /* Reducir el tamaño del título para pantallas pequeñas */
+        margin-bottom: 10px; /* Menos espacio debajo del título */
+    }
+
+    .form-group {
+        margin-bottom: 30px; /* Menos espacio entre campos del formulario */
+    }
+
+    .checkbox-inline {
+        font-size: 0.8em; /* Reducir el tamaño del texto de los checkboxes */
+    }
 }

@@ -82,3 +82,86 @@ html, body {
     width: 70px; /* Tamaño del logo */
     height: auto; /* Mantener relación de aspecto */
 }
+
+@media (max-width: 768px) {
+    /* Ajuste del contenedor del footer */
+    #footer {
+        font-size: 14px; /* Reducir el tamaño del texto */
+        padding: 15px 0; /* Reducir el padding */
+    }
+
+    /* Contenedor de los enlaces de políticas */
+    .politicas {
+        margin: 0 20px; /* Reducir el espaciado entre los enlaces */
+    }
+
+    /* Espaciado y tamaño de los enlaces */
+    .politicas a {
+        font-size: 14px; /* Reducir el tamaño de los enlaces */
+        margin-right: 8px; /* Reducir el margen entre los enlaces */
+    }
+
+    /* Ajustar el logo y los iconos */
+    .logo-footer-img {
+        width: 50px; /* Reducir el tamaño del logo */
+    }
+
+    .redes-sociales {
+        margin-left: 20px; /* Reducir el margen izquierdo */
+    }
+
+    .icono-social {
+        width: 25px; /* Reducir el tamaño de los iconos */
+        margin-left: 15px; /* Reducir el margen entre iconos */
+    }
+
+    /* Centrado de los enlaces y el copyright */
+    .contenido-footer {
+        flex-direction: column; /* Apilar los elementos verticalmente */
+        align-items: center; /* Centrar los elementos */
+        text-align: center;
+    }
+
+    .copyright {
+        margin: 10px 0; /* Reducir márgenes de copyright */
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustar el tamaño y espaciado en el footer */
+    #footer {
+        font-size: 12px; /* Reducir el tamaño de la fuente */
+        padding: 10px 0; /* Reducir el padding */
+    }
+
+    .politicas {
+        margin: 0 10px; /* Reducir aún más los márgenes de las políticas */
+    }
+
+    .politicas a {
+        font-size: 12px; /* Reducir el tamaño de los enlaces */
+        margin-right: 5px; /* Reducir el espaciado entre los enlaces */
+    }
+
+    /* Ajuste para los iconos y logo */
+    .logo-footer-img {
+        width: 40px; /* Reducir el tamaño del logo */
+    }
+
+    .icono-social {
+        width: 20px; /* Reducir aún más el tamaño de los iconos */
+        margin-left: 10px; /* Reducir el margen entre iconos */
+    }
+
+    /* Ajustar la disposición del contenido */
+    .contenido-footer {
+        flex-direction: column; /* Seguir apilando elementos */
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Espaciado más reducido en el copyright */
+    .copyright {
+        margin: 5px 0; /* Reducir márgenes */
+    }
+}

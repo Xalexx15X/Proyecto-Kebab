@@ -189,3 +189,76 @@ input[readonly] {
     border-color: #6c757d;
     background-color: #6c757d;
 }
+
+@media (max-width: 768px) {
+    .parent {
+        display: flex; /* Cambiar a flexbox */
+        flex-direction: column; /* Apilar los elementos verticalmente */
+        gap: 20px; /* Espacio entre las secciones */
+    }
+
+    .div1, .div2, .div3, .div4 {
+        width: 100%; /* Asegurarse de que cada div ocupe todo el ancho */
+        padding-left: 0; /* Eliminar el padding específico */
+    }
+
+    .line-separator {
+        display: none; /* Ocultar el separador vertical */
+    }
+
+    .preview-container {
+        width: 100%; /* Previsualización ocupa todo el ancho disponible */
+        margin-left: 0; /* Ajustar márgenes */
+    }
+
+    .div-botones {
+        flex-direction: column; /* Los botones se apilan verticalmente */
+        gap: 10px; /* Espaciado más pequeño entre los botones */
+    }
+
+    .btn {
+        width: 100%; /* Los botones ocupan todo el ancho */
+        font-size: 0.9rem; /* Reducir el tamaño de fuente */
+        padding: 8px 12px; /* Ajustar el padding */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%; /* Usar casi todo el ancho disponible */
+        margin: 20px auto; /* Reducir márgenes */
+        padding: 15px; /* Reducir padding dentro del contenedor */
+    }
+
+    .text-center {
+        font-size: 1.5rem; /* Reducir el tamaño de fuente del título */
+        margin-bottom: 20px; /* Menor espacio debajo del título */
+    }
+
+    input[type="text"],
+    textarea {
+        font-size: 0.9rem; /* Reducir tamaño de texto en los campos */
+        padding: 8px; /* Reducir padding de los inputs */
+    }
+
+    .preview-container {
+        height: 200px; /* Reducir la altura de la previsualización */
+        font-size: 0.85rem; /* Reducir el tamaño de la fuente */
+    }
+
+    .btn {
+        font-size: 0.8rem; /* Reducir tamaño de fuente */
+        padding: 8px 12px;
+    }
+
+    .div-botones {
+        flex-direction: column; /* Los botones se apilan verticalmente */
+        gap: 5px; /* Espacio reducido entre los botones */
+    }
+
+    /* Ajustes al modal */
+    .modal-content {
+        padding: 10px; /* Menos padding en el modal */
+        font-size: 0.85rem; /* Texto más pequeño en el modal */
+    }
+}

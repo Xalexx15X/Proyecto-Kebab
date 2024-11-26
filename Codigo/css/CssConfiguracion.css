@@ -7,7 +7,7 @@ body {
     padding: 0;
 }
 
-/* Contenedor principal con fondo blanco, bordes redondeados y sombra */
+/* Contenedor principal */
 .contenedor {
     width: 90%;
     max-width: 1600px;
@@ -18,7 +18,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilos de los contenedores dentro del formulario */
+/* Grid ajustable para secciones */
 .secciones {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -33,23 +33,21 @@ body {
     box-shadow: none;
 }
 
-/* Línea divisoria vertical azul entre los divs */
+/* Línea divisoria vertical */
 .datos-personales {
     border-right: 2px solid #00f2ff;
 }
 
 /* Títulos */
-h2 {
+h1, h2 {
+    text-align: center;
     color: #00f2ff;
     margin-bottom: 20px;
 }
 
 h1 {
-    text-align: center;
-    color: #00f2ff;
     font-size: 2.5em;
     margin-top: 50px;
-    margin-bottom: 30px;
 }
 
 /* Estilo de los campos del formulario */
@@ -73,22 +71,13 @@ form input[type="number"] {
     box-sizing: border-box;
 }
 
-form input[type="file"] {
-    padding: 3px;
-}
-
-/* Estilo de los campos de texto al enfocarse */
 form input:focus {
     border-color: #00f2ff;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilos para el área de previsualización de la imagen */
-.subir-foto {
-    margin-top: 15px;
-}
-
+/* Área de previsualización de la imagen */
 .contenedor-previa {
     border: 2px dashed #00f2ff;
     border-radius: 5px;
@@ -105,12 +94,7 @@ form input:focus {
     margin-left: 24%;
 }
 
-.contenedor-previa span {
-    font-size: 14px;
-    color: #00f2ff;
-}
-
-/* Estilos de la tabla de direcciones */
+/* Tabla */
 .contenedor-tabla {
     margin-top: 20px;
     border: 1px solid #959595;
@@ -129,35 +113,21 @@ form input:focus {
     padding: 10px;
 }
 
-/* Estilos para los controles de edición de dirección */
-#controles-edicion {
+/* Estilos para los botones */
+.botones-accion {
     display: flex;
-    align-items: center;
-    margin-top: 15px;
+    justify-content: center;
     gap: 10px;
-}
-
-#boton-editar, #boton-borrar, #nueva-direccion {
-    font-size: 1.2em;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-#boton-editar:hover, #boton-borrar:hover, #nueva-direccion:hover {
-    color: #959595;
-}
-
-/* Formulario de edición/creación de dirección */
-#formulario-direccion {
     margin-top: 20px;
-    border-top: 1px solid #959595;
-    padding-top: 20px;
 }
 
-#formulario-direccion label {
-    font-weight: bold;
-    margin-top: 10px;
+.botones-accion .btn {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 #guardar-direccion {
@@ -176,7 +146,6 @@ form input:focus {
     background-color: #008b8b;
 }
 
-/* Estilos para los botones de acción (Guardar, Borrar, Salir) */
 .botones-accion {
     display: flex;
     justify-content: center;
@@ -263,3 +232,76 @@ form input:focus {
     border-color: #dc3545;
     background-color: #dc3545;
 }
+
+@media (max-width: 1024px) {
+    .secciones {
+        grid-template-columns: 1fr; /* Columnas en una fila */
+    }
+
+    .datos-personales {
+        border-right: none; /* Quitar la línea divisoria */
+        border-bottom: 2px solid #00f2ff; /* Línea divisoria horizontal */
+    }
+
+    .contenedor-previa {
+        width: 80%; /* Ocupa más espacio en móvil */
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .contenedor {
+        padding: 15px; /* Menos relleno */
+    }
+
+    h1 {
+        font-size: 2em; /* Título más pequeño */
+    }
+
+    h2 {
+        font-size: 1.5em; /* Subtítulos más pequeños */
+    }
+
+    .contenedor-previa {
+        height: 200px; /* Previsualización más compacta */
+    }
+
+    .botones-accion .btn {
+        font-size: 1em;
+        padding: 8px 15px; /* Botones más pequeños */
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor {
+        width: 95%;
+        padding: 10px; /* Ajuste máximo para móviles pequeños */
+    }
+
+    .contenedor-previa {
+        width: 100%; /* Ocupar todo el ancho */
+        margin: 0;
+        height: 150px; /* Más compacto */
+    }
+
+    h1 {
+        font-size: 1.8em; /* Título más pequeño */
+    }
+
+    .botones-accion {
+        flex-direction: column; /* Botones en columna */
+        gap: 5px;
+    }
+
+    .botones-accion .btn {
+        width: 100%; /* Botones de ancho completo */
+        font-size: 0.9em;
+    }
+}
+
+
+
+
+
+
+

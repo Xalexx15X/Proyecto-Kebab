@@ -65,3 +65,81 @@ p {
     text-shadow: 1px 1px 2px rgba(70, 70, 70, 0.824); /* Sombra negra para texto */
     color: #ffffff; /* Color de texto blanco */
 }
+
+/* Responsiveness: Solo para móviles */
+@media (max-width: 768px) {
+    /* Encabezado principal y subtítulos */
+    .contacto {
+        font-size: 1.8rem; /* Título principal más pequeño */
+        margin-bottom: 15px; /* Ajuste de margen */
+    }
+
+    h2 {
+        font-size: 1rem; /* Subtítulo más compacto */
+        margin-bottom: 10px; /* Ajuste de margen */
+    }
+
+    /* Contenedor principal */
+    .container {
+        padding: 5%; /* Menor relleno interno */
+        width: 95%; /* Mayor ajuste para pantalla pequeña */
+        margin: 10px auto; /* Reducir margen superior/inferior */
+    }
+
+    /* Tabla en móviles */
+    .table {
+        font-size: 0.8rem; /* Reducir tamaño del texto */
+        padding: 5px; /* Espaciado interno reducido */
+        overflow-x: auto; /* Permitir desplazamiento horizontal en tablas largas */
+        display: block; /* Tabla como bloque en móviles */
+    }
+
+    .table th, .table td {
+        padding: 8px; /* Menor espaciado entre celdas */
+    }
+
+    /* Párrafos */
+    p {
+        font-size: 0.8rem; /* Texto más compacto */
+        margin: 5px 0; /* Ajuste de márgenes */
+    }
+    
+    @media (max-width: 480px) {
+        /* Encabezado principal y subtítulos */
+        .contacto {
+            font-size: 1.5rem; /* Tamaño de fuente más pequeño */
+            margin-bottom: 10px; /* Menor separación */
+        }
+
+        h2 {
+            font-size: 0.9rem; /* Subtítulos más pequeños */
+            margin-bottom: 8px; /* Menor margen */
+        }
+
+        /* Contenedor principal */
+        .container {
+            padding: 10px; /* Más compacto */
+            width: 100%; /* Ocupa todo el ancho */
+            margin: 5px auto; /* Menor margen superior/inferior */
+        }
+
+        /* Tabla en pantallas extra pequeñas */
+        .table {
+            font-size: 0.7rem; /* Reducir más el tamaño del texto */
+            padding: 5px; /* Menor espaciado interno */
+            overflow-x: auto; /* Desplazamiento horizontal */
+            display: block; /* Tabla como bloque */
+        }
+
+        .table th, .table td {
+            padding: 5px; /* Menor espaciado en celdas */
+            font-size: 0.7rem; /* Texto aún más pequeño */
+        }
+
+        /* Párrafos */
+        p {
+            font-size: 0.7rem; /* Texto compacto */
+            margin: 3px 0; /* Márgenes más pequeños */
+        }
+    }
+}

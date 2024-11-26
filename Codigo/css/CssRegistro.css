@@ -135,4 +135,69 @@ form input:focus {
     color: #00f2ff;
 }
 
+@media (max-width: 768px) {
+    .container {
+        margin: 30px auto; /* Menos margen en tabletas */
+        padding: 20px; /* Menos padding */
+    }
+
+    .parent {
+        grid-template-columns: 1fr; /* Mantener una sola columna */
+    }
+
+    h1 {
+        font-size: 2em; /* Reducir el tamaño del título */
+        margin-top: 30px; /* Menos margen superior */
+        margin-bottom: 20px; /* Menos margen inferior */
+    }
+
+    h2 {
+        font-size: 1.8em; /* Reducir el tamaño del título */
+        margin-bottom: 15px;
+    }
+
+    .div1, .div2 {
+        padding: 8px; /* Reducir el padding de los divs */
+    }
+
+    .preview-container {
+        width: 80%; /* Hacer la previsualización más pequeña */
+        margin-left: 10%; /* Centrarla en pantallas pequeñas */
+    }
+
+    .registrarse button {
+        width: 100%; /* Hacer el botón ocupar el 100% del contenedor */
+        padding: 12px; /* Aumentar padding para mejor accesibilidad */
+        font-size: 1em; /* Reducir el tamaño del botón */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 20px auto; /* Menos margen en móviles */
+        padding: 15px; /* Menos padding */
+    }
+
+    h1 {
+        font-size: 1.6em; /* Reducir el tamaño del título */
+        margin-top: 20px; /* Reducir el margen superior */
+        margin-bottom: 15px; /* Reducir el margen inferior */
+    }
+
+    h2 {
+        font-size: 1.6em; /* Reducir el tamaño del título */
+    }
+
+    .preview-container {
+        width: 90%; /* Hacer la previsualización casi del 100% */
+        height: 200px; /* Reducir la altura */
+    }
+
+    .registrarse button {
+        width: 100%; /* El botón ocupa todo el ancho */
+        padding: 15px; /* Mayor padding */
+        font-size: 1em; /* Reducir el tamaño del botón */
+    }
+}
+
 

@@ -142,3 +142,128 @@
 .cerrar:hover {
     color: #ff0000;
 }
+
+@media (max-width: 768px) {
+    .contenedor {
+        width: 90%; /* Aumentar el ancho en pantallas medianas */
+    }
+
+    /* Ajustar el tamaño del título */
+    .titulo-centrado {
+        font-size: 28px; /* Reducir tamaño del título */
+        margin-bottom: 20px;
+    }
+
+    .filtros {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .filtros label {
+        font-size: 14px; /* Reducir el tamaño de la fuente */
+    }
+
+    .filtros select {
+        font-size: 14px; /* Reducir tamaño de la fuente */
+        padding: 6px;
+    }
+
+    .boton-aplicar-filtro {
+        font-size: 14px; /* Reducir tamaño de la fuente */
+        padding: 8px 16px; /* Reducir padding */
+    }
+
+    /* Ajustar el tamaño de la tabla */
+    .tabla-pedidos {
+        font-size: 14px; /* Reducir tamaño de la fuente de la tabla */
+    }
+
+    .tabla-pedidos th,
+    .tabla-pedidos td {
+        padding: 10px 12px; /* Reducir padding en la tabla */
+    }
+
+    .boton-ver-ticket {
+        font-size: 12px; /* Reducir tamaño de los botones */
+        padding: 6px 12px;
+    }
+
+    .modal-contenido {
+        width: 80%; /* Aumentar el ancho en dispositivos medianos */
+        max-width: 400px; /* Asegurarse de que no sea demasiado grande */
+    }
+
+    .modal-contenido h2 {
+        font-size: 18px; /* Reducir tamaño de título del modal */
+    }
+
+    .modal-contenido p {
+        font-size: 14px; /* Reducir tamaño de los párrafos en el modal */
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor {
+        width: 95%; /* Aumentar el ancho en pantallas pequeñas */
+    }
+
+    /* Ajustar el tamaño del título */
+    .titulo-centrado {
+        font-size: 24px; /* Reducir aún más el tamaño del título */
+        margin-bottom: 15px;
+    }
+
+    .filtros {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .filtros label {
+        font-size: 14px; /* Reducir más el tamaño de la fuente */
+    }
+
+    .filtros select {
+        font-size: 14px; /* Reducir tamaño de la fuente */
+        padding: 6px;
+    }
+
+    .boton-aplicar-filtro {
+        font-size: 14px; /* Reducir tamaño de los botones */
+        padding: 6px 12px;
+    }
+
+    /* Ajustar la tabla */
+    .tabla-pedidos {
+        font-size: 12px; /* Reducir aún más el tamaño de la tabla */
+    }
+
+    .tabla-pedidos th,
+    .tabla-pedidos td {
+        padding: 8px 10px; /* Reducir padding en la tabla */
+    }
+
+    .boton-ver-ticket {
+        font-size: 12px; /* Reducir más los botones */
+        padding: 6px 10px;
+    }
+
+    /* Modal */
+    .modal-contenido {
+        width: 90%; /* Aumentar el ancho para dispositivos pequeños */
+        max-width: 300px; /* Limitar el tamaño del modal */
+    }
+
+    .modal-contenido h2 {
+        font-size: 16px; /* Reducir aún más el título */
+    }
+
+    .modal-contenido p {
+        font-size: 12px; /* Reducir aún más el tamaño de los párrafos */
+    }
+}

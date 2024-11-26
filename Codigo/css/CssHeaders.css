@@ -225,3 +225,89 @@ header {
 
 }
 
+@media (max-width: 768px) {
+    /* Reducir el tamaño del logo para pantallas pequeñas */
+    .navbar-brand img {
+        max-height: 50px; /* Reducir el tamaño del logo */
+    }
+
+    /* Reducir el tamaño de los íconos */
+    .navbar-nav .nav-item img {
+        width: 30px; /* Reducir el tamaño de los íconos */
+        height: 30px;
+    }
+
+    /* Ajustar la fuente de los enlaces de navegación */
+    .navbar-nav .nav-link {
+        font-size: 22px; /* Reducir tamaño del texto de los enlaces */
+    }
+
+    /* Cambiar tamaño del texto en el menú desplegable */
+    .dropdown-menu {
+        font-size: 16px; /* Reducir tamaño de la fuente */
+    }
+
+    .dropdown-item {
+        padding: 8px 12px; /* Reducir padding en los items */
+    }
+
+    /* Ajustar el espaciado en el nombre del restaurante */
+    .nombre p {
+        font-size: 20px; /* Reducir tamaño de fuente del nombre */
+        margin-right: 20px; /* Reducir margen a la derecha */
+    }
+
+    /* Ajustar espaciado para íconos del monedero */
+    .nav-item.d-flex.align-items-center {
+        margin-right: 10px; /* Reducir espacio entre íconos */
+    }
+
+    /* Para los botones */
+    .ml-3 {
+        margin-left: 0.5rem; /* Reducir margen izquierdo */
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustar el logo aún más en pantallas muy pequeñas */
+    .navbar-brand img {
+        max-height: 40px; /* Reducir el tamaño del logo aún más */
+    }
+
+    /* Ajustar íconos para pantallas pequeñas */
+    .navbar-nav .nav-item img {
+        width: 25px; /* Reducir íconos más */
+        height: 25px;
+    }
+
+    /* Reducir el tamaño de la fuente de los enlaces */
+    .navbar-nav .nav-link {
+        font-size: 14px; /* Reducir el tamaño de los enlaces */
+    }
+
+    /* Ajustar el menú desplegable */
+    .dropdown-menu {
+        font-size: 16px; /* Reducir más el tamaño de la fuente */
+    }
+
+    .dropdown-item {
+        padding: 6px 10px; /* Reducir padding */
+    }
+
+    /* Ajustar el nombre del restaurante */
+    .nombre p {
+        font-size: 18px; /* Reducir tamaño del texto del nombre */
+        margin-right: 10px; /* Reducir margen */
+    }
+
+    /* Ajustar márgenes de los íconos */
+    .nav-item.d-flex.align-items-center {
+        margin-right: 5px; /* Reducir margen a la derecha de los íconos */
+    }
+
+    .ml-3 {
+        margin-left: 0.2rem; /* Reducir margen izquierdo en los botones */
+    }
+}
+
+

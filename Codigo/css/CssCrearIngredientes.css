@@ -241,3 +241,71 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+    .parent {
+        display: flex; /* Cambiar a flex */
+        flex-direction: column; /* Apilar verticalmente */
+        gap: 20px; /* Espaciado entre las secciones */
+    }
+
+    .div1, .div2, .div3, .div4 {
+        width: 100%; /* Asegurarse de que ocupen todo el ancho disponible */
+        padding-left: 0; /* Eliminar paddings laterales específicos */
+    }
+
+    .line-separator {
+        display: none; /* Ocultar el separador para pantallas pequeñas */
+    }
+
+    .preview-container {
+        width: 100%; /* Previsualización ocupa todo el ancho */
+        margin-left: 0; /* Centrar correctamente */
+    }
+
+    /* Botones centrados */
+    .div-botones {
+        flex-direction: column; /* Botones apilados verticalmente */
+        gap: 10px; /* Menor espacio entre ellos */
+    }
+
+    .btn {
+        font-size: 0.9rem; /* Reducir tamaño de fuente */
+        width: 100%; /* Ocupan todo el ancho */
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%; /* Usar casi todo el ancho de la pantalla */
+        margin: 20px auto; /* Reducir los márgenes */
+        padding: 15px; /* Reducir el padding */
+    }
+
+    .text-center {
+        font-size: 1.5rem; /* Reducir el tamaño del título */
+        margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    textarea {
+        font-size: 0.9rem; /* Reducir tamaño de texto en los inputs */
+        padding: 8px; /* Ajustar el padding */
+    }
+
+    .preview-container {
+        height: 200px; /* Reducir la altura */
+        font-size: 0.85rem; /* Texto más pequeño */
+    }
+
+    .btn {
+        font-size: 0.8rem; /* Reducir tamaño de fuente */
+        padding: 8px 12px;
+    }
+
+    /* Modales más pequeños */
+    .modal-content {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+}

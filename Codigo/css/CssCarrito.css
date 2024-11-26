@@ -1,99 +1,119 @@
-/* Centrar todo el contenido en el medio del body */
+/* Estilos generales */
 body {
+    display: flex; /* Añadido para que justify-content y align-items funcionen */
+    flex-direction: column; /* Flexbox para columna */
     justify-content: center; /* Centrar horizontalmente */
     align-items: center; /* Centrar verticalmente */
-    height: 80vh; /* Altura completa de la ventana */
-    margin: 0; /* Eliminar márgenes predeterminados */
-    background-color: #f5f5f5; /* Fondo claro para mejor contraste */
+    height: 80vh; /* Altura ajustada */
+    margin: 0; /* Sin márgenes */
+    background-color: #f5f5f5;
 }
+
 h2 {
-    color: #00f2ff; /* Color del título */
-    margin-right: 20px; /* Espacio inferior */
+    color: #00f2ff;
+    margin: 0 0 20px 0; /* Espaciado adecuado para móvil */
+    text-align: center; /* Centrar el título en móvil */
 }
 
-/* Estilos generales para el contenedor principal */
 .container {
-    padding: 20px; /* Relleno interno */
-    align-items: center; /* Centrar contenido horizontalmente */
-    justify-content: center; /* Centrar contenido verticalmente */
-    border: 1px solid #a8a8a8; /* Borde azul */
-    border-radius: 10px; /* Bordes redondeados */
-    background-color: white; /* Fondo blanco */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efecto de elevación */
-    width: 100%; /* Ajustar ancho del contenedor */
-    margin-top: 3%;
-    margin-bottom: 3%;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #a8a8a8;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%; /* Ajuste ancho para móvil */
+    max-width: 400px; /* Máximo ancho */
+    margin: 3% auto; /* Centrar con margen automático */
 }
 
-/* Estilo para las listas desplegables más anchas */
 .table-container {
-    width: 100%; /* Hacer que ocupe todo el ancho disponible */
-    max-height: 500px; /* Altura máxima */
-    overflow-y: scroll; /* Habilitar scroll vertical */
-    border: 1px solid #ccc; /* Borde alrededor de la tabla */
-    border-radius: 5px; /* Bordes redondeados */
-    margin-top: 10px; /* Separación superior */
-    height: 400px; /* Altura fija */
+    width: 100%;
+    max-height: 500px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    height: auto; /* Altura adaptativa para móvil */
     display: flex;
     flex-direction: column;
-    padding: 10px; /* Espaciado interno */
-    background-color: #f9f9f9; /* Fondo claro */
+    padding: 10px;
+    background-color: #f9f9f9;
 }
 
-/* Ajustar la lista desplegable */
-.table-body {
-    padding: 0; /* Sin relleno interno */
-    display: flex;
-    flex-direction: column;
-    font-size: 1rem; /* Tamaño del texto */
-}
-
-/* Cada fila como un div */
 .table-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 4 columnas de igual tamaño */
-    padding: 10px; /* Espaciado interno */
-    font-size: 1rem; /* Tamaño de fuente */
-    border-bottom: 1px solid #ddd; /* Línea divisoria */
+    display: flex; /* Cambia a flex para móviles */
+    flex-direction: column; /* Coloca columnas una debajo de otra */
+    padding: 10px;
+    font-size: 1rem;
+    border-bottom: 1px solid #ddd;
 }
 
-/* Columnas dentro de las filas */
 .table-row .column {
-    text-align: center; /* Texto centrado */
-    padding: 5px 0; /* Espaciado interno */
-    font-weight: bold; /* Texto en negrita */
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.5); /* Sombreado gris para el texto */
+    text-align: left; /* Ajusta texto a la izquierda */
+    padding: 5px 0;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.5);
 }
 
-/* Hover para las filas */
-.table-row:hover {
-    background-color: #f0f0f0; /* Fondo claro al pasar el ratón */
-}
-
-/* Encabezado de la tabla más ancho */
 .table-header {
-    background-color: #959595; /* Fondo gris oscuro */
-    color: white; /* Texto blanco */
-    padding: 15px; /* Más relleno interno */
-    font-size: 1.2rem; /* Tamaño de fuente más grande */
-    text-align: center; /* Centrado del texto */
-    font-weight: bold; /* Texto en negrita */
-    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.5); /* Sombreado gris para el texto */
+    background-color: #959595;
+    color: white;
+    padding: 10px; /* Menos relleno */
+    font-size: 1rem; /* Reducir tamaño en móvil */
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.5);
 }
 
-/* Estilo para botones */
 .btn {
-    padding: 10px 20px; /* Más ancho y alto */
-    font-size: 18px; /* Tamaño de fuente */
-    font-weight: bold; /* Texto en negrita */
-    border-radius: 5px; /* Bordes redondeados */
-    color: #ffffff;
-    background-color: #28a745; /* Fondo verde */
-    border: 1px solid #28a745; /* Borde verde */
-    cursor: pointer; /* Cambiar cursor a mano al pasar sobre el botón */
+    padding: 10px; /* Botón más compacto */
+    font-size: 16px; /* Tamaño reducido */
+    width: 100%; /* Botón ancho completo */
+    margin-top: 10px; /* Separación superior */
 }
 
+/* Hover para botones */
 .btn:hover {
-    background-color: #24923e; /* Fondo verde oscuro al pasar el ratón */
+    background-color: #24923e;
     color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px; /* Reducir espacio */
+    }
+
+    .table-row {
+        flex-direction: column; /* Cambiar a diseño de columnas */
+    }
+
+    .table-header {
+        font-size: 0.9rem; /* Reducir fuente */
+    }
+
+    .btn {
+        font-size: 14px; /* Tamaño de fuente más pequeño */
+        padding: 8px; /* Espaciado más pequeño */
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.5rem; /* Reducir tamaño del título */
+    }
+
+    .table-container {
+        padding: 5px; /* Menos espacio interno */
+    }
+
+    .table-row .column {
+        font-size: 0.9rem; /* Texto más pequeño */
+    }
+
+    .btn {
+        font-size: 12px; /* Fuente pequeña */
+        padding: 6px; /* Espaciado menor */
+    }
 }
