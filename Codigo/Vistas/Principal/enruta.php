@@ -40,7 +40,6 @@ if (isset($_GET['menu'])) {
     if ($_GET['menu'] == "modificarIngrediente") {
         require_once './Vistas/Mantenimiento/modificarIngrediente.php';
     }
-
     if ($_GET['menu'] == "mantenimientoAlergeno") {
         require_once './Vistas/Mantenimiento/mantenimientoAlergeno.php';
     }
@@ -50,9 +49,11 @@ if (isset($_GET['menu'])) {
     if ($_GET['menu'] == "modificarAlergeno") {
         require_once './Vistas/Mantenimiento/modificarAlergeno.php';
     }
-
     if ($_GET['menu'] == "registro-Pedido") {
         require_once './Vistas/Mantenimiento/registroPedido.php';
+    }
+    if ($_GET['menu'] == "Mis-Pedidos") {
+        require_once './Vistas/Mantenimiento/misPedidos.php';
     }
 
     if ($_GET['menu'] == "contacto") {

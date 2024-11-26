@@ -362,7 +362,7 @@ window.tramitarPedido = function () {
 
                 // Actualizar el total a pagar y crédito restante
                 calcularTotal([]);
-
+                cargarCarrito();
                 console.log("Carrito borrado después de tramitar el pedido.");
             } else {
                 throw new Error("El servidor no devolvió un ID de pedido válido.");

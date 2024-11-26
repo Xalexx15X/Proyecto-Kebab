@@ -26,16 +26,14 @@ header("Content-Type: application/json");
 $con = Conexion::getConection();
 $repoLineaPedido = new RepoLinea_Pedido($con);
 
-// Verificar si el JSON recibido es válido
-if ($method != 'GET') {
-    $input = json_decode(file_get_contents("php://input"), true);
+$method = $_SERVER['REQUEST_METHOD'];  // Obtiene el tipo de petición HTTP
 
-    // Verificar si el JSON recibido es válido
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        http_response_code(400); // Bad Request
-        echo json_encode(["error" => "JSON malformado."]);
-        exit;
-    }
+// Verificar si el JSON recibido es válido
+$input = json_decode(file_get_contents("php://input"), true);
+if (json_last_error() !== JSON_ERROR_NONE) {
+    http_response_code(400); // Bad Request
+    echo json_encode(["error" => "JSON malformado."]);
+    exit;
 }
 
 switch ($method) {
@@ -86,10 +84,7 @@ switch ($method) {
 
     case 'PUT':
         // Actualizar una línea de pedido existente
-        if (isset($input['id_linea_pedido'], $input['cantidad'], $input['precio'], $input['linea_pedidos'], $input['id_pedidos']) &&
-            !empty($input['id_linea_pedido']) && !empty($input['cantidad']) && !empty($input['precio']) &&
-            !empty($input['linea_pedidos']) && !empty($input['id_pedidos'])) {
-
+        if (isset($input['id_linea_pedido'], $input['cantidad'], $input['precio'], $input['linea_pedidos'], $input['id_pedidos'])) {
             $lineaPedido = $repoLineaPedido->findById($input['id_linea_pedido']);
             
             if ($lineaPedido) {

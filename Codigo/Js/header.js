@@ -54,6 +54,11 @@ window.addEventListener('load', function () {
                                 <a class="nav-link" href="?menu=registro-Pedido">Registro</a>
                             </li>
 
+                            <!-- Registro -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="?menu=Mis-Pedidos">Mis Pedidos</a>
+                            </li>
+
                             <!-- Contacto -->
                             <li class="nav-item">
                                 <a class="nav-link" href="?menu=contacto">Contacto</a>
@@ -123,6 +128,11 @@ window.addEventListener('load', function () {
                                 <a class="dropdown-item" href="?menu=kebabCasa">Kebab de la Casa</a>
                                 <a class="dropdown-item" href="?menu=kebabGusto">Kebab al Gusto</a>
                             </div>
+                        </li>
+
+                        <!-- Registro -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="?menu=Mis-Pedidos">Mis Pedidos</a>
                         </li>
 
                         <!-- Contacto -->

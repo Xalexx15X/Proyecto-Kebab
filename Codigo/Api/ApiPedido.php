@@ -66,6 +66,15 @@ switch ($method) {
                 http_response_code(404);
                 echo json_encode(["error" => "No se encontró el último pedido para el usuario especificado."]);
             }
+        } elseif(isset($input['id_usuario_pedido'])) {
+             $pedido = $repoPedidos->findByAllUsuarioId($input['id_usuario_pedido']);
+             if ($pedido) {
+                 http_response_code(200); // OK
+                 echo json_encode($pedido);
+             } else {
+                 http_response_code(404);
+                 echo json_encode(["error" => "No se encontró el último pedido para el usuario especificado."]);
+             }
         } elseif (isset($input['estado'], $input['precio_total'], $input['fecha_hora'], $input['usuario_id_usuario'])) {
             // Crear un nuevo pedido (Caso 3)
             $pedido = new Pedido(

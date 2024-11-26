@@ -107,7 +107,7 @@ textarea {
 .preview-container {
     border: 2px dashed #00f2ff;
     border-radius: 5px;
-    height: 150px;
+    height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -115,6 +115,9 @@ textarea {
     cursor: pointer;
     color: #333;
     text-align: center;
+    position: relative;
+    width: 80%;
+    margin-left: 10%;
 }
 
 .preview-container:hover {

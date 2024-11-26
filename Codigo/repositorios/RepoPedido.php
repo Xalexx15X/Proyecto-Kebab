@@ -88,6 +88,34 @@ class RepoPedido
             return null;
         }
     }
+
+    public function findByallUsuarioId($id_usuario_pedido)
+    {
+        try {
+            // Modificamos la consulta para obtener solo el último pedido del usuario
+            $sql = "SELECT * FROM pedidos WHERE usuario_id_usuario = :id_usuario";
+            $stm = $this->con->prepare($sql);
+            $stm->execute(['id_usuario' => $id_usuario_pedido]);
+            $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+            $pedidos = [];
+            foreach ($registros as $registro) {
+                $pedido = new Pedido(
+                    $registro['id_pedidos'],
+                    $registro['estado'],
+                    $registro['precio_total'],
+                    $registro['fecha_hora'],
+                    $registro['usuario_id_usuario']
+                );
+                $pedidos[] = $pedido;
+            }
+            return $pedidos;
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error al mostrar los pedidos: " . $e->getMessage()]);
+            return [];
+        }
+    }
+
     // Método para crear un nuevo pedido
     public function crear(Pedido $pedido)
     {
@@ -216,39 +244,6 @@ class RepoPedido
         }
     }  
 
-    public function mostrarPedidosPorClienteConLineas($id_usuario)
-    {
-        try {
-            // Consulta SQL para obtener los pedidos y las líneas de pedido
-            $sql = "
-                SELECT 
-                    p.id_pedidos, 
-                    p.fecha_hora, 
-                    p.precio_total, 
-                    lp.linea_pedidos
-                FROM 
-                    pedidos p
-                LEFT JOIN 
-                    linea_pedido lp ON p.id_pedidos = lp.pedidos_id_pedidos
-                WHERE 
-                    p.usuario_id_usuario = :id_usuario
-                ORDER BY 
-                    p.fecha_hora DESC
-            ";
-
-            // Preparar la consulta
-            $stm = $this->con->prepare($sql);
-            $stm->execute(['id_usuario' => $id_usuario]);
-
-            // Obtener los resultados
-            $registros = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-            // Devolver directamente los registros
-            return $registros;
-        } catch (PDOException $e) {
-            echo json_encode(["error" => "Error al obtener los pedidos del cliente: " . $e->getMessage()]);
-            return [];
-        }
-    }
+    
 }    
 ?>

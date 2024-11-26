@@ -1,0 +1,98 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Contenedor principal */
+.contenedor {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Sección de la tabla */
+.seccion-tabla h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #00f2ff;
+}
+
+.tabla-pedidos {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.tabla-pedidos thead {
+    background-color: #0fa1a9;
+    color: #fff;
+}
+
+.tabla-pedidos th,
+.tabla-pedidos td {
+    padding: 10px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/* Botones */
+.boton-cancelar {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.boton-cancelar:hover {
+    background-color: #c82333;
+}
+
+.boton-aplicar-filtro {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #00f2ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.boton-aplicar-filtro:hover {
+    background-color: #00c2cc;
+}
+
+/* Filtros */
+.filtros {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.filtros label {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #333;
+}
+
+.filtros select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 15px;
+}
