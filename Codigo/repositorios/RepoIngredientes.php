@@ -189,30 +189,30 @@ class RepoIngredientes
         }
     }
 
-    // Método para eliminar los alérgenos asociados a un ingrediente
-    public function eliminarAlergenos($ingredienteId)
-    {
-        try {
-            $sql = "DELETE FROM alergenos_tiene_ingredientes WHERE ingredientes_id_ingredientes = :ingrediente_id";
-            $stm = $this->con->prepare($sql);
-            $stm->execute(['ingrediente_id' => $ingredienteId]);
-        } catch (PDOException $e) {
-            echo json_encode(["error" => "Error al eliminar alérgenos asociados: " . $e->getMessage()]);
-        }
-    }
-
-    // Método para eliminar un ingrediente
-    public function eliminar($id)
-    {
-        try {
-            $this->eliminarAlergenos($id);
-            $sql = "DELETE FROM ingredientes WHERE id_ingredientes = :id";
-            $stm = $this->con->prepare($sql);
-            return $stm->execute(['id' => $id]);
-        } catch (PDOException $e) {
-            echo json_encode(["error" => "Error al eliminar el ingrediente: " . $e->getMessage()]);
-            return false;
-        }
-    }
+     // Método para eliminar los alérgenos asociados a un ingrediente
+     public function eliminarAlergenos($ingredienteId)
+     {
+         try {
+             $sql = "DELETE FROM alergenos_tiene_ingredientes WHERE ingredientes_id_ingredientes = :ingrediente_id";
+             $stm = $this->con->prepare($sql);
+             $stm->execute(['ingrediente_id' => $ingredienteId]);
+         } catch (PDOException $e) {
+             echo json_encode(["error" => "Error al eliminar alérgenos asociados: " . $e->getMessage()]);
+         }
+     }
+ 
+     // Método para eliminar un ingrediente
+     public function eliminar($id)
+     {
+         try {
+             $this->eliminarAlergenos($id);
+             $sql = "DELETE FROM ingredientes WHERE id_ingredientes = :id";
+             $stm = $this->con->prepare($sql);
+             return $stm->execute(['id' => $id]);
+         } catch (PDOException $e) {
+             echo json_encode(["error" => "Error al eliminar el ingrediente: " . $e->getMessage()]);
+             return false;
+         }
+     }
 }
 ?>

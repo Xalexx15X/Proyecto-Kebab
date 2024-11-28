@@ -1,40 +1,45 @@
 document.addEventListener('DOMContentLoaded', function () {
-    cargarKebabs(); // Cargar los kebabs al inicio
+    cargarKebabs(); // cargo los kebabs al inicio
 });
 
-// Función para cargar los kebabs desde la API
+const urlApiKebabs = 'http://localhost/ProyectoKebab/codigo/index.php?route=kebabs'; // URL de la api para los kebabs
+
+// funcion para cargar los kebabs desde la api
 function cargarKebabs() {
-    fetch('http://localhost/ProyectoKebab/codigo/index.php?route=kebabs')
-        .then(response => response.json())
-        .then(data => {
-            if (Array.isArray(data)) {
-                mostrarKebabs(data); // Llamar a la función para mostrar los kebabs
-            } else {
-                console.error("La respuesta no es un array de kebabs:", data);
+    fetch(urlApiKebabs) // hago la peticion ajax para obtener los kebabs
+        .then(response => response.json()) // proceso la respuesta como json
+        .then(data => { // si la respuesta es válida
+            if (Array.isArray(data)) { // si es un array
+                mostrarKebabs(data); // mostramos los kebabs
+            } else { // si no es un array
+                console.error("La respuesta no es un array de kebabs:", data); // lanzo un error
             }
         })
         .catch(error => {
-            console.error("Error al cargar los kebabs:", error);
+            console.error("Error al cargar los kebabs:", error); // lanzo un error
     });
 }
 
-// Función para mostrar las tarjetas de los kebabs en la cuadrícula
-function mostrarKebabs(kebabs) {
-    const contenedor = document.querySelector('.cuadricula-kebabs');
+// funcion para mostrar las tarjetas de los kebabs en la cuadricula
+function mostrarKebabs(kebabs) { // funcion para mostrar las tarjetas de los kebabs en la cuadricula
+    const contenedor = document.querySelector('.cuadricula-kebabs'); // busco el contenedor de las tarjetas
+    // limpio las tarjetas de kebabs existentes, excepto la de "Crear Kebab"
+    const tarjetasKebabs = contenedor.querySelectorAll('.tarjeta-kebab'); // busco las tarjetas de kebabs existentes
+    tarjetasKebabs.forEach(tarjeta => tarjeta.remove()); // lo quito de la lista de tarjetas
+ 
+    // ordeno los kebabs por ID de forma descendente (los mas recientes primero)
+    kebabs.sort((a, b) => b.id_kebab - a.id_kebab);
 
-    // Limpiar tarjetas de kebabs existentes, excepto la de "Crear Kebab"
-    const tarjetasKebabs = contenedor.querySelectorAll('.tarjeta-kebab');
-    tarjetasKebabs.forEach(tarjeta => tarjeta.remove());
+    // creo las tarjetas de los kebabs
+    kebabs.forEach(kebab => { // recorro el array de kebabs
+        const tarjeta = document.createElement('div'); // creo un div para cada tarjeta
+        tarjeta.classList.add('tarjeta-kebab'); // le asigno la clase tarjeta-kebab
+        tarjeta.setAttribute('data-id', kebab.id_kebab); // asigno el id del kebab
 
-    kebabs.forEach(kebab => {
-        const tarjeta = document.createElement('div');
-        tarjeta.classList.add('tarjeta-kebab');
-        tarjeta.setAttribute('data-id', kebab.id_kebab);
-
-        // Obtener nombres de ingredientes
+        // obtengo los nombres de ingredientes
         const ingredientes = kebab.ingredientes.map(ing => ing.nombre).join(', ');
 
-        // Crear estructura HTML de la tarjeta
+        // creo la estructura html de la tarjeta
         tarjeta.innerHTML = `
             <img src="data:image/jpeg;base64,${kebab.foto}" alt="Kebab" class="imagen-kebab">
             <div class="informacion-kebab">
@@ -49,27 +54,27 @@ function mostrarKebabs(kebabs) {
             </div>
         `;
 
-        contenedor.appendChild(tarjeta); // Agregar tarjeta al contenedor
+        contenedor.appendChild(tarjeta); // lo agrego al contenedor
     });
 }
 
 
-// Función para eliminar un kebab por su ID
+// funcion para eliminar un kebab por su id
 function eliminarKebab(id) {
-    fetch('http://localhost/ProyectoKebab/codigo/index.php?route=kebabs', {
-        method: 'DELETE',
+    fetch(urlApiKebabs, { // hago la peticion ajax para eliminar el kebab
+        method: 'DELETE', // uso el metodo DELETE
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' // le digo que lo que voy a enviar en el body es json
         },
-        body: JSON.stringify({ id_kebab: id }) // Enviar el ID del kebab a eliminar
+        body: JSON.stringify({ id_kebab: id })  // envio el id del kebab a eliminar
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) { // Verificar si la eliminación fue exitosa
-                console.log("Kebab eliminado");
-                cargarKebabs(); // Recargar la lista de kebabs después de la eliminación
+        .then(response => response.json()) // proceso la respuesta como json
+        .then(data => { // si la respuesta es válida
+            if (data.success) { // si la respuesta indica éxito
+                console.log("Kebab eliminado"); 
+                cargarKebabs(); // recargo la lista de kebabs despues de la eliminacion
             } else {
-                console.error("Error al eliminar el kebab:", data);
+                console.error("Error al eliminar el kebab:", data); // lanzo un error
             }
         })
         .catch(error => {

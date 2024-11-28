@@ -52,12 +52,12 @@ body {
 /* Contenedor para las listas con scroll */
 .table-container {
     width: 100%;
-    max-height: 500px; /* Altura máxima para la lista de ingredientes del kebab */
+    max-height: 600px; /* Altura máxima para la lista de ingredientes del kebab */
     overflow-y: scroll; /* Habilita el scroll vertical */
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-top: 10px;
-    height: 400px;
+    height: 600px;
 }
 
 /* Altura máxima para la lista de ingredientes a elegir */
@@ -77,6 +77,7 @@ body {
 /* Estilos para el contenido de cada div de la tabla */
 .table-body {
     padding: 10px;
+    height: 500px;  
 }
 
 /* Cada fila es un div */

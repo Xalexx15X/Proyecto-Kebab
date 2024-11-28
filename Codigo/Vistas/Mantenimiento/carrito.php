@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulación de Ticket</title>
+
     <link rel="stylesheet" href="./css/CssCarrito.css">
-</head>
 <body>
     <div class="container">
         <h2 class="text-center">Carrito</h2>
@@ -62,5 +56,5 @@
 
     <script src="./Js/linea_pedido.js"></script>
 </body>
-</html>
+
 

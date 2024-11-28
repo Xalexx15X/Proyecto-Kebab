@@ -1,49 +1,49 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Inicializar funciones al cargar la página
-    cargarCarrito();
-    cargarDirecciones();
-    mostrarCredito(); // Añadimos esta función para mostrar el crédito
+    // inicializa funciones al cargar la pagina
+    cargarCarrito(); // carga el carrito
+    cargarDirecciones(); // carga las direcciones
+    mostrarCredito(); // añado esta funcion para mostrar el credito
 });
 
-const ticketCarrito = document.getElementById('ticketCarrito');
-const importePagar = document.getElementById('importePagar');
-const creditoActual = document.getElementById('creditoActual');
-const creditoFinal = document.getElementById('creditoFinal');
-const añadirCreditoInput = document.getElementById('añadirCredito');
-const direccionUsuario = document.getElementById('direccionUsuario');
+const ticketCarrito = document.getElementById('ticketCarrito'); // busco el ticket de carrito
+const importePagar = document.getElementById('importePagar'); // busco el input de importe a pagar
+const creditoActual = document.getElementById('creditoActual'); // busco el credito actual
+const creditoFinal = document.getElementById('creditoFinal'); // busco el credito final
+const añadirCreditoInput = document.getElementById('añadirCredito'); // busco el input de añadir credito
+const direccionUsuario = document.getElementById('direccionUsuario'); // busco el input de direccion
 
-// API URL 
-const apiURLDireccion = 'http://localhost/ProyectoKebab/codigo/index.php?route=direccion'; 
+// api url
+const apiURLDireccion = 'http://localhost/ProyectoKebab/codigo/index.php?route=direccion';  
 const apiURLUsarios = 'http://localhost/ProyectoKebab/codigo/index.php?route=usuarios';
 const apiURLPedido = 'http://localhost/ProyectoKebab/codigo/index.php?route=pedido';
 const apiURLLinea_Pedido = 'http://localhost/ProyectoKebab/codigo/index.php?route=lineaPedido';
 
-// Cargar el carrito del localStorage y mostrarlo
+// funcion para cargar el carrito del localStorage y mostrarlo
 function cargarCarrito() {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const carritoAgrupado = agruparCarrito(carrito);
-    mostrarCarrito(carritoAgrupado);
-    calcularTotal(carritoAgrupado);
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || []; // recupero el carrito del localStorage
+    const carritoAgrupado = agruparCarrito(carrito); // agrupo los kebabs por nombre y sumo cantidades
+    mostrarCarrito(carritoAgrupado); // mostro el carrito
+    calcularTotal(carritoAgrupado); // calcula el total
 }
 
-// Agrupar los kebabs por nombre y sumar cantidades
+// funcion para agrupar los kebabs por nombre y sumar cantidades
 function agruparCarrito(carrito) {
-    const agrupado = {};
-    carrito.forEach(kebab => {
-        const key = kebab.nombre;
-        if (!agrupado[key]) {
-            agrupado[key] = { ...kebab, cantidad: 1, precio: kebab.precio };
-        } else {
-            agrupado[key].cantidad++;
-            agrupado[key].precio = agrupado[key].cantidad * kebab.precio;
+    const agrupado = {}; // creo un objeto para almacenar los kebabs agrupados
+    carrito.forEach(kebab => { // recorro el array de kebabs
+        const key = kebab.nombre; // obtengo el nombre del kebab
+        if (!agrupado[key]) { // si el nombre no esta en el objeto
+            agrupado[key] = { ...kebab, cantidad: 1, precio: kebab.precio }; // creo un objeto con el kebab y su cantidad y precio
+        } else { // si ya existe
+            agrupado[key].cantidad++; // sumo la cantidad
+            agrupado[key].precio = agrupado[key].cantidad * kebab.precio; // sumo el precio
         }
-    });
-    return Object.values(agrupado);
+    }); 
+    return Object.values(agrupado); // devuelvo el array de objetos agrupados
 }
 
-// Mostrar los kebabs 
+// funcion para mostrar los kebabs
 function mostrarCarrito(carrito) {
-    ticketCarrito.innerHTML = ''; // Limpiar contenido anterior
+    ticketCarrito.innerHTML = '';  // limpio contenido anterior
     const tableHeader = `
         <div class="table-row">
             <div class="column">Cantidad</div>
@@ -52,12 +52,12 @@ function mostrarCarrito(carrito) {
             <div class="column">Acciones</div>
         </div>
     `;
-    ticketCarrito.innerHTML = tableHeader;
+    ticketCarrito.innerHTML = tableHeader; // lo agrego al ticket
 
-    carrito.forEach((kebab, index) => {
-        const tableRow = document.createElement('div');
-        tableRow.classList.add('table-row');
-        tableRow.innerHTML = `
+    carrito.forEach((kebab, index) => { // recorro el array de kebabs
+        const tableRow = document.createElement('div'); // creo un div para cada fila
+        tableRow.classList.add('table-row'); // le asigno la clase table-row
+        tableRow.innerHTML = ` 
             <div class="column">${kebab.cantidad}</div>
             <div class="column">${kebab.nombre} - Ingredientes: ${kebab.ingredientes.join(', ')}</div>
             <div class="column">${kebab.precio + "€"}</div>
@@ -65,78 +65,81 @@ function mostrarCarrito(carrito) {
                 <button class="btn" onclick="disminuirCantidad(${index})">-</button>
             </div>
         `;
-        ticketCarrito.appendChild(tableRow);
+        ticketCarrito.appendChild(tableRow); // lo agrego al ticket
     });
 }
 
-// Disminuir cantidad de un kebab
-function disminuirCantidad(index) {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const kebab = carrito[index];
+// funcion para disminuir la cantidad de un kebab
+function disminuirCantidad(index) { 
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || []; // recupero el carrito del localStorage
+    const kebab = carrito[index]; // obtengo el kebab
 
-    if (kebab) {
-        if (kebab.cantidad > 1) {
-            kebab.cantidad--;
-            kebab.precio = kebab.cantidad * (kebab.precio / (kebab.cantidad + 1)); // Actualizar precio
-            carrito[index] = kebab;
-        } else {
-            carrito.splice(index, 1);
-        }
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        cargarCarrito(); // Recargar el carrito
+    if (kebab) { // si existe
+        if (kebab.cantidad > 1) { // si la cantidad es mayor a 1
+            kebab.cantidad--; // sumo la cantidad
+            kebab.precio = kebab.cantidad * (kebab.precio / (kebab.cantidad + 1)); // actualizo el precio
+            carrito[index] = kebab; // actualizo el kebab en el carrito
+        } else { // si es 1
+            carrito.splice(index, 1); // lo quito del carrito
+        } 
+        localStorage.setItem('carrito', JSON.stringify(carrito)); // actualizo el carrito en el localStorage
+        cargarCarrito(); // recargo el carrito
     }
 }
 
-function calcularTotal(carrito) {
-    const total = carrito.reduce((sum, kebab) => sum + kebab.precio, 0);
-    importePagar.value = total.toFixed(2); // Formatear a dos decimales correctamente
+// funcion para calcular el total del carrito
+function calcularTotal(carrito) { 
+    const total = carrito.reduce((sum, kebab) => sum + kebab.precio, 0); // sumo el total
+    importePagar.value = total.toFixed(2); // formateo a dos decimales correctamente
 }
 
-// Función para añadir crédito
+// funcion para añadir crédito
 window.añadirCredito = function () {
-    const cantidad = parseFloat(añadirCreditoInput.value);
-    if (isNaN(cantidad) || cantidad <= 0) {
-        alert('Por favor, ingrese un valor válido.');
+    const cantidad = parseFloat(añadirCreditoInput.value); // obtengo el valor del campo de crédito
+    if (isNaN(cantidad) || cantidad <= 0) {  // si el valor no es válido
+        alert('Por favor, ingrese un valor válido.'); 
         return;
     }
 
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
-    if (!usuario) {
-        alert('No se encontró información del usuario.');
+    const usuario = JSON.parse(localStorage.getItem("usuario")); // recupero el usuario del localStorage
+    if (!usuario) {  // si no existe el usuario
+        alert('No se encontró información del usuario.');  // muestro un mensaje de error
         return;
     }
 
-    // Actualizar el saldo del monedero local
+    // actualizo el saldo del monedero local
     const nuevoMonedero = (usuario.monedero || 0) + cantidad;
 
-    // Realizar la petición PUT para actualizar el monedero
-    actualizarMonederoEnServidor(nuevoMonedero);
-    console.log(actualizarMonederoEnServidor);
+    // realizo la peticion put para actualizar el monedero
+    actualizarMonederoEnServidor(nuevoMonedero); // llamo a la funcion para actualizar el monedero en el servidor
+    console.log(actualizarMonederoEnServidor); // muestro la respuesta del servidor
 
-    // Guardar el nuevo monedero en localStorage
+    // guardo el nuevo monedero en localStorage
     usuario.monedero = nuevoMonedero;
-    localStorage.setItem("usuario", JSON.stringify(usuario));
+    localStorage.setItem("usuario", JSON.stringify(usuario)); // actualizo el usuario en el localStorage
 
-    // Actualizar la vista del monedero en la interfaz
+    // actualizo la vista del monedero en la interfaz
     actualizarMonedero(nuevoMonedero);
 
-    // Limpiar el campo input
+    // limpio el campo input
     añadirCreditoInput.value = '';
 };
 
+// funcion para actualizar el saldo del monedero en el servidor
 function actualizarMonederoEnServidor(nuevoSaldo) {
-    const usuarioSesion = JSON.parse(localStorage.getItem("usuario"));
-    if (!usuarioSesion || !usuarioSesion.id_usuario) {
+    const usuarioSesion = JSON.parse(localStorage.getItem("usuario")); // recupero el usuario del localStorage
+    if (!usuarioSesion || !usuarioSesion.id_usuario) { // si no existe el usuario o no tiene un id válido
         console.error("Usuario no válido para actualizar el monedero en el servidor.");
         return;
     }
 
-    const datosActualizados = {
+    // creamos un objeto con los datos actualizados pero solo actualizo el monedero 
+    const datosActualizados = { 
         id: usuarioSesion.id_usuario,
         nombre: usuarioSesion.nombre,
         contrasena: usuarioSesion.contrasena,
         carrito: usuarioSesion.carrito,
-        monedero: nuevoSaldo, // Aquí usamos el nuevo saldo
+        monedero: nuevoSaldo, // usamos el nuevo saldo
         foto: usuarioSesion.foto,
         telefono: usuarioSesion.telefono,
         ubicacion: usuarioSesion.ubicacion,
@@ -144,19 +147,20 @@ function actualizarMonederoEnServidor(nuevoSaldo) {
         tipo: usuarioSesion.tipo,
     };
 
+    // realizo la peticion put para actualizar el monedero
     fetch(`${apiURLUsarios}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(datosActualizados),
+        method: "PUT", // uso el metodo PUT
+        headers: { "Content-Type": "application/json" }, // le digo que lo que voy a enviar en el body es json
+        body: JSON.stringify(datosActualizados),  // envio el dato actualizado
     })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`Error al actualizar el monedero en el servidor: ${response.status}`);
+    .then((response) => { // ahora segun lo que me responda el servidor proceso la respuesta como json
+        if (!response.ok) { // si el servidor respondio con un error
+            throw new Error(`Error al actualizar el monedero en el servidor: ${response.status}`); // lanzo un error
         }
-        return response.json();
+        return response.json(); // proceso la respuesta como json
     })
-    .then((data) => {
-        if (data.success) {
+    .then((data) => { // si la respuesta es válida
+        if (data.success) { // si la respuesta indica éxito
             console.log("Monedero actualizado correctamente en el servidor.");
         } else {
             console.error("El servidor devolvió un error al actualizar el monedero:", data);
@@ -168,32 +172,22 @@ function actualizarMonederoEnServidor(nuevoSaldo) {
 }
 
 
-// Función para actualizar el monedero en la vista
+// funcion para actualizar el monedero en la vista
 function actualizarMonedero(cantidad) {
-    const monederoSpan = document.querySelector('.nav-item span');
-    if (monederoSpan) {
-        monederoSpan.textContent = `${cantidad.toFixed(2)}€`; // Mostrar el saldo actualizado
+    const monederoSpan = document.querySelector('.nav-item span'); // busco el span de la navegación
+    if (monederoSpan) { // si existe
+        monederoSpan.textContent = `${cantidad.toFixed(2)}€`; // muestro el saldo actualizado
     }
 
-    // Actualizamos también el crédito actual en el input
+    // actualizo también el crédito actual en el input
     if (creditoActual) {
-        creditoActual.value = cantidad.toFixed(2);
+        creditoActual.value = cantidad.toFixed(2); // muestro el crédito actualizado
     }
 }
 
-// Cargar direcciones del usuario
+// funcion para cargar las direcciones del usuario
 function cargarDirecciones() {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
-
-    if (!usuario) {
-        console.error("No se encontró información del usuario en localStorage.");
-        return;
-    }
-
-    if (!usuario.id_usuario) { 
-        console.error("El usuario no tiene un ID válido:", usuario);
-        return;
-    }
 
     fetch(`${apiURLDireccion}&id_usuario=${usuario.id_usuario}`, {
         method: 'POST',

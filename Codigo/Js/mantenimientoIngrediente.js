@@ -1,48 +1,55 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // obtengo los parámetros de la url
     const urlParams = new URLSearchParams(window.location.search);
     const ingredienteId = urlParams.get('id_ingrediente');  // Obtener el ID desde la URL
 
-    // Si hay un id_ingrediente en la URL, ejecutamos el código de modificación
+    // si hay un id_ingrediente en la URL, ejecuto el código de modificación
     if (ingredienteId) {
-        cargarIngredienteParaModificar(ingredienteId);
+        cargarIngredienteParaModificar(ingredienteId); // cargo el ingrediente para modificar
     } else {
-        // Si no hay id_ingrediente, cargamos la lista de ingredientes
+        // si no hay id_ingrediente, cargo la lista de ingredientes
         cargarIngredientes();
     }
 });
 
-// Cargar los ingredientes en la página principal
+const urlApiIngrediente = 'http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes'; // URL de la api para los ingredientes
+
+// funcion para cargar los ingredientes en la pagina principal
 function cargarIngredientes() {
-    fetch('http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes')
-        .then(response => response.json())
-        .then(data => {
-            if (Array.isArray(data)) {
-                mostrarIngredientes(data);
-            } else {
-                console.error("La respuesta no es un array de ingredientes:", data);
+    fetch(urlApiIngrediente) // hago la peticion ajax para obtener los ingredientes
+        .then(response => response.json()) // proceso la respuesta como json
+        .then(data => { // si la respuesta es válida
+            if (Array.isArray(data)) { // si es un array
+                mostrarIngredientes(data); // mostramos los ingredientes
+            } else { // si no es un array
+                console.error("La respuesta no es un array de ingredientes:", data); // lanzo un error
             }
         })
-        .catch(error => {
-            console.error("Error al cargar los ingredientes:", error);
+        .catch(error => { // si no es válido lanzo un error
+            console.error("Error al cargar los ingredientes:", error); // lanzo un error
         });
 }
 
-function mostrarIngredientes(ingredientes) {
-    const contenedor = document.querySelector('.cuadricula-ingrediente');
+function mostrarIngredientes(ingredientes) { // funcion para mostrar los ingredientes
+    const contenedor = document.querySelector('.cuadricula-ingrediente'); // busco el contenedor de ingredientes
 
-    // Limpiar el contenedor de los ingredientes, pero dejamos la tarjeta de creación intacta
-    const ingredientesContenedor = contenedor.querySelectorAll('.tarjeta-ingrediente');
-    ingredientesContenedor.forEach(tarjeta => tarjeta.remove());  // Eliminar solo las tarjetas de ingredientes, no la de crear
+    // limpio el contenedor de los ingredientes, pero dejamos la tarjeta de creacion intacta
+    const ingredientesContenedor = contenedor.querySelectorAll('.tarjeta-ingrediente'); // busco las tarjetas de ingredientes
+    ingredientesContenedor.forEach(tarjeta => tarjeta.remove());  // lo quito de la lista de ingredientes, no la de crear
 
+    // ordeno los ingredientes por ID de forma descendente (los mas recientes primero)
+    ingredientes.sort((a, b) => b.id_ingredientes - a.id_ingredientes);
+
+    // creo las tarjetas de ingredientes
     ingredientes.forEach(ingrediente => {
-        const tarjeta = document.createElement('div');
-        tarjeta.classList.add('tarjeta-ingrediente');
-        tarjeta.setAttribute('data-id', ingrediente.id_ingredientes);
+        const tarjeta = document.createElement('div'); // creo un div para cada ingrediente
+        tarjeta.classList.add('tarjeta-ingrediente'); // le asigno la clase tarjeta-ingrediente
+        tarjeta.setAttribute('data-id', ingrediente.id_ingredientes); // asigno el id del ingrediente
 
-        // Si el array de alérgenos está presente, se muestra correctamente
-        const alergenos = ingrediente.alergenos.length > 0 ? ingrediente.alergenos.map(a => a.nombre).join(', ') : 'No se especificaron alérgenos';
+        // si el array de alergenos esta presente, se muestra correctamente
+        const alergenos = ingrediente.alergenos.length > 0 ? ingrediente.alergenos.map(a => a.nombre).join(', ') : 'No se especificaron alérgenos'; // uno los alérgenos con una coma y uso el join que lo que hace es unir los ingredientes
 
-        // Crear la estructura HTML para cada ingrediente
+        // creo la estructura html para cada tarjeta de ingredientes con sus datos
         tarjeta.innerHTML = `
             <img src="data:image/jpeg;base64,${ingrediente.foto}" alt="Ingrediente" class="imagen-ingrediente">
             <div class="informacion-ingrediente">
@@ -57,12 +64,12 @@ function mostrarIngredientes(ingredientes) {
             </div>
         `;
 
-        contenedor.appendChild(tarjeta); // Agregar la tarjeta al contenedor
+        contenedor.appendChild(tarjeta); // lo agrego al contenedor
     });
 }
 
 function eliminarIngrediente(id) {
-    fetch('http://localhost/ProyectoKebab/codigo/index.php?route=ingredientes', {
+    fetch(urlApiIngrediente, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -81,4 +88,5 @@ function eliminarIngrediente(id) {
     .catch(error => {
         console.error("Error al eliminar ingrediente", error);
     });
+
 }

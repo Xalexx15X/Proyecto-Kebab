@@ -1,7 +1,8 @@
 window.addEventListener('load', function () {
+    // 
     const idIngrediente = new URLSearchParams(window.location.search).get('id_ingrediente');
     if (idIngrediente) {
-        cargarIngrediente(idIngrediente); // Cargar los datos del ingrediente
+        cargarIngrediente(idIngrediente);
     } else {
         console.error('No se encontró el id_ingrediente en la URL.');
     }

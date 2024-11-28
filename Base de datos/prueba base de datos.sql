@@ -12,7 +12,7 @@ select * from alergenos_tiene_ingredientes;
 
 select * from direccion;
 
-select * from ingredientes; 	
+select * from ingredientes;
 
 select * from kebab;
 

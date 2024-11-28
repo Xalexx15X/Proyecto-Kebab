@@ -1,313 +1,283 @@
-/*HEADER ADMINISTRADOR*/
-header {
-    background-color: #959595 !important; /* Color gris para todo el header */
-    padding: 0.5rem 0; /* Reducir el espacio superior e inferior */
-    font-size: 24px;
-    font-weight: bold;
+/*HEADER ADMIN*/
+.header-admin {
+    /* Estilos generales para la barra de navegación */
+    .navbar {
+        padding: 0.3rem 1rem; /* Espaciado más pequeño */
+        background-color: #959595 !important; /* Color gris oscuro */
+        font-size: 24px;
+    }
     
-}
+    .ml-1{
+        font-size: 24px;
+        color: #00f2ff !important; /* Texto azul claro */
+        font-weight: bold;
+    }
 
-.header-admin {  
-/* Estilos generales para la barra de navegación */
-.navbar {
-    padding: 0.3rem 1rem; /* Espaciado más pequeño */
-    background-color: #959595 !important; /* Color gris oscuro */
-}
-
-/* Estilo para el logotipo */
-.navbar-brand img {
-    max-height: 60px; /* Reducir el tamaño del logo */
-}
-
-/* Estilo para los elementos de navegación */
-.navbar-nav .nav-link {
-    color: #00f2ff !important; /* Texto blanco */
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #00f2ff !important; /* Mantener el color blanco al pasar el ratón */
-}
-
-/* Estilo para el menú desplegable */
-.dropdown-menu {
-    background-color: #959595; /* Fondo gris oscuro */
-    border: 1px solid #959595; /* Borde gris claro */
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.dropdown-item {
-    color: #00f2ff !important; /* Texto blanco en el menú desplegable */
-    padding: 10px 15px;
-}
-
-.dropdown-item:hover {
-    background-color: #3d3b3b !important; /* Fondo gris más oscuro al pasar el ratón */
-    color: #00f2ff !important; /* Mantener texto blanco al pasar el ratón */
-}
-
-/* Estilo para el nombre del restaurante */
-.nombre p {
-    color: #00f2ff; /* Texto blanco */
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-}
-
-/* Estilo para los iconos */
-.navbar-nav .nav-item img {
-    width: 35px; /* Reducir tamaño del icono */
-    height: 35px;
-}
-
-/* Margen para el ícono del monedero */
-.nav-item.d-flex.align-items-center {
-    margin-right: 15px;
-}
-
-/* Espaciado adicional para los botones */
-.ml-3 {
-    margin-left: 1rem;
-}
-
-.ml-1 {
-    color: #00f2ff;
-}
-}
-
-
-
-/*HEADER INVITADO (NO REGISTRADO)*/
-.header-invitado {
-/* Estilos generales para la barra de navegación */
-.navbar {
-    padding: 0.8rem 1rem; /* Espaciado más pequeño */
-    background-color: #959595 !important; /* Color gris oscuro */
-}
-
-/* Estilo para el logotipo */
-.navbar-brand img {
-    max-height: 60px; /* Reducir el tamaño del logo */
-}
-
-/* Estilo para los elementos de navegación */
-.navbar-nav .nav-link {
-    color: #00f2ff !important; /* Texto blanco */
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #00f2ff !important; /* Mantener el color blanco al pasar el ratón */
-}
-
-/* Estilo para el menú desplegable */
-.dropdown-menu {
-    background-color: #959595; /* Fondo gris oscuro */
-    border: 1px solid #959595; /* Borde gris claro */
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.dropdown-item {
-    color: #00f2ff !important; /* Texto blanco en el menú desplegable */
-    padding: 10px 15px;
-}
-
-.dropdown-item:hover {
-    background-color: #3d3b3b !important; /* Fondo gris más oscuro al pasar el ratón */
-    color: #00f2ff !important; /* Mantener texto blanco al pasar el ratón */
-}
-
-/* Estilo para el nombre del restaurante */
-.nombre p {
-    color: #00f2ff; /* Texto blanco */
-    font-size: 24px;
-    font-weight: bold;
-    margin-right: 500px;
-    margin-top: 20px;
-}
-
-/* Estilo para los iconos */
-.navbar-nav .nav-item img {
-    width: 35px; /* Reducir tamaño del icono */
-    height: 35px;
-}
-
-/* Margen para el ícono del monedero */
-.nav-item.d-flex.align-items-center {
-    margin-right: 15px;
-}
-
-/* Espaciado adicional para los botones */
-.ml-3 {
-    margin-left: 1rem;
-}
-
-.ml-1 {
-    color: #00f2ff;
-}
-}
-
-
-
-/*HEADER CLIENTE*/
-.header-cliente {
-/* Estilos generales para la barra de navegación */
-.navbar {
-    padding: 0.3rem 1rem; /* Espaciado más pequeño */
-    background-color: #959595 !important; /* Color gris oscuro */
-}
-
-/* Estilo para el logotipo */
-.navbar-brand img {
-    max-height: 60px; /* Reducir el tamaño del logo */
-}
-
-/* Estilo para los elementos de navegación */
-.navbar-nav .nav-link {
-    color: #00f2ff !important; /* Texto blanco */
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #00f2ff !important; /* Mantener el color blanco al pasar el ratón */
-}
-
-/* Estilo para el menú desplegable */
-.dropdown-menu {
-    background-color: #959595; /* Fondo gris oscuro */
-    border: 1px solid #959595; /* Borde gris claro */
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.dropdown-item {
-    color: #00f2ff !important; /* Texto blanco en el menú desplegable */
-    padding: 10px 15px;
-}
-
-.dropdown-item:hover {
-    background-color: #3d3b3b !important; /* Fondo gris más oscuro al pasar el ratón */
-    color: #00f2ff !important; /* Mantener texto blanco al pasar el ratón */
-}
-
-/* Estilo para el nombre del restaurante */
-.nombre p {
-    color: #00f2ff; /* Texto blanco */
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-}
-
-/* Estilo para los iconos */
-.navbar-nav .nav-item img {
-    width: 35px; /* Reducir tamaño del icono */
-    height: 35px;
-}
-
-/* Margen para el ícono del monedero */
-.nav-item.d-flex.align-items-center {
-    margin-right: 15px;
-}
-
-/* Espaciado adicional para los botones */
-.ml-3 {
-    margin-left: 1rem;
-}
-
-.ml-1 {
-    color: #00f2ff;
-}
-
-}
-
-@media (max-width: 768px) {
-    /* Reducir el tamaño del logo para pantallas pequeñas */
+    /* Estilo para el logotipo */
     .navbar-brand img {
-        max-height: 50px; /* Reducir el tamaño del logo */
+        max-height: 60px; /* Reducir el tamaño del logo */
     }
 
-    /* Reducir el tamaño de los íconos */
-    .navbar-nav .nav-item img {
-        width: 30px; /* Reducir el tamaño de los íconos */
-        height: 30px;
-    }
-
-    /* Ajustar la fuente de los enlaces de navegación */
+    /* Estilo para los elementos de navegación */
     .navbar-nav .nav-link {
-        font-size: 22px; /* Reducir tamaño del texto de los enlaces */
+        color: #00f2ff !important; /* Texto azul claro */
+        font-weight: bold;
+        transition: color 0.3s;
     }
 
-    /* Cambiar tamaño del texto en el menú desplegable */
+    .navbar-nav .nav-link:hover {
+        color: #00f2ff !important; /* Mantener el color al hover */
+    }
+
+    /* Ajustes del menú desplegable */
     .dropdown-menu {
-        font-size: 16px; /* Reducir tamaño de la fuente */
+        background-color: #959595; /* Fondo gris oscuro */
+        border: 1px solid #959595; /* Sin bordes conflictivos */
+        font-size: 24px;
+        font-weight: bold;
     }
 
     .dropdown-item {
-        padding: 8px 12px; /* Reducir padding en los items */
+        color: #00f2ff !important; /* Texto azul */
+        padding: 10px 15px;
     }
 
-    /* Ajustar el espaciado en el nombre del restaurante */
+    .dropdown-item:hover {
+        background-color: #3d3b3b !important; /* Fondo oscuro */
+        color: #00f2ff !important;
+    }
+
+    /* Nombre del restaurante */
     .nombre p {
-        font-size: 20px; /* Reducir tamaño de fuente del nombre */
-        margin-right: 20px; /* Reducir margen a la derecha */
+        color: #00f2ff; /* Texto azul */
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
     }
 
-    /* Ajustar espaciado para íconos del monedero */
+    /* Estilo de iconos */
+    .navbar-nav .nav-item img {
+        width: 35px; /* Tamaño fijo */
+        height: 35px;
+    }
+
     .nav-item.d-flex.align-items-center {
-        margin-right: 10px; /* Reducir espacio entre íconos */
+        margin-right: 15px;
     }
 
-    /* Para los botones */
     .ml-3 {
-        margin-left: 0.5rem; /* Reducir margen izquierdo */
+        margin-left: 1rem;
+    }
+}
+
+/*HEADER INVITADO*/
+.header-invitado {
+    .navbar {
+        display: flex; /* Alinear los elementos horizontalmente */
+        align-items: center; /* Centrar verticalmente */
+        justify-content: space-between; /* Separar los elementos */
+        padding: 0.8rem 1rem;
+        background-color: #959595 !important;
+        font-size: 24px;
+    }
+
+    .navbar-brand img {
+        max-height: 60px; /* Tamaño del logo */
+    }
+
+    .navbar-nav {
+        display: flex; /* Elementos en línea */
+        align-items: center; /* Centrar verticalmente */
+        gap: 10px; /* Espaciado entre los enlaces */
+    }
+
+    .nav-link {
+        color: #00f2ff !important; /* Color del texto */
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+        color: #00f2ff !important;
+    }
+
+    .dropdown-menu {
+        background-color: #959595; /* Fondo del menú desplegable */
+        border: 1px solid #959595;
+        font-size: 24px;
+    }
+
+    .dropdown-item {
+        color: #00f2ff !important;
+        padding: 10px 15px;
+    }
+
+    .dropdown-item:hover {
+        background-color: #3d3b3b !important;
+        color: #00f2ff !important;
+    }
+
+    .nombre p {
+        color: #00f2ff;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .nav-item img {
+        width: 50px; /* Tamaño del icono del carrito */
+    }
+
+    .nav-item.ml-3 {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Espaciado entre botones */
+    }
+
+    .btn {
+        white-space: nowrap; /* Evitar saltos de línea */
+        margin: 0; /* Quitar márgenes externos */
+    }
+}
+
+/*HEADER CLIENTE*/
+.header-cliente {
+    .navbar {
+        padding: 0.3rem 1rem;
+        background-color: #959595 !important;
+        font-size: 24px;
+
+    }
+
+    .navbar-brand img {
+        max-height: 60px;
+    }
+
+    
+    .ml-1{
+        font-size: 24px;
+        color: #00f2ff !important; /* Texto azul claro */
+        font-weight: bold;
+    }
+
+    .navbar-nav .nav-link {
+        color: #00f2ff !important;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #00f2ff !important;
+    }
+
+    .dropdown-menu {
+        background-color: #959595;
+        border: 1px solid #959595;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .dropdown-item {
+        color: #00f2ff !important;
+        padding: 10px 15px;
+    }
+
+    .dropdown-item:hover {
+        background-color: #3d3b3b !important;
+        color: #00f2ff !important;
+    }
+
+    .nombre p {
+        color: #00f2ff;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .navbar-nav .nav-item img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .nav-item.d-flex.align-items-center {
+        margin-right: 15px;
+    }
+
+    .ml-3 {
+        margin-left: 1rem;
+    }
+}
+
+/* AJUSTES DE RESPUESTA */
+@media (max-width: 768px) {
+    .navbar-brand img {
+        max-height: 50px;
+    }
+
+    .navbar-nav .nav-item img {
+        width: 30px;
+        height: 30px;
+    }
+
+    
+    .navbar-nav .nav-link {
+        font-size: 22px;
+    }
+
+    .dropdown-menu {
+        font-size: 16px;
+    }
+
+    .dropdown-item {
+        padding: 8px 12px;
+    }
+
+    .nombre p {
+        font-size: 20px;
+        margin-right: 20px;
+    }
+
+    .nav-item.d-flex.align-items-center {
+        margin-right: 10px;
+    }
+
+    .ml-3 {
+        margin-left: 0.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    /* Ajustar el logo aún más en pantallas muy pequeñas */
     .navbar-brand img {
-        max-height: 40px; /* Reducir el tamaño del logo aún más */
+        max-height: 40px;
     }
 
-    /* Ajustar íconos para pantallas pequeñas */
     .navbar-nav .nav-item img {
-        width: 25px; /* Reducir íconos más */
+        width: 25px;
         height: 25px;
     }
 
-    /* Reducir el tamaño de la fuente de los enlaces */
     .navbar-nav .nav-link {
-        font-size: 14px; /* Reducir el tamaño de los enlaces */
+        font-size: 14px;
     }
 
-    /* Ajustar el menú desplegable */
     .dropdown-menu {
-        font-size: 16px; /* Reducir más el tamaño de la fuente */
+        font-size: 14px;
     }
 
     .dropdown-item {
-        padding: 6px 10px; /* Reducir padding */
+        padding: 6px 10px;
     }
 
-    /* Ajustar el nombre del restaurante */
     .nombre p {
-        font-size: 18px; /* Reducir tamaño del texto del nombre */
-        margin-right: 10px; /* Reducir margen */
+        font-size: 18px;
+        margin-right: 10px;
     }
 
-    /* Ajustar márgenes de los íconos */
     .nav-item.d-flex.align-items-center {
-        margin-right: 5px; /* Reducir margen a la derecha de los íconos */
+        margin-right: 5px;
     }
 
     .ml-3 {
-        margin-left: 0.2rem; /* Reducir margen izquierdo en los botones */
+        margin-left: 0.2rem;
     }
 }
-
-

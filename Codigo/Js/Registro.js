@@ -1,46 +1,48 @@
 // Escuchar el evento de carga de la página
 window.addEventListener('load', function () {
-    const btnRegistrar = document.querySelector('.registrarse button');
-    btnRegistrar.addEventListener('click', registrarUsuario);
+    const btnRegistrar = document.querySelector('.registrarse button'); // obtengo el boton de registro
+    btnRegistrar.addEventListener('click', registrarUsuario); // escucho el evento de click
 });
 
+const apiURLUsuario = 'http://localhost/ProyectoKebab/codigo/index.php?route=usuarios'; // URL para los usuarios
+
 function registrarUsuario() {
-    // Obtener valores del formulario
+    // obtengo los valores del formulario y a los que no uso le doy valores ya definidos
     const nombre = document.getElementById('nombre-cuenta').value.trim();
     const contrasena = document.getElementById('contrasena').value.trim();
     const telefono = document.getElementById('telefono').value.trim();
     const correo = document.getElementById('email').value.trim();
     const fotoFile = document.getElementById('fotoKebab').files[0];
     const ubicacion = "Desconocida";
-    const carrito = { producto_id: 1, cantidad: 2 }; // Ejemplo de carrito
+    const carrito = { producto_id: 1, cantidad: 2 }; 
     const monedero = 0; // Monedero inicial
 
-    // Validar campos obligatorios
+    // valido los campos obligatorios
     if (!nombre || !contrasena || !telefono || !correo || !fotoFile) {
         alert("Todos los campos son obligatorios.");
         return;
     }
 
-    // Validar el número de teléfono español móvil
+    // valido el número de teléfono móvil
     const telefonoValido = /^[67]\d{8}$/.test(telefono);
     if (!telefonoValido) {
         alert("El número de teléfono debe ser español, tener 9 dígitos y comenzar por 6 o 7.");
         return;
     }
 
-    // Validar el correo electrónico (debe tener @ y terminar en .com)
+    // valido el correo electrónico debe tener @ y terminar en .com
     const correoValido = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[cC][oO][mM]$/.test(correo);
     if (!correoValido) {
         alert("El correo electrónico debe ser válido y terminar en .com.");
         return;
     }
 
-    // Leer la foto como base64
-    const reader = new FileReader();
-    reader.onloadend = function () {
-        const fotoBase64 = reader.result.split(',')[1];
+    // leo la foto como base64
+    const reader = new FileReader(); // creo un lector de archivos para procesar la imagen
+    reader.onloadend = function () { // cuando el lector termine de leer la imagen
+        const fotoBase64 = reader.result.split(',')[1]; // extraigo solo el contenido base64
 
-        // Crear objeto de usuario
+        // creo el objeto con los datos que recojo del formulario
         const usuario = {
             nombre: nombre,
             contrasena: contrasena,
@@ -50,75 +52,75 @@ function registrarUsuario() {
             telefono: telefono,
             ubicacion: ubicacion,
             correo: correo,
-            tipo: "Cliente" // Siempre será cliente por defecto
+            tipo: "Cliente" // siempre será cliente por defecto
         };
 
-        // Enviar datos para crear el usuario
-        fetch('http://localhost/ProyectoKebab/codigo/index.php?route=usuarios', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        
+        fetch(apiURLUsuario, {  // hago la peticion ajax para crear el usuario
+            method: 'POST', // uso el metodo POST
+            headers: { 
+                'Content-Type': 'application/json'  // le digo que lo que voy a enviar en el body es json
             },
-            body: JSON.stringify(usuario)
+            body: JSON.stringify(usuario) // envio el usuario creado
         })
-        .then(async response => {
-            if (response.ok) {
-                const data = await response.json();
+        .then(async response => { // ahora segun lo que me responda el servidor proceso la respuesta como json
+            if (response.ok) { // si la respuesta indica que el servidor respondio correctamente
+                const data = await response.json(); // proceso la respuesta como json
 
-                if (data.success) {
+                if (data.success) { // si la respuesta indica éxito
                     alert('Usuario creado con éxito.');
 
-                    // Guardar el usuario en localStorage como "logueado"
+                    // guardo el usuario en localStorage como "logueado"
                     localStorage.setItem('usuario', JSON.stringify(usuario));
 
-                    // Limpiar el formulario
+                    // limpio el formulario
                     borrarCampos();
 
-                    // Redirigir al index (página principal)
-                    window.location.href = "index.php"; // Cambia la URL según sea necesario
-                } else {
-                    throw new Error(data.message || "Error al crear el usuario.");
+                    window.location.href = "index.php"; // redirecciono al index 
+                } else { // si no es éxito
+                    throw new Error(data.message || "Error al crear el usuario."); // lanzo un error
                 }
-            } else {
-                const errorData = await response.json();
-                throw new Error(errorData.error || "Error desconocido.");
+            } else { // si no es válido lanzo un error
+                const errorData = await response.json(); // proceso la respuesta como json
+                throw new Error(errorData.error || "Error desconocido."); // lanzo un error
             }
         })
-        .catch(error => {
-            console.error('Error al crear el usuario:', error.message);
-            alert('Hubo un problema al crear el usuario. Detalles: ' + error.message);
+        .catch(error => { // si no es válido lanzo un error
+            console.error('Error al crear el usuario:', error.message); // lanzo un error
+            alert('Hubo un problema al crear el usuario. Detalles: ' + error.message); // muestro un mensaje de error
         });
     };
 
-    reader.readAsDataURL(fotoFile); // Leer la foto como base64
+    reader.readAsDataURL(fotoFile); // convierto la imagen seleccionada en Base64
 }
 
-function borrarCampos() {
-    document.getElementById('nombre-cuenta').value = '';
-    document.getElementById('contrasena').value = '';
-    document.getElementById('telefono').value = '';
-    document.getElementById('email').value = '';
-    document.getElementById('fotoKebab').value = '';
+// funcion para borrar los campos del formulario
+function borrarCampos() { 
+    document.getElementById('nombre-cuenta').value = ''; // borro el nombre del cuenta
+    document.getElementById('contrasena').value = ''; // borro la contraseña
+    document.getElementById('telefono').value = ''; // borro el telefono
+    document.getElementById('email').value = ''; // borro el correo
+    document.getElementById('fotoKebab').value = ''; // borro la foto
 }
 
+// funcion para mostrar la vista previa de la imagen seleccionada
 function mostrarVistaPrevia(event) {
-    const file = event.target.files[0];
+    const file = event.target.files[0]; // obtengo el archivo seleccionado
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const previewContainer = document.querySelector('.preview-container');
-            previewContainer.style.backgroundImage = `url(${e.target.result})`;
-            previewContainer.style.backgroundSize = 'cover';
-            previewContainer.style.backgroundPosition = 'center';
+    if (file) { // si existe
+        const reader = new FileReader(); // creo un lector de archivos para procesar la imagen
+        reader.onload = function (e) { // cuando el lector termine de leer la imagen
+            const previewContainer = document.querySelector('.preview-container'); // busco el contenedor de la vista previa
+            previewContainer.style.backgroundImage = `url(${e.target.result})`; // muestro la imagen como fondo
+            previewContainer.style.backgroundSize = 'cover'; // ajusto la imagen para que cubra todo el contenedor
 
-            const span = previewContainer.querySelector('span');
+            const span = previewContainer.querySelector('span'); // busco el texto del contenedor
             if (span) {
-                span.style.display = 'none';
+                span.style.display = 'none'; // oculto el texto que dice Subir o arrastrar imagen aquí
             }
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file); // convierto la imagen seleccionada en Base64
     }
 }
 
-document.getElementById('fotoKebab').addEventListener('change', mostrarVistaPrevia);
+document.getElementById('fotoKebab').addEventListener('change', mostrarVistaPrevia); // configura el evento al input de subir foto

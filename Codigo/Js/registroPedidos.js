@@ -1,48 +1,46 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const tablaPedidos = document.querySelector('.tabla-pedidos');
-    const filtroTiempo = document.getElementById('filtro-tiempo');
-    const botonFiltro = document.querySelector('.boton-aplicar-filtro');
+document.addEventListener('DOMContentLoaded', async () => { 
+    const tablaPedidos = document.querySelector('.tabla-pedidos'); // busco el contenedor de pedidos
+    const filtroTiempo = document.getElementById('filtro-tiempo'); // busco el filtro de tiempo
+    const botonFiltro = document.querySelector('.boton-aplicar-filtro'); // busco el boton de filtro
 
-    let pedidos = []; // Almacena todos los pedidos obtenidos de la API
+    let pedidos = []; // almaceno todos los pedidos obtenidos de la API
     
-    const apiURLPedido = 'http://localhost/ProyectoKebab/codigo/index.php?route=pedido'; // Ruta de la API de pedidos
+    const apiURLPedido = 'http://localhost/ProyectoKebab/codigo/index.php?route=pedido'; // ruta de la api de pedidos
     
-    // Función para obtener los pedidos de la API
-    const obtenerTodosLosPedidos = async () => {
-        try {
-            // Realizamos la solicitud POST al servidor
-            const response = await fetch(apiURLPedido, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+    // funcion para obtener los pedidos de la api
+    const obtenerTodosLosPedidos = async () => { 
+        try { // intento realizar la peticion ajax
+            const response = await fetch(apiURLPedido, { // hago la peticion ajax para obtener los pedidos
+                method: 'POST', // uso el metodo POST
+                headers: {  // le digo que lo que voy a enviar en el body es json
+                    'Content-Type': 'application/json', // le digo que lo que voy a enviar en el body es json
                 },
                 body: JSON.stringify({
-                    mostrar_todos: true, // Enviamos este parámetro para activar la funcionalidad en el servidor
+                    mostrar_todos: true, // envio este parámetro para activar la funcionalidad en el servidor
                 }),
             });
-
-            if (!response.ok) {
-                // Manejo de errores HTTP
-                throw new Error(`Error en la solicitud: ${response.status}`);
+ 
+            if (!response.ok) { // si el servidor respondio con un error
+                throw new Error(`Error en la solicitud: ${response.status}`);   // lanzo un error
             }
 
-            // Parseamos la respuesta como JSON
+            // parseo la respuesta como json
             pedidos = await response.json();
-            console.log('Pedidos obtenidos:', pedidos);
+            console.log('Pedidos obtenidos:', pedidos); // muestro los pedidos en la tabla
 
-            crearTabla(); // Crear la estructura de la tabla
-            mostrarPedidos(pedidos); // Mostrar los pedidos en la tabla
-        } catch (error) {
-            console.error('Error al obtener los pedidos:', error);
+            crearTabla(); // crea la estructura de la tabla
+            mostrarPedidos(pedidos); // mostro los pedidos en la tabla
+        } catch (error) { // si no es válido lanzo un error
+            console.error('Error al obtener los pedidos:', error); // lanzo un error
         }
     };
 
-    // Función para crear la estructura de la tabla
+    // funcion para crear la estructura de la tabla
     const crearTabla = () => {
-        // Limpiar contenido previo
+        // limpio contenido previo
         tablaPedidos.innerHTML = '';
 
-        // Crear encabezado
+        // crea encabezado con lo que voy a mostrar
         const thead = document.createElement('thead');
         thead.innerHTML = `
             <tr>
@@ -52,126 +50,126 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <th>Total (€)</th>
             </tr>
         `;
-        tablaPedidos.appendChild(thead);
+        tablaPedidos.appendChild(thead); // lo agrego al contenedor
 
         // Crear cuerpo
-        const tbody = document.createElement('tbody');
-        tablaPedidos.appendChild(tbody);
+        const tbody = document.createElement('tbody'); // crea el cuerpo
+        tablaPedidos.appendChild(tbody); // lo agrego al contenedor
     };
 
-    // Función para mostrar los pedidos en la tabla
-    const mostrarPedidos = (pedidosFiltrados) => {
-        const tablaCuerpo = tablaPedidos.querySelector('tbody');
-        tablaCuerpo.innerHTML = ''; // Limpiar contenido previo
+    // funcion para mostrar los pedidos en la tabla
+    const mostrarPedidos = (pedidosFiltrados) => { 
+        const tablaCuerpo = tablaPedidos.querySelector('tbody'); // busco el cuerpo de la tabla
+        tablaCuerpo.innerHTML = ''; // limpio contenido previo
     
-        pedidosFiltrados.forEach((pedido) => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
+        pedidosFiltrados.forEach((pedido) => { // recorro el array de pedidos
+            const fila = document.createElement('tr'); // creo un div para cada fila
+            fila.innerHTML = ` 
                 <td>${pedido.fecha_hora}</td>
                 <td>${pedido.id_pedidos}</td>
                 <td>${pedido.nombre_usuario}</td> <!-- Mostrar el nombre del usuario -->
                 <td>${pedido.precio_total + "€"}</td>
             `;
-            tablaCuerpo.appendChild(fila);
+            tablaCuerpo.appendChild(fila); // lo agrego al cuerpo
         });
     };    
 
-    // Función para filtrar los pedidos según el rango de tiempo
+    // funcion para filtrar los pedidos según el rango de tiempo
     const filtrarPedidos = (criterio) => {
-        const ahora = new Date();
+        const ahora = new Date(); // obtengo la fecha actual
         let fechaInicio;
 
-        switch (criterio) {
-            case 'semana':
-                fechaInicio = new Date(ahora);
-                fechaInicio.setDate(ahora.getDate() - 7);
+        switch (criterio) { // cambio el valor de la fecha según el criterio
+            case 'semana': // si es la semana
+                fechaInicio = new Date(ahora); // creo una nueva fecha con la fecha actual
+                fechaInicio.setDate(ahora.getDate() - 7); // cambio el día de la fecha para que sea el día de la semana
                 break;
-            case 'mes':
-                fechaInicio = new Date(ahora.getFullYear(), ahora.getMonth() - 1, ahora.getDate());
+            case 'mes': // si es el mes
+                fechaInicio = new Date(ahora.getFullYear(), ahora.getMonth() - 1, ahora.getDate()); // creo una nueva fecha con la fecha actual
                 break;
-            case 'ano':
-                fechaInicio = new Date(ahora.getFullYear() - 1, ahora.getMonth(), ahora.getDate());
+            case 'ano': // si es el año
+                fechaInicio = new Date(ahora.getFullYear() - 1, ahora.getMonth(), ahora.getDate()); // creo una nueva fecha con la fecha actual
                 break;
             case 'todos':
             default:
-                mostrarPedidos(pedidos);
+                mostrarPedidos(pedidos); // muestro los pedidos
                 return;
         }
 
-        // Filtrar pedidos
+        // filtro los pedidos
         const pedidosFiltrados = pedidos.filter((pedido) => {
-            const fechaPedido = new Date(pedido.fecha_hora);
-            return fechaPedido >= fechaInicio;
+            const fechaPedido = new Date(pedido.fecha_hora); // obtengo la fecha del pedido
+            return fechaPedido >= fechaInicio; // si es mayor o igual a la fecha inicial, lo agrego a la lista
         });
 
-        mostrarPedidos(pedidosFiltrados);
+        mostrarPedidos(pedidosFiltrados); // muestro los pedidos
     };
 
-    // Event Listener para el botón de aplicar filtro
-    botonFiltro.addEventListener('click', () => {
-        const criterio = filtroTiempo.value;
-        filtrarPedidos(criterio);
+    // event listener para el boton de aplicar filtro
+    botonFiltro.addEventListener('click', () => { 
+        const criterio = filtroTiempo.value; // obtengo el criterio
+        filtrarPedidos(criterio); // filtro los pedidos
     });
 
 
     //PDF
-    // Importar la librería jsPDF
-    const { jsPDF } = window.jspdf;
+    // importar la libreria jsPDF
+    const { jsPDF } = window.jspdf; 
 
-    // Botón para generar el PDF
+    // boton para generar el pdf
     const botonPDF = document.querySelector('.boton-ver-pdf');
 
-    // Función para generar el PDF
+    // funcion para generar el pdf
     const generarPDF = (criterio) => {
-        // Crear una nueva instancia de jsPDF
+        // creo una nueva instancia de jsPDF
         const doc = new jsPDF();
 
-        // Agregar título en la parte superior
+        // agrego título en la parte superior
         const titulo = `PDF POR ${criterio.toUpperCase()}`;
-        doc.setFontSize(16);
-        doc.text(titulo, 20, 20);
+        doc.setFontSize(16); // establezco el tamaño de fuente
+        doc.text(titulo, 20, 20); // agrego el título
 
-        // Agregar encabezados de la tabla
+        // agrego encabezados de la tabla
         const encabezados = ['Fecha', 'Número de Pedido', 'Cliente', 'Total (€)'];
-        const datosTabla = [];
+        const datosTabla = []; // almaceno los datos de la tabla
 
-        // Obtener los datos visibles en la tabla
+        // obtengo los datos visibles en la tabla
         const filas = tablaPedidos.querySelectorAll('tbody tr');
-        let sumaTotal = 0;
+        let sumaTotal = 0; // inicializo el total a 0
 
-        filas.forEach((fila) => {
-            const columnas = fila.querySelectorAll('td');
-            const datosFila = Array.from(columnas).map((columna) => columna.innerText);
+        filas.forEach((fila) => { // recorro el array de filas
+            const columnas = fila.querySelectorAll('td'); // obtengo las columnas de la fila
+            const datosFila = Array.from(columnas).map((columna) => columna.innerText); // obtengo los datos de la fila
 
-            // Sumar el total
+            // sumo el total
             const precio = parseFloat(datosFila[3].replace('€', ''));
-            sumaTotal += precio;
+            sumaTotal += precio; // sumo el total
 
-            // Agregar fila a los datos de la tabla
+            // agrego fila a los datos de la tabla
             datosTabla.push(datosFila);
         });
 
-        // Renderizar la tabla
+        // renderizo la tabla
         doc.autoTable({
-            startY: 30, // Posición inicial en el eje Y
-            head: [encabezados],
-            body: datosTabla,
+            startY: 30, // posiciono inicial en el eje Y
+            head: [encabezados], // agrego encabezados
+            body: datosTabla, // agrego datos
         });
 
-        // Agregar el total al final del PDF
-        doc.setFontSize(12);
-        doc.text(`El total ${criterio.toLowerCase()} es de: ${sumaTotal.toFixed(2)}€`, 20, doc.lastAutoTable.finalY + 10);
+        // agrego el total al final del pdf
+        doc.setFontSize(12); // establezco el tamaño de fuente
+        doc.text(`El total ${criterio.toLowerCase()} es de: ${sumaTotal.toFixed(2)}€`, 20, doc.lastAutoTable.finalY + 10); // agrego el total
 
-        // Guardar el archivo como PDF
-        doc.save(`Pedidos_${criterio}.pdf`);
+        // guardo el archivo como pdf
+        doc.save(`Pedidos_${criterio}.pdf`); 
     };
 
-    // Event Listener para el botón PDF
+    // event listener para el boton pdf
     botonPDF.addEventListener('click', () => {
-        const criterio = filtroTiempo.options[filtroTiempo.selectedIndex].text; // Obtener texto del filtro
+        const criterio = filtroTiempo.options[filtroTiempo.selectedIndex].text; // obtengo texto del filtro
         generarPDF(criterio);
     });
 
-    // Llama a la función para obtener pedidos al cargar la página
+    // llamo a la funcion para obtener pedidos al cargar la pagina
     await obtenerTodosLosPedidos();
 });

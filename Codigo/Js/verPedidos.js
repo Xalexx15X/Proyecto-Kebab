@@ -1,47 +1,48 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const usuarioSesion = JSON.parse(localStorage.getItem("usuario"));
-    const usuarioId = usuarioSesion.id_usuario;
+    const usuarioSesion = JSON.parse(localStorage.getItem("usuario")); // recupero el usuario desde el localstorage
+    const usuarioId = usuarioSesion.id_usuario; // obtengo el id del usuario
 
+     // si el usuario no tiene un id válido muestro un mensaje y detengo la ejecución
     if (!usuarioId) {
-        alert("Usuario no identificado. Por favor, inicie sesión.");
+        alert("Usuario no identificado. Por favor, inicie sesión."); // muestro un mensaje de error
         return;
     }
 
-    const apiUrl = "http://localhost/ProyectoKebab/codigo/index.php?route=pedido";
-    const tablaBody = document.getElementById("tabla-pedidos-body");
-    const filtroTiempo = document.getElementById("filtro-tiempo");
-    const botonFiltro = document.querySelector(".boton-aplicar-filtro");
+    const apiUrl = "http://localhost/ProyectoKebab/codigo/index.php?route=pedido"; // ruta de la api de pedidos
+    const tablaBody = document.getElementById("tabla-pedidos-body"); // busco el contenedor de pedidos
+    const filtroTiempo = document.getElementById("filtro-tiempo"); // busco el filtro de tiempo
+    const botonFiltro = document.querySelector(".boton-aplicar-filtro"); // 
     let pedidos = []; // Variable global para almacenar los pedidos
 
-    // Función para cargar los pedidos
+    // funcion para cargar los pedidos
     const cargarPedidos = async () => {
-        try {
-            const response = await fetch(apiUrl, {
-                method: "POST",
-                headers: {
+        try { // intento realizar la peticion ajax
+            const response = await fetch(apiUrl, {  // hago la peticion ajax para obtener los pedidos
+                method: "POST", // uso el metodo POST
+                headers: {  // le digo que lo que voy a enviar en el body es json
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ id_usuario_pedido: usuarioId }),
+                body: JSON.stringify({ id_usuario_pedido: usuarioId }), // envio el id del usuario a pedidos
             });
 
-            if (!response.ok) {
+            if (!response.ok) { 
                 throw new Error("Error al cargar los pedidos.");
             }
 
-            pedidos = await response.json(); // Guardar pedidos en la variable global
+            pedidos = await response.json(); // guardo los pedidos en la variable global
             mostrarPedidos(pedidos);
         } catch (error) {
             console.error(error);
         }
     };
 
-    // Renderizar los pedidos en la tabla
+    // funcion para mostrar los pedidos en la tabla
     const mostrarPedidos = (pedidos) => {
-        tablaBody.innerHTML = ""; // Limpiar tabla
+        tablaBody.innerHTML = ""; // limpio tabla
 
-        pedidos.forEach((pedido) => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
+        pedidos.forEach((pedido) => { // recorro el array de pedidos
+            const tr = document.createElement("tr"); // creo un div para cada fila
+            tr.innerHTML = ` 
                 <td>${pedido.id_pedido}</td>
                 <td>${pedido.estado}</td>
                 <td>${pedido.precio_total}</td>
@@ -55,77 +56,77 @@ document.addEventListener("DOMContentLoaded", function () {
                 </td>
             `;
 
-            tablaBody.appendChild(tr);
+            tablaBody.appendChild(tr);  // lo agrego al contenedor
         });
 
-        // Agregar eventos a los botones de cancelar
-        document.querySelectorAll(".boton-cancelar").forEach((boton) => {
-            boton.addEventListener("click", async (event) => {
-                const pedidoId = event.target.getAttribute("data-id");
-                cancelarPedido(pedidoId);
+        // agrego eventos a los botones de cancelar
+        document.querySelectorAll(".boton-cancelar").forEach((boton) => { // recorro los botones de cancelar
+            boton.addEventListener("click", async (event) => {  // configura el evento al boton de cancelar
+                const pedidoId = event.target.getAttribute("data-id"); // obtengo el id del pedido
+                cancelarPedido(pedidoId); // llamo a la funcion para cancelar el pedido
             });
         });
     };
 
-    // Función para cancelar un pedido
-    const cancelarPedido = async (pedidoId) => {
-        try {
-            const response = await fetch(apiUrl, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
+    // funcion para cancelar un pedido
+    const cancelarPedido = async (pedidoId) => { // funcion para cancelar un pedido
+        try { // intento realizar la peticion ajax
+            const response = await fetch(apiUrl, {  // hago la peticion ajax para obtener los pedidos
+                method: "DELETE", // uso el metodo DELETE
+                headers: {  // le digo que lo que voy a enviar en el body es json
+                    "Content-Type": "application/json",  
                 },
-                body: JSON.stringify({ id_pedido: pedidoId }),
+                body: JSON.stringify({ id_pedido: pedidoId }), // envio el id del pedido a cancelar
             });
 
-            if (!response.ok) {
-                throw new Error("Error al cancelar el pedido.");
+            if (!response.ok) { // si el servidor respondio con un error
+                throw new Error("Error al cancelar el pedido."); // lanzo un error
             }
 
-            alert("Pedido cancelado exitosamente.");
-            cargarPedidos(); // Recargar los pedidos
+            alert("Pedido cancelado exitosamente."); // muestro un mensaje de confirmacion
+            cargarPedidos(); // recargo los pedidos
         } catch (error) {
             console.error(error);
         }
     };
 
-    // Función para filtrar los pedidos según el rango de tiempo
-    const filtrarPedidos = (criterio) => {
-        const ahora = new Date();
-        let fechaInicio;
+    // funcion para filtrar los pedidos según el rango de tiempo
+    const filtrarPedidos = (criterio) => { 
+        const ahora = new Date(); // obtengo la fecha actual
+        let fechaInicio; // variable para almacenar la fecha inicial
 
-        switch (criterio) {
-            case "semana":
-                fechaInicio = new Date(ahora);
-                fechaInicio.setDate(ahora.getDate() - 7);
+        switch (criterio) { // cambio el valor de la fecha según el criterio
+            case "semana": // si es la semana
+                fechaInicio = new Date(ahora); // creo una nueva fecha con la fecha actual
+                fechaInicio.setDate(ahora.getDate() - 7); // cambio el día de la fecha para que sea el día de la semana
+                break; 
+            case "mes": // si es el mes
+                fechaInicio = new Date(ahora.getFullYear(), ahora.getMonth() - 1, ahora.getDate()); // creo una nueva fecha con la fecha actual
                 break;
-            case "mes":
-                fechaInicio = new Date(ahora.getFullYear(), ahora.getMonth() - 1, ahora.getDate());
-                break;
-            case "ano":
-                fechaInicio = new Date(ahora.getFullYear() - 1, ahora.getMonth(), ahora.getDate());
+            case "ano": // si es el año
+                fechaInicio = new Date(ahora.getFullYear() - 1, ahora.getMonth(), ahora.getDate()); // creo una nueva fecha con la fecha actual
                 break;
             case "todos":
             default:
-                mostrarPedidos(pedidos);
+                mostrarPedidos(pedidos); // muestro los pedidos
                 return;
         }
 
-        // Filtrar pedidos
-        const pedidosFiltrados = pedidos.filter((pedido) => {
-            const fechaPedido = new Date(pedido.fecha_hora);
-            return fechaPedido >= fechaInicio;
+        // filtro los pedidos
+        const pedidosFiltrados = pedidos.filter((pedido) => { // recorro el array de pedidos
+            const fechaPedido = new Date(pedido.fecha_hora); // obtengo la fecha del pedido
+            return fechaPedido >= fechaInicio; // si es mayor o igual a la fecha inicial, lo agrego a la lista
         });
 
-        mostrarPedidos(pedidosFiltrados);
+        mostrarPedidos(pedidosFiltrados); // muestro los pedidos
     };
 
-    // Event Listener para el botón de aplicar filtro
+    // event listener para el boton de aplicar filtro
     botonFiltro.addEventListener("click", () => {
         const criterio = filtroTiempo.value;
         filtrarPedidos(criterio);
     });
 
-    // Cargar pedidos al inicio
+    // cargo los pedidos al inicio
     cargarPedidos();
 });

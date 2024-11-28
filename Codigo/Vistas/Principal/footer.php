@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/CssFooter.css">
-    <title>footer</title>
-</head>
+<link rel="stylesheet" href="./css/CssFooter.css">
 <footer id="footer">
     <div class="contenido-footer">
         <!-- Logo a la izquierda -->
@@ -33,4 +26,3 @@
         </div>
     </div>
 </footer>
-</html>

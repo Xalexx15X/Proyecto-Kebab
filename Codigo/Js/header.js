@@ -1,6 +1,7 @@
+// cuando el dom este completamente cargado ejecuto la funcion principal
 window.addEventListener('load', function () {
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
-    const header = document.getElementById('header');
+    const usuario = JSON.parse(localStorage.getItem('usuario')); // recupero el usuario desde el localstorage
+    const header = document.getElementById('header'); // busco el header
 
     if (usuario) {
         if (usuario.tipo === "Administrador") {
@@ -235,36 +236,37 @@ window.addEventListener('load', function () {
 });
 
 
-document.body.addEventListener('click', function(event) {
-    if (event.target && event.target.id === 'cerrarSesionBtn') {
-        // Borrar el localStorage
+document.body.addEventListener('click', function(event) { // cuando el usuario clickea en el boton cerrar sesion
+    if (event.target && event.target.id === 'cerrarSesionBtn') { // verifico que el evento sea del tipo click
+        // borro el localstorage
         localStorage.removeItem('usuario');
         localStorage.removeItem('carrito');
 
-        // Recargar la página y redirigir al index.php
+        // recargo la pagina y redirigo al index.php
         window.location.href = 'index.php';
     }
 });
 
+// cuando el usuario clickea en el boton cerrar sesion llamo a la api para destruir la sesion
 document.body.addEventListener('click', function(event) {
-    if (event.target && event.target.id === 'cerrarSesionBtn') {
-        fetch('http://localhost/ProyectoKebab/codigo/index.php?route=usuarios', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'SESSION_DESTROY' })
+    if (event.target && event.target.id === 'cerrarSesionBtn') { // verifico que el evento sea del tipo click
+        fetch('http://localhost/ProyectoKebab/codigo/index.php?route=usuarios', { // llamo a la api para destruir la sesion
+            method: 'POST', // le digo que voy a usar el post
+            headers: { 'Content-Type': 'application/json' }, // le digo que lo que voy a enviar en el body es json
+            body: JSON.stringify({ action: 'SESSION_DESTROY' }) // envio el action de destruir la sesion
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+        .then(response => { // ahora segun lo que me responda el servidor proceso la respuesta como json
+            if (!response.ok) { // si el servidor respondio con un error
+                throw new Error(`HTTP error! Status: ${response.status}`); // lanzo un error
             }
-            return response.json();
+            return response.json(); // proceso la respuesta como json
         })
         .then(data => {
             if (data.success) {
                 console.log(data.mensaje); // Mensaje del servidor
                 // Borrar el localStorage
-                localStorage.removeItem('usuario');
-                localStorage.removeItem('carrito');
+                localStorage.removeItem('usuario'); 
+                localStorage.removeItem('carrito'); 
 
                 // Redirigir a la página principal
                 window.location.href = 'index.php'; // Puede ser la página principal
@@ -280,23 +282,24 @@ document.body.addEventListener('click', function(event) {
 });
 
 
+// cuando el dom este completamente cargado ejecuto la funcion principal
 window.onload = function () {
-    // Obtener el objeto de usuario desde localStorage
+    // recupero el usuario desde el localstorage
     const usuario = JSON.parse(localStorage.getItem("usuario"));
 
-    // Verificar si el usuario existe
+    // verifico si el usuario existe
     if (usuario) {
-        console.log("Usuario cargado:", usuario);  // Depuración
+        console.log("Usuario cargado:", usuario); 
 
-        // Comprobar si el usuario tiene la propiedad 'monedero'
+        // comptuebo si el usuario tiene la propiedad monedero
         if (usuario.monedero !== undefined) {
-            // Seleccionar el span donde se mostrará el saldo del monedero
+            // selecciono el span donde se mostrara el saldo del monedero
             const monederoSpan = document.querySelector('.nav-item.d-flex.align-items-center span');
 
-            // Verificar si se encontró el span
+            // verifico si se encontro el span
             if (monederoSpan) {
-                console.log("Span encontrado:", monederoSpan);  // Depuración
-                // Actualizar el contenido del span con el saldo del monedero
+                console.log("Span encontrado:", monederoSpan);
+                // actualizo el contenido del span con el saldo del monedero
                 monederoSpan.textContent = `${usuario.monedero.toFixed(2)}€`;
             } else {
                 console.error("No se encontró el span del monedero en el header.");
