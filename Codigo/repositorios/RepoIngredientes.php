@@ -44,7 +44,7 @@ class RepoIngredientes
         }
     }
 
-    // Método para obtener un ingrediente por su ID
+    // metodo para obtener un ingrediente por su ID
     public function findById($id)
     {
         try {
@@ -54,7 +54,7 @@ class RepoIngredientes
             $registro = $stm->fetch(PDO::FETCH_ASSOC);
 
             if ($registro) {
-                // Obtener los alérgenos asociados a este ingrediente
+                // obtengo los alérgenos asociados a este ingrediente
                 $sqlAlergenos = "SELECT alergenos_id_alergenos FROM alergenos_tiene_ingredientes WHERE ingredientes_id_ingredientes = :ingrediente_id";
                 $stmAlergenos = $this->con->prepare($sqlAlergenos);
                 $stmAlergenos->execute(['ingrediente_id' => $id]);

@@ -106,6 +106,13 @@ switch ($method) {
                     Sesion::escribir('usuario', [
                         'id' => $usuario->id_usuario,
                         'nombre' => $usuario->nombre,
+                        'contrasena' => $usuario->contrasena,
+                        'carrito' => $usuario->carrito,
+                        'monedero' => $usuario->monedero,
+                        'foto' => $usuario->foto,
+                        'telefono' => $usuario->telefono,
+                        'ubicacion' => $usuario->ubicacion,
+                        'correo' => $usuario->correo,
                         'tipo' => $usuario->tipo,
                     ]);
         
@@ -175,17 +182,6 @@ switch ($method) {
             http_response_code(200);
             echo json_encode(["success" => true, "mensaje" => "Sesión cerrada correctamente."]);
         } else {    
-            http_response_code(401); // Unauthorized
-            echo json_encode(["error" => "No hay una sesión activa."]);
-        }
-        break;
-    case 'SESION_USUARIO':
-        Sesion::iniciar();
-        if (Sesion::existe('usuario')) {
-            $usuario = Sesion::leer('usuario'); // Lee los datos de la sesión
-            http_response_code(200); // OK
-            echo json_encode($usuario); // Envia los datos al cliente
-        } else {
             http_response_code(401); // Unauthorized
             echo json_encode(["error" => "No hay una sesión activa."]);
         }

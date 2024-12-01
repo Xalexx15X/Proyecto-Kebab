@@ -187,177 +187,173 @@ function actualizarMonedero(cantidad) {
 
 // funcion para cargar las direcciones del usuario
 function cargarDirecciones() {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const usuario = JSON.parse(localStorage.getItem("usuario")); // obtengo el usuario
 
-    fetch(`${apiURLDireccion}&id_usuario=${usuario.id_usuario}`, {
-        method: 'POST',
+    fetch(`${apiURLDireccion}&id_usuario=${usuario.id_usuario}`, { // llamo a la url de direcciones y le paso la id del usuario por la url
+        method: 'POST', // ha post
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' // le digo que lo que voy a enviar en el body es json
         },
-        body: JSON.stringify({}) 
+        body: JSON.stringify({})  // envio un objeto vacio como body para que el servidor responda con la lista de direcciones
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Error en la respuesta: ${response.status}`);
+    .then(response => { // ahora segun lo que me responda el servidor proceso la respuesta como json
+        if (!response.ok) { // si el servidor respondio con un error
+            throw new Error(`Error en la respuesta: ${response.status}`); // lanzo un error con la respuesta del servidor
         }
-        return response.json();
+        return response.json(); // proceso la respuesta como json
     })
-    .then(json => {
-        const direccionSelect = document.getElementById('direccionUsuario');
-        direccionSelect.innerHTML = ''; // Limpiar opciones anteriores
+    .then(json => { // si la respuesta es válida
+        const direccionSelect = document.getElementById('direccionUsuario'); // busco el select de direcciones
+        direccionSelect.innerHTML = ''; // limpio opciones anteriores 
 
-        if (json && Array.isArray(json) && json.length > 0) {
-            json.forEach(direccion => {
-                const option = document.createElement('option');
-                option.value = direccion.id_direccion;
-                option.textContent = `${direccion.direccion}, ${direccion.estado}`;
-                direccionSelect.appendChild(option);
+        if (json && Array.isArray(json) && json.length > 0) { // si la respuesta es válida y tiene al menos una dirección
+            json.forEach(direccion => { // recorro las direcciones
+                const option = document.createElement('option'); // creo un elemento opción
+                option.value = direccion.id_direccion; // le asigno el id de la direccion
+                option.textContent = `${direccion.direccion}, ${direccion.estado}`; // le asigno el texto de la direccion
+                direccionSelect.appendChild(option); // lo agrego al select
             });
-        } else {
-            const noOption = document.createElement('option');
-            noOption.value = '';
-            noOption.textContent = "No tienes direcciones guardadas.";
-            noOption.disabled = true;
-            noOption.selected = true;
-            direccionSelect.appendChild(noOption);
+        } else { // si no hay direcciones
+            const noOption = document.createElement('option'); // creo un elemento opción
+            noOption.value = ''; // le asigno un valor vacio
+            noOption.textContent = "No tienes direcciones guardadas."; // le asigno un texto vacio
+            noOption.disabled = true; // lo deshabilito
+            noOption.selected = true; // lo selecciono
+            direccionSelect.appendChild(noOption); // lo agrego al select
         }
     })
-    .catch(error => {
-        console.error('Error al cargar las direcciones:', error);
+    .catch(error => { // si ocurre algún error
+        console.error('Error al cargar las direcciones:', error); // muestro el error
     });
 }
 
-// Función para actualizar el crédito restante después de pagar
-function actualizarCreditoRestante() {
-    const creditoActualValue = parseFloat(creditoActual.value); // Obtener el valor del crédito actual
-    const importePagarValue = parseFloat(importePagar.value); // Obtener el valor del total a pagar
+// funcion para actualizar el crédito restante después de pagar
+function actualizarCreditoRestante() { 
+    const creditoActualValue = parseFloat(creditoActual.value); // obtengo el valor del crédito actual
+    const importePagarValue = parseFloat(importePagar.value);  // obtengo el valor del total a pagar
     
-    if (isNaN(creditoActualValue) || isNaN(importePagarValue)) {
-        console.error("Los valores de crédito actual o importe a pagar no son válidos.");
-        creditoFinal.value = "0.00"; // Si los valores no son válidos, mostramos 0.00
+    if (isNaN(creditoActualValue) || isNaN(importePagarValue)) { // si los valores no son válidos
+        console.error("Los valores de crédito actual o importe a pagar no son válidos."); // muestro un mensaje de error
+        creditoFinal.value = "0.00"; // asigno un valor de crédito final de cero
         return;
     }
 
-    // Calcular el crédito restante
-    const creditoRestante = creditoActualValue - importePagarValue;
+    // calculo el crédito restante
+    const creditoRestante = creditoActualValue - importePagarValue; 
 
-    // Asegurarnos de que no mostramos un valor negativo (puede ajustarse según la lógica que desees)
-    const creditoRestanteFinal = Math.max(0, creditoRestante);
+    // me aseguro de que no muestro un valor negativo 
+    const creditoRestanteFinal = Math.max(0, creditoRestante); // si es negativo, lo cambio a cero
 
-    // Actualizar el valor del campo de crédito final
-    creditoFinal.value = creditoRestanteFinal.toFixed(2); // Mostrar con dos decimales
+    // actualizo el valor del campo de crédito final
+    creditoFinal.value = creditoRestanteFinal.toFixed(2); // muestro el crédito restante con dos decimales
 }
 
-// Llamar a esta función después de actualizar el carrito o total a pagar
+// llamo a esta funcion despues de actualizar el carrito o total a pagar
 function calcularTotal(carrito) {
-    const total = carrito.reduce((sum, kebab) => sum + kebab.precio, 0);
-    importePagar.value = total.toFixed(2); // Formatear a dos decimales correctamente
+    const total = carrito.reduce((sum, kebab) => sum + kebab.precio, 0); // sumo el total de el precio de todos los kebabs del tiket
+    importePagar.value = total.toFixed(2); // formateo a dos decimales correctamente
 
-    // Después de calcular el total, actualizamos el crédito restante
+    // despues de calcular el total, actualizo el crédito restante
     actualizarCreditoRestante();
 }
 
-// Llamar a la función `mostrarCredito` para mostrar el crédito inicial cuando cargue la página
+// llamo a la funcion mostrarCredito para mostrar el crédito inicial cuando cargue la pagina
 function mostrarCredito() {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const usuario = JSON.parse(localStorage.getItem("usuario")); // recupero el usuario del localStorage
     
-    if (usuario && typeof usuario.monedero === 'number') {
-        // Mostrar el crédito actual en el campo input
-        creditoActual.value = usuario.monedero.toFixed(2); // Mostramos el crédito con 2 decimales
-    } else {
+    if (usuario && typeof usuario.monedero === 'number') { // si existe el usuario y el valor de monedero es un número
+        // mostro el crédito actual en el campo input
+        creditoActual.value = usuario.monedero.toFixed(2); // muestro el crédito con 2 decimales
+    } else { // si no existe el usuario o el valor de monedero no es un número
         console.error("No se encontró el crédito del usuario en localStorage o el valor de 'monedero' no es un número.");
-        creditoActual.value = "0.00"; // Si no se encuentra, asignar 0.00
+        creditoActual.value = "0.00"; // asigno un valor de crédito de cero
     }
 
-    // Después de mostrar el crédito, también actualizamos el crédito restante
+    // despues de mostrar el crédito, tambien actualizo el crédito restante
     actualizarCreditoRestante();
 }
 
+// funcion para tramitar el pedido
 window.tramitarPedido = function () {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    const precioTotal = parseFloat(importePagar.value);
+    const usuario = JSON.parse(localStorage.getItem("usuario")); // recupero el usuario del localStorage
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || []; // recupero el carrito del localStorage y lo convierto a un array si es un objeto
+    const precioTotal = parseFloat(importePagar.value); // obtengo el valor del total a pagar
 
-    // Validación: Verificar si el carrito está vacío
+    // verifico si el carrito esta vacio
     if (carrito.length === 0) {
         alert("No hay nada en el carrito para procesar el pedido.");
         return;
     }
 
-    // Validación: Verificar si el usuario está registrado
+    // verifico si el usuario esta registrado
     if (!usuario || !usuario.id_usuario) {
         alert("Para procesar el pedido necesitamos que te registres o inicies sesión.");
         window.location.href = "index.php?menu=registro"; // Redirigir a la ventana de registro
         return;
     }
 
-    // Validación: Verificar si el usuario tiene una dirección seleccionada
-    const direccionSeleccionada = direccionUsuario.value;
-    if (!direccionSeleccionada || direccionSeleccionada.trim() === '') {
-        alert("Por favor, selecciona una dirección para continuar.");
+    // verifico si el usuario tiene una direccion seleccionada
+    const direccionSeleccionada = direccionUsuario.value; // obtengo el valor del select de direccion
+    if (!direccionSeleccionada || direccionSeleccionada.trim() === '') { // si no existe o es un espacio en blanco
+        alert("Por favor, selecciona una dirección para continuar."); // muestro un mensaje de error
         return;
     }
 
-    const monedero = parseFloat(usuario.monedero) || 0;
+    
+    const monedero = parseFloat(usuario.monedero) || 0; // obtengo el valor del monedero del usuario
 
-    // Validación: Verificar si el usuario tiene suficiente crédito
-    if (monedero < precioTotal) {
+    // verifico si el usuario tiene suficiente crédito
+    if (monedero < precioTotal) { 
         alert("No tienes suficiente saldo en tu monedero para tramitar el pedido.");
         return;
     }
 
-    const fechaHora = formatoFechaMysql();
+    const fechaHora = formatoFechaMysql(); // obtengo la fecha y hora en formato mysql
 
-    const pedidoData = {
-        estado: "Pendiente",
-        precio_total: precioTotal.toFixed(2),
-        fecha_hora: fechaHora,
-        usuario_id_usuario: usuario.id_usuario,
+    const pedidoData = { // creo el objeto con los datos del pedido
+        estado: "Pendiente", // el estado del pedido siempre es pendiente hasta que el admin lo procese
+        precio_total: precioTotal.toFixed(2), // el precio total del pedido
+        fecha_hora: fechaHora, // la fecha y hora del pedido
+        usuario_id_usuario: usuario.id_usuario, // el id del usuario que realizo el pedido
     };
 
-    console.log("Creando pedido con datos:", pedidoData);
-
-    // Crear el pedido
-    fetch(apiURLPedido, {
-        method: "POST",
+    fetch(apiURLPedido, { // hago la peticion ajax con la url de pedidos
+        method: "POST", // uso el metodo POST
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json",  // le digo que lo que voy a enviar en el body es json
         },
-        body: JSON.stringify(pedidoData),
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Error en la creación del pedido.");
+        body: JSON.stringify(pedidoData),  // envio el objeto creado
+    }) 
+        .then((response) => { // ahora segun lo que me responda el servidor proceso la respuesta como json
+            if (!response.ok) { // si el servidor respondio con un error
+                throw new Error("Error en la creación del pedido."); 
             }
-            return response.json(); // Aquí esperamos el ID del pedido recién creado
+            return response.json(); // proceso la respuesta como json
         })
-        .then((data) => {
-            if (data && data.id_pedido) {
-                console.log("Pedido creado con éxito. ID del pedido:", data.id_pedido);
+        .then((data) => { // si la respuesta es válida
+            if (data && data.id_pedido) { 
+                // creo las líneas de pedido con el id del pedido recién creado
+                crearLineasPedido(data.id_pedido); // llamo a la funcion para crear las líneas de pedido
 
-                // Crear líneas de pedido con el ID recién creado
-                crearLineasPedido(data.id_pedido);
+                // restar el crédito del monedero despues de procesar el pedido
+                const nuevoMonedero = monedero - precioTotal; 
 
-                // Restar el crédito del monedero después de procesar el pedido
-                const nuevoMonedero = monedero - precioTotal;
-
-                // Actualizar el monedero en localStorage
+                // actualizo el monedero en localStorage
                 usuario.monedero = nuevoMonedero;
                 localStorage.setItem("usuario", JSON.stringify(usuario));
 
-                // Actualizar el monedero en la interfaz
+                // actualizo el monedero en la interfaz
                 actualizarMonedero(nuevoMonedero);
 
-                // Actualizar el monedero en la base de datos
+                // actualizo el monedero en la base de datos
                 actualizarMonederoEnServidor(nuevoMonedero);
 
-                // Borrar el carrito del localStorage
+                // borro el carrito del localStorage
                 localStorage.removeItem("carrito");
 
-                // Actualizar el total a pagar y crédito restante
-                calcularTotal([]);
-                cargarCarrito();
-                console.log("Carrito borrado después de tramitar el pedido.");
+                // actualizo el total a pagar y crédito restante
+                calcularTotal([]); // llamo a la funcion para actualizar el total a pagar y crédito restante
+                cargarCarrito(); // recargo el carrito
             } else {
                 throw new Error("El servidor no devolvió un ID de pedido válido.");
             }
@@ -367,70 +363,66 @@ window.tramitarPedido = function () {
         });
 };
 
-// Función para crear las líneas de pedido
+// funcion para crear las lineas de pedido
 function crearLineasPedido(id_pedido) {
-    const lineas = document.querySelectorAll("#ticketCarrito .table-row");
+    const lineas = document.querySelectorAll("#ticketCarrito .table-row"); // obtengo todas las líneas del ticket
 
-    if (!lineas.length) {
+    if (!lineas.length) { // si no hay líneas mustro un mensaje de error
         console.warn("No se encontraron líneas en el ticket para crear líneas de pedido.");
         return;
     }
 
-    console.log("Creando líneas para el pedido ID:", id_pedido);
-
-    lineas.forEach((linea, index) => {
+    lineas.forEach((linea, index) => { // recorro las líneas
         const columnas = linea.querySelectorAll(".column");
 
-        if (columnas.length < 3) {
+        if (columnas.length < 3) { // si no hay columnas mustro un mensaje de error
             console.error(`Fila ${index + 1}: No contiene las columnas necesarias.`);
             return;
         }
 
-        const cantidadText = columnas[0]?.textContent.trim();
-        const detallesKebab = columnas[1]?.textContent.trim();
-        const precioText = columnas[2]?.textContent.replace("€", "").trim();
+        const cantidadText = columnas[0]?.textContent.trim(); // obtengo el valor de la cantidad
+        const detallesKebab = columnas[1]?.textContent.trim(); // obtengo el valor de los detalles del kebab
+        const precioText = columnas[2]?.textContent.replace("€", "").trim(); // obtengo el valor de precio
 
-        const cantidad = parseInt(cantidadText, 10);
-        const precio = parseFloat(precioText);
+        const cantidad = parseInt(cantidadText, 10); // convierto el valor de cantidad a un número
+        const precio = parseFloat(precioText); // convierto el valor de precio a un número
 
-        if (isNaN(cantidad) || isNaN(precio)) {
+        if (isNaN(cantidad) || isNaN(precio)) { // si los valores no son válidos muestro un mensaje de error
             console.error(`Fila ${index + 1}: Datos inválidos para cantidad o precio.`);
             return;
         }
 
-        let nombre = "Desconocido";
-        let ingredientes = [];
-        if (detallesKebab) {
-            const [nombreText, ingredientesText] = detallesKebab.split(" - Ingredientes: ");
-            nombre = nombreText?.trim() || "Desconocido";
-            ingredientes = ingredientesText ? ingredientesText.split(", ").map((ing) => ing.trim()) : [];
+        let nombre = "Desconocido"; // si no hay detalles del kebab asigno un nombre desconocido
+        let ingredientes = []; // si no hay detalles del kebab asigno un array vacio de ingredientes
+        if (detallesKebab) { // si existe
+            const [nombreText, ingredientesText] = detallesKebab.split(" - Ingredientes: "); // separo el nombre del ingrediente del detalle del kebab
+            nombre = nombreText?.trim() || "Desconocido"; // si el nombre del ingrediente es vacio asigno un nombre desconocido
+            ingredientes = ingredientesText ? ingredientesText.split(", ").map((ing) => ing.trim()) : []; 
         }
 
-        const lineaPedidoData = {
-            cantidad: cantidad,
-            precio: precio,
-            linea_pedidos: {
-                nombre: nombre,
-                ingredientes: ingredientes.join(", "),
+        const lineaPedidoData = { 
+            cantidad: cantidad, // la cantidad del kebab
+            precio: precio, // el precio del kebab
+            linea_pedidos: { // los datos del pedido
+                nombre: nombre, // el nombre del kebab
+                ingredientes: ingredientes.join(", "), // los ingredientes del kebab
             },
-            id_pedidos: id_pedido,
+            id_pedidos: id_pedido, // el id del pedido
         };
 
-        console.log(`Creando línea ${index + 1} con datos:`, lineaPedidoData);
-
-        fetch(apiURLLinea_Pedido, {
-            method: "POST",
+        fetch(apiURLLinea_Pedido, { // hago la peticion ajax con la url de lineas de pedidos
+            method: "POST", // uso el metodo POST
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", // le digo que lo que voy a enviar en el body es json
             },
-            body: JSON.stringify(lineaPedidoData),
+            body: JSON.stringify(lineaPedidoData),  // envio el objeto creado
         })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    console.log(`Línea ${index + 1} creada correctamente:`, data);
-                } else {
-                    console.error(`Error al crear la línea ${index + 1}:`, data);
+            .then((response) => response.json()) // ahora segun lo que me responda el servidor proceso la respuesta como json
+            .then((data) => { // si la respuesta es válida
+                if (data.success) { 
+                    console.log(`Línea ${index + 1} creada correctamente:`, data); // muestro el resultado del servidor
+                } else { // si el servidor respondio con un error
+                    console.error(`Error al crear la línea ${index + 1}:`, data); // muestro el error
                 }
             })
             .catch((error) => {
@@ -439,16 +431,16 @@ function crearLineasPedido(id_pedido) {
     });
 }
 
-// Función para formatear la fecha en formato MySQL
+// funcion para formatear la fecha en formato MySQL
 function formatoFechaMysql() {
-    const fecha = new Date();
-    const año = fecha.getFullYear();
-    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // +1 porque getMonth() empieza desde 0
-    const dia = String(fecha.getDate()).padStart(2, '0');
-    const horas = String(fecha.getHours()).padStart(2, '0');
-    const minutos = String(fecha.getMinutes()).padStart(2, '0');
-    const segundos = String(fecha.getSeconds()).padStart(2, '0');
+    const fecha = new Date(); // obtengo la fecha actual
+    const año = fecha.getFullYear(); // obtengo el año
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // obtengo el mes y lo convierto a un string con dos digitos
+    const dia = String(fecha.getDate()).padStart(2, '0'); // obtengo el día y lo convierto a un string con dos digitos
+    const horas = String(fecha.getHours()).padStart(2, '0'); // obtengo las horas y lo convierto a un string con dos digitos
+    const minutos = String(fecha.getMinutes()).padStart(2, '0'); // obtengo los minutos y lo convierto a un string con dos digitos
+    const segundos = String(fecha.getSeconds()).padStart(2, '0'); // obtengo los segundos y lo convierto a un string con dos digitos
 
-    return `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+    return `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`; // devuelvo la fecha en formato mysql
 }
 

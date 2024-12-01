@@ -35,7 +35,7 @@ class Conexion {
             }
         }
         
-        // Retornar la conexión
+        // devuelvo la conexión
         return self::$con;
     }
 }
